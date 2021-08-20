@@ -26,7 +26,7 @@ function Inicio() {
                 size='medium' floated='right' />   
             </div>
                 <div className="Derecha">
-                    <Image src='https://lh3.googleusercontent.com/proxy/oNYZnk8MR1LoDY4GO-OVavGPp7pE7ar-u-eYICUJdY8zU4uuifijij6E7OYP2AbmyQgulmB0gmTuUuTdP6umAQK5LwAM4BShXJsr9h4IJ18HNkn3Gbw' 
+                    <Image src='https://www.pngkit.com/png/full/927-9277522_29-images-about-tv-pokemon-snorlax.png' 
                     size='medium' floated='left' />   
                 </div>
             </div>
