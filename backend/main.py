@@ -6,6 +6,10 @@ app = Flask(__name__)
 CORS(app)
 
 
+@app.route('/ping')
+def prueba():
+    return 'MACARIO JOTO'
+
 @app.route('/Analizador', methods=['POST'])
 def Analizar():
     print(request.json['Texto'])
@@ -14,4 +18,4 @@ def Analizar():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=4000)
+    app.run(threaded=True,debug=True, port=4000)

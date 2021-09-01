@@ -11,7 +11,7 @@ function Analisis() {
         let Contenido = {
             Texto: "console.log(\"Hola\" == \"aloH\");console.log(\"a\" == \"a\");console.log(3 < 5);console.log(7*5+1);console.log(\"El CACAS\");"
         }
-        let contenido = await axios.post("http://localhost:4000/Analizador",Contenido)
+        let contenido = await axios.post("https://backcompi.herokuapp.com/Analizador",Contenido)
         console.log(contenido.data)
     }
 
