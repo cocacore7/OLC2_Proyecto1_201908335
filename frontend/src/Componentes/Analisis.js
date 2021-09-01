@@ -1,10 +1,20 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios'
 import NavBar from "../Componentes/NavBar"
 import "../css/Analisis.css"
-import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 import { Button } from 'semantic-ui-react'
 
 function Analisis() {
+
+    const EnviarCodigo = async()=> {
+        let Contenido = {
+            Texto: "console.log(\"Hola\" == \"aloH\");console.log(\"a\" == \"a\");console.log(3 < 5);console.log(7*5+1);console.log(\"El CACAS\");"
+        }
+        let contenido = await axios.post("http://localhost:4000/Analizador",Contenido)
+        console.log(contenido.data)
+    }
+
     return (
         <>
         <NavBar 
@@ -15,11 +25,11 @@ function Analisis() {
         />
         <div className="Analisis">
             <div className="Entrada">
-                <h1>Entrada <Button floated='right' color='blue'>Compilar</Button></h1>
+                <h1>Entrada <Button floated='right' color='blue' onClick={EnviarCodigo}>Compilar</Button></h1>
                 <Editor
                     height="85vh"
-                    defaultLanguage="javascript"
-                    defaultValue="// some comment"
+                    defaultLanguage="Python"
+                    defaultValue="// Entrada"
                     theme="vs-dark"
                 />
             </div>
@@ -28,8 +38,8 @@ function Analisis() {
                 <h1>Salida</h1>
                 <Editor
                     height="85vh"
-                    defaultLanguage="javascript"
-                    defaultValue="// some comment"
+                    defaultLanguage="Python"
+                    defaultValue="// Salida"
                     theme="vs-dark"
                 />
             </div>
