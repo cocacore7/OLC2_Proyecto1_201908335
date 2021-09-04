@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useRef} from 'react'
 import axios from 'axios'
 import NavBar from "../Componentes/NavBar"
 import "../css/Analisis.css"
@@ -6,13 +6,21 @@ import Editor from "@monaco-editor/react";
 import { Button } from 'semantic-ui-react'
 
 function Analisis() {
+    const editorRef = useRef(null)
+    const [texto,settexto] = useState("")
+    const [salida,setsalida] = useState("// Salida")
+
+    function handleEditorDidMount(editor, monaco){
+        editorRef.current = editor;
+    }
 
     const EnviarCodigo = async()=> {
+        settexto(editorRef.current.getValue());
         let Contenido = {
-            Texto: "console.log(\"Hola\" == \"aloH\");console.log(\"a\" == \"a\");console.log(3 < 5);console.log(7*5+1);console.log(\"El CACAS\");"
+            Texto: texto
         }
-        let contenido = await axios.post("https://backcompi.herokuapp.com/Analizador",Contenido)
-        console.log(contenido.data)
+        let contenido = await axios.post("http://localhost:4000/Analizador",Contenido)
+        setsalida(contenido.data)
     }
 
     return (
@@ -28,9 +36,11 @@ function Analisis() {
                 <h1>Entrada <Button floated='right' color='blue' onClick={EnviarCodigo}>Compilar</Button></h1>
                 <Editor
                     height="85vh"
-                    defaultLanguage="Python"
+                    defaultLanguage="julia"
                     defaultValue="// Entrada"
+                    path="Consola1"
                     theme="vs-dark"
+                    onMount={handleEditorDidMount}
                 />
             </div>
 
@@ -38,12 +48,12 @@ function Analisis() {
                 <h1>Salida</h1>
                 <Editor
                     height="85vh"
-                    defaultLanguage="Python"
-                    defaultValue="// Salida"
+                    defaultLanguage="julia"
+                    path="Consola2"
                     theme="vs-dark"
+                    value={salida}
                 />
             </div>
-            
         </div>
         </>
     )

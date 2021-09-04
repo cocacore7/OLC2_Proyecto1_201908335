@@ -1,6 +1,7 @@
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
+from Salida import contenido
 
 
 class ConsoleLog(Instruction):
@@ -10,4 +11,4 @@ class ConsoleLog(Instruction):
 
     def execute(self, environment: Environment):
         tempExp = self.expression.execute(environment)
-        print(tempExp.getValue())
+        contenido.append(str(tempExp.getValue()))

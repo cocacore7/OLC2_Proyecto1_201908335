@@ -1,6 +1,7 @@
 from Analyzer.Panther import parser
 from flask import Flask, request
 from flask_cors import CORS
+from Salida import contenido
 
 app = Flask(__name__)
 CORS(app)
@@ -10,12 +11,17 @@ CORS(app)
 def prueba():
     return 'MACARIO JOTO'
 
+
 @app.route('/Analizador', methods=['POST'])
 def Analizar():
     print(request.json['Texto'])
     parser.parse(request.json['Texto'])
-    return 'Entrada Recibida'
+    salida = ""
+    for valor in contenido:
+        salida = salida + valor + "\n"
+    contenido.clear()
+    return salida
 
 
 if __name__ == '__main__':
-    app.run(threaded=True,debug=True, port=4000)
+    app.run(threaded=True, debug=True, port=4000)
