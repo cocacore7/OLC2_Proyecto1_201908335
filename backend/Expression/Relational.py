@@ -37,3 +37,24 @@ class Relational(Expression):
                 leftValue.getValue() == rightValue.getValue(),
                 typeExpression.BOOL
             )
+
+        elif self.operation == relationalOperation.MAYORIGUAL:
+            return Symbol(
+                "",
+                leftValue.getValue() >= rightValue.getValue(),
+                typeExpression.BOOL
+            )
+
+        elif self.operation == relationalOperation.MENORIGUAL:
+            return Symbol(
+                "",
+                leftValue.getValue() <= rightValue.getValue(),
+                typeExpression.BOOL
+            )
+
+        elif self.operation == relationalOperation.DISTINTO:
+            return Symbol(
+                "",
+                leftValue.getValue() != rightValue.getValue(),
+                typeExpression.BOOL
+            )

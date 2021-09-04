@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftIGUALleftMAYORMENORleftMASMENOSleftMULTIPLICACIONDIVISIONCONSOLE DECIMAL DIVISION ENTERO IGUAL LOG MAS MAYOR MENOR MENOS MULTIPLICACION PARDER PARIZQ PTCOMA PUNTO STRINGinitial : instructionsinstructions : instructions instruction\n                    | instruction\n    instruction : consoleLog \n    consoleLog : CONSOLE PUNTO LOG PARIZQ exp PARDER PTCOMA\n    exp  : exp MAS exp\n            | exp MENOS exp\n            | exp MULTIPLICACION exp\n            | exp DIVISION exp\n            | exp MAYOR exp\n            | exp MENOR exp\n            | exp IGUAL exp\n    exp : PARIZQ exp PARDERexp  : ENTERO\n    exp  : DECIMAL\n    exp  : STRING\n    '
+_lr_signature = 'leftIGUALDISTINTOleftMAYORMENORMAYORIGUALMENORIGUALleftMASMENOSleftMULTIPLICACIONDIVISIONleftPOTENCIAMODULOCHAR DECIMAL DISTINTO DIVISION ENTERO FALSO IGUAL MAS MAYOR MAYORIGUAL MENOR MENORIGUAL MENOS MODULO MULTIPLICACION NULO PARDER PARIZQ POTENCIA PRINT PRINTLN PTCOMA STRING VERDADEROinitial : instructionsinstructions : instructions instruction\n                    | instruction\n    instruction : p_print \n    p_print : PRINT PARIZQ exp PARDER PTCOMA\n    exp  : exp MAS exp\n            | exp MENOS exp\n            | exp MULTIPLICACION exp\n            | exp DIVISION exp\n            | exp POTENCIA exp\n            | exp MODULO exp\n            | exp MAYOR exp\n            | exp MENOR exp\n            | exp IGUAL exp\n            | exp MAYORIGUAL exp\n            | exp MENORIGUAL exp\n            | exp DISTINTO exp\n    exp : PARIZQ exp PARDERexp  : ENTERO\n    exp  : DECIMAL\n    exp  : STRING\n    exp  : CHAR\n    exp  : VERDADERO\n    exp  : FALSO\n    exp  : NULO\n    '
     
-_lr_action_items = {'CONSOLE':([0,2,3,4,6,25,],[5,5,-3,-4,-2,-5,]),'$end':([1,2,3,4,6,25,],[0,-1,-3,-4,-2,-5,]),'PUNTO':([5,],[7,]),'LOG':([7,],[8,]),'PARIZQ':([8,9,10,17,18,19,20,21,22,23,],[9,10,10,10,10,10,10,10,10,10,]),'ENTERO':([9,10,17,18,19,20,21,22,23,],[12,12,12,12,12,12,12,12,12,]),'DECIMAL':([9,10,17,18,19,20,21,22,23,],[13,13,13,13,13,13,13,13,13,]),'STRING':([9,10,17,18,19,20,21,22,23,],[14,14,14,14,14,14,14,14,14,]),'PARDER':([11,12,13,14,15,24,26,27,28,29,30,31,32,],[16,-14,-15,-16,24,-13,-6,-7,-8,-9,-10,-11,-12,]),'MAS':([11,12,13,14,15,24,26,27,28,29,30,31,32,],[17,-14,-15,-16,17,-13,-6,-7,-8,-9,17,17,17,]),'MENOS':([11,12,13,14,15,24,26,27,28,29,30,31,32,],[18,-14,-15,-16,18,-13,-6,-7,-8,-9,18,18,18,]),'MULTIPLICACION':([11,12,13,14,15,24,26,27,28,29,30,31,32,],[19,-14,-15,-16,19,-13,19,19,-8,-9,19,19,19,]),'DIVISION':([11,12,13,14,15,24,26,27,28,29,30,31,32,],[20,-14,-15,-16,20,-13,20,20,-8,-9,20,20,20,]),'MAYOR':([11,12,13,14,15,24,26,27,28,29,30,31,32,],[21,-14,-15,-16,21,-13,-6,-7,-8,-9,-10,-11,21,]),'MENOR':([11,12,13,14,15,24,26,27,28,29,30,31,32,],[22,-14,-15,-16,22,-13,-6,-7,-8,-9,-10,-11,22,]),'IGUAL':([11,12,13,14,15,24,26,27,28,29,30,31,32,],[23,-14,-15,-16,23,-13,-6,-7,-8,-9,-10,-11,-12,]),'PTCOMA':([16,],[25,]),}
+_lr_action_items = {'PRINT':([0,2,3,4,6,32,],[5,5,-3,-4,-2,-5,]),'$end':([1,2,3,4,6,32,],[0,-1,-3,-4,-2,-5,]),'PARIZQ':([5,7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,]),'ENTERO':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[10,10,10,10,10,10,10,10,10,10,10,10,10,10,]),'DECIMAL':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[11,11,11,11,11,11,11,11,11,11,11,11,11,11,]),'STRING':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[12,12,12,12,12,12,12,12,12,12,12,12,12,12,]),'CHAR':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[13,13,13,13,13,13,13,13,13,13,13,13,13,13,]),'VERDADERO':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[14,14,14,14,14,14,14,14,14,14,14,14,14,14,]),'FALSO':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[15,15,15,15,15,15,15,15,15,15,15,15,15,15,]),'NULO':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[16,16,16,16,16,16,16,16,16,16,16,16,16,16,]),'PARDER':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[18,-19,-20,-21,-22,-23,-24,-25,31,-18,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,]),'MAS':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[19,-19,-20,-21,-22,-23,-24,-25,19,-18,-6,-7,-8,-9,-10,-11,19,19,19,19,19,19,]),'MENOS':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[20,-19,-20,-21,-22,-23,-24,-25,20,-18,-6,-7,-8,-9,-10,-11,20,20,20,20,20,20,]),'MULTIPLICACION':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[21,-19,-20,-21,-22,-23,-24,-25,21,-18,21,21,-8,-9,-10,-11,21,21,21,21,21,21,]),'DIVISION':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[22,-19,-20,-21,-22,-23,-24,-25,22,-18,22,22,-8,-9,-10,-11,22,22,22,22,22,22,]),'POTENCIA':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[23,-19,-20,-21,-22,-23,-24,-25,23,-18,23,23,23,23,-10,-11,23,23,23,23,23,23,]),'MODULO':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[24,-19,-20,-21,-22,-23,-24,-25,24,-18,24,24,24,24,-10,-11,24,24,24,24,24,24,]),'MAYOR':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[25,-19,-20,-21,-22,-23,-24,-25,25,-18,-6,-7,-8,-9,-10,-11,-12,-13,25,-15,-16,25,]),'MENOR':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[26,-19,-20,-21,-22,-23,-24,-25,26,-18,-6,-7,-8,-9,-10,-11,-12,-13,26,-15,-16,26,]),'IGUAL':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[27,-19,-20,-21,-22,-23,-24,-25,27,-18,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,]),'MAYORIGUAL':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[28,-19,-20,-21,-22,-23,-24,-25,28,-18,-6,-7,-8,-9,-10,-11,-12,-13,28,-15,-16,28,]),'MENORIGUAL':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[29,-19,-20,-21,-22,-23,-24,-25,29,-18,-6,-7,-8,-9,-10,-11,-12,-13,29,-15,-16,29,]),'DISTINTO':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[30,-19,-20,-21,-22,-23,-24,-25,30,-18,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,]),'PTCOMA':([18,],[32,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'initial':([0,],[1,]),'instructions':([0,],[2,]),'instruction':([0,2,],[3,6,]),'consoleLog':([0,2,],[4,4,]),'exp':([9,10,17,18,19,20,21,22,23,],[11,15,26,27,28,29,30,31,32,]),}
+_lr_goto_items = {'initial':([0,],[1,]),'instructions':([0,],[2,]),'instruction':([0,2,],[3,6,]),'p_print':([0,2,],[4,4,]),'exp':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[9,17,33,34,35,36,37,38,39,40,41,42,43,44,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,20 +27,29 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> initial","S'",1,None,None,None),
-  ('initial -> instructions','initial',1,'p_initial','Panther.py',87),
-  ('instructions -> instructions instruction','instructions',2,'p_instructions','Panther.py',94),
-  ('instructions -> instruction','instructions',1,'p_instructions','Panther.py',95),
-  ('instruction -> consoleLog','instruction',1,'p_instruction','Panther.py',105),
-  ('consoleLog -> CONSOLE PUNTO LOG PARIZQ exp PARDER PTCOMA','consoleLog',7,'p_consoleLog','Panther.py',111),
-  ('exp -> exp MAS exp','exp',3,'p_exp_aritmetica','Panther.py',117),
-  ('exp -> exp MENOS exp','exp',3,'p_exp_aritmetica','Panther.py',118),
-  ('exp -> exp MULTIPLICACION exp','exp',3,'p_exp_aritmetica','Panther.py',119),
-  ('exp -> exp DIVISION exp','exp',3,'p_exp_aritmetica','Panther.py',120),
-  ('exp -> exp MAYOR exp','exp',3,'p_exp_aritmetica','Panther.py',121),
-  ('exp -> exp MENOR exp','exp',3,'p_exp_aritmetica','Panther.py',122),
-  ('exp -> exp IGUAL exp','exp',3,'p_exp_aritmetica','Panther.py',123),
-  ('exp -> PARIZQ exp PARDER','exp',3,'p_exp_agrupacion','Panther.py',134),
-  ('exp -> ENTERO','exp',1,'p_exp_valor_entero','Panther.py',138),
-  ('exp -> DECIMAL','exp',1,'p_exp_valor_decimal','Panther.py',143),
-  ('exp -> STRING','exp',1,'p_exp_valor_string','Panther.py',148),
+  ('initial -> instructions','initial',1,'p_initial','Gramatica.py',116),
+  ('instructions -> instructions instruction','instructions',2,'p_instructions','Gramatica.py',123),
+  ('instructions -> instruction','instructions',1,'p_instructions','Gramatica.py',124),
+  ('instruction -> p_print','instruction',1,'p_instruction','Gramatica.py',134),
+  ('p_print -> PRINT PARIZQ exp PARDER PTCOMA','p_print',5,'p_print','Gramatica.py',140),
+  ('exp -> exp MAS exp','exp',3,'p_exp_aritmetica','Gramatica.py',146),
+  ('exp -> exp MENOS exp','exp',3,'p_exp_aritmetica','Gramatica.py',147),
+  ('exp -> exp MULTIPLICACION exp','exp',3,'p_exp_aritmetica','Gramatica.py',148),
+  ('exp -> exp DIVISION exp','exp',3,'p_exp_aritmetica','Gramatica.py',149),
+  ('exp -> exp POTENCIA exp','exp',3,'p_exp_aritmetica','Gramatica.py',150),
+  ('exp -> exp MODULO exp','exp',3,'p_exp_aritmetica','Gramatica.py',151),
+  ('exp -> exp MAYOR exp','exp',3,'p_exp_aritmetica','Gramatica.py',152),
+  ('exp -> exp MENOR exp','exp',3,'p_exp_aritmetica','Gramatica.py',153),
+  ('exp -> exp IGUAL exp','exp',3,'p_exp_aritmetica','Gramatica.py',154),
+  ('exp -> exp MAYORIGUAL exp','exp',3,'p_exp_aritmetica','Gramatica.py',155),
+  ('exp -> exp MENORIGUAL exp','exp',3,'p_exp_aritmetica','Gramatica.py',156),
+  ('exp -> exp DISTINTO exp','exp',3,'p_exp_aritmetica','Gramatica.py',157),
+  ('exp -> PARIZQ exp PARDER','exp',3,'p_exp_agrupacion','Gramatica.py',187),
+  ('exp -> ENTERO','exp',1,'p_exp_valor_entero','Gramatica.py',193),
+  ('exp -> DECIMAL','exp',1,'p_exp_valor_decimal','Gramatica.py',200),
+  ('exp -> STRING','exp',1,'p_exp_valor_string','Gramatica.py',207),
+  ('exp -> CHAR','exp',1,'p_exp_valor_char','Gramatica.py',214),
+  ('exp -> VERDADERO','exp',1,'p_exp_valor_verdadero','Gramatica.py',221),
+  ('exp -> FALSO','exp',1,'p_exp_valor_falso','Gramatica.py',228),
+  ('exp -> NULO','exp',1,'p_exp_valor_nulo','Gramatica.py',235),
 ]

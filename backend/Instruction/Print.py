@@ -4,7 +4,7 @@ from Abstract.Expression import Expression
 from Salida import contenido
 
 
-class ConsoleLog(Instruction):
+class Print(Instruction):
 
     def __init__(self, expression: Expression) -> None:
         self.expression = expression

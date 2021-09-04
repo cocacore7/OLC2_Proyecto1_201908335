@@ -1,52 +1,73 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
+Unused terminals:
+
+    PRINTLN
+
 Grammar
 
 Rule 0     S' -> initial
 Rule 1     initial -> instructions
 Rule 2     instructions -> instructions instruction
 Rule 3     instructions -> instruction
-Rule 4     instruction -> consoleLog
-Rule 5     consoleLog -> CONSOLE PUNTO LOG PARIZQ exp PARDER PTCOMA
+Rule 4     instruction -> p_print
+Rule 5     p_print -> PRINT PARIZQ exp PARDER PTCOMA
 Rule 6     exp -> exp MAS exp
 Rule 7     exp -> exp MENOS exp
 Rule 8     exp -> exp MULTIPLICACION exp
 Rule 9     exp -> exp DIVISION exp
-Rule 10    exp -> exp MAYOR exp
-Rule 11    exp -> exp MENOR exp
-Rule 12    exp -> exp IGUAL exp
-Rule 13    exp -> PARIZQ exp PARDER
-Rule 14    exp -> ENTERO
-Rule 15    exp -> DECIMAL
-Rule 16    exp -> STRING
+Rule 10    exp -> exp POTENCIA exp
+Rule 11    exp -> exp MODULO exp
+Rule 12    exp -> exp MAYOR exp
+Rule 13    exp -> exp MENOR exp
+Rule 14    exp -> exp IGUAL exp
+Rule 15    exp -> exp MAYORIGUAL exp
+Rule 16    exp -> exp MENORIGUAL exp
+Rule 17    exp -> exp DISTINTO exp
+Rule 18    exp -> PARIZQ exp PARDER
+Rule 19    exp -> ENTERO
+Rule 20    exp -> DECIMAL
+Rule 21    exp -> STRING
+Rule 22    exp -> CHAR
+Rule 23    exp -> VERDADERO
+Rule 24    exp -> FALSO
+Rule 25    exp -> NULO
 
 Terminals, with rules where they appear
 
-CONSOLE              : 5
-DECIMAL              : 15
+CHAR                 : 22
+DECIMAL              : 20
+DISTINTO             : 17
 DIVISION             : 9
-ENTERO               : 14
-IGUAL                : 12
-LOG                  : 5
+ENTERO               : 19
+FALSO                : 24
+IGUAL                : 14
 MAS                  : 6
-MAYOR                : 10
-MENOR                : 11
+MAYOR                : 12
+MAYORIGUAL           : 15
+MENOR                : 13
+MENORIGUAL           : 16
 MENOS                : 7
+MODULO               : 11
 MULTIPLICACION       : 8
-PARDER               : 5 13
-PARIZQ               : 5 13
+NULO                 : 25
+PARDER               : 5 18
+PARIZQ               : 5 18
+POTENCIA             : 10
+PRINT                : 5
+PRINTLN              : 
 PTCOMA               : 5
-PUNTO                : 5
-STRING               : 16
+STRING               : 21
+VERDADERO            : 23
 error                : 
 
 Nonterminals, with rules where they appear
 
-consoleLog           : 4
-exp                  : 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13
+exp                  : 5 6 6 7 7 8 8 9 9 10 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18
 initial              : 0
 instruction          : 2 3
 instructions         : 1 2
+p_print              : 4
 
 Parsing method: LALR
 
@@ -56,15 +77,15 @@ state 0
     (1) initial -> . instructions
     (2) instructions -> . instructions instruction
     (3) instructions -> . instruction
-    (4) instruction -> . consoleLog
-    (5) consoleLog -> . CONSOLE PUNTO LOG PARIZQ exp PARDER PTCOMA
+    (4) instruction -> . p_print
+    (5) p_print -> . PRINT PARIZQ exp PARDER PTCOMA
 
-    CONSOLE         shift and go to state 5
+    PRINT           shift and go to state 5
 
     initial                        shift and go to state 1
     instructions                   shift and go to state 2
     instruction                    shift and go to state 3
-    consoleLog                     shift and go to state 4
+    p_print                        shift and go to state 4
 
 state 1
 
@@ -76,381 +97,780 @@ state 2
 
     (1) initial -> instructions .
     (2) instructions -> instructions . instruction
-    (4) instruction -> . consoleLog
-    (5) consoleLog -> . CONSOLE PUNTO LOG PARIZQ exp PARDER PTCOMA
+    (4) instruction -> . p_print
+    (5) p_print -> . PRINT PARIZQ exp PARDER PTCOMA
 
     $end            reduce using rule 1 (initial -> instructions .)
-    CONSOLE         shift and go to state 5
+    PRINT           shift and go to state 5
 
     instruction                    shift and go to state 6
-    consoleLog                     shift and go to state 4
+    p_print                        shift and go to state 4
 
 state 3
 
     (3) instructions -> instruction .
 
-    CONSOLE         reduce using rule 3 (instructions -> instruction .)
+    PRINT           reduce using rule 3 (instructions -> instruction .)
     $end            reduce using rule 3 (instructions -> instruction .)
 
 
 state 4
 
-    (4) instruction -> consoleLog .
+    (4) instruction -> p_print .
 
-    CONSOLE         reduce using rule 4 (instruction -> consoleLog .)
-    $end            reduce using rule 4 (instruction -> consoleLog .)
+    PRINT           reduce using rule 4 (instruction -> p_print .)
+    $end            reduce using rule 4 (instruction -> p_print .)
 
 
 state 5
 
-    (5) consoleLog -> CONSOLE . PUNTO LOG PARIZQ exp PARDER PTCOMA
+    (5) p_print -> PRINT . PARIZQ exp PARDER PTCOMA
 
-    PUNTO           shift and go to state 7
+    PARIZQ          shift and go to state 7
 
 
 state 6
 
     (2) instructions -> instructions instruction .
 
-    CONSOLE         reduce using rule 2 (instructions -> instructions instruction .)
+    PRINT           reduce using rule 2 (instructions -> instructions instruction .)
     $end            reduce using rule 2 (instructions -> instructions instruction .)
 
 
 state 7
 
-    (5) consoleLog -> CONSOLE PUNTO . LOG PARIZQ exp PARDER PTCOMA
+    (5) p_print -> PRINT PARIZQ . exp PARDER PTCOMA
+    (6) exp -> . exp MAS exp
+    (7) exp -> . exp MENOS exp
+    (8) exp -> . exp MULTIPLICACION exp
+    (9) exp -> . exp DIVISION exp
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
 
-    LOG             shift and go to state 8
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
 
+    exp                            shift and go to state 9
 
 state 8
 
-    (5) consoleLog -> CONSOLE PUNTO LOG . PARIZQ exp PARDER PTCOMA
+    (18) exp -> PARIZQ . exp PARDER
+    (6) exp -> . exp MAS exp
+    (7) exp -> . exp MENOS exp
+    (8) exp -> . exp MULTIPLICACION exp
+    (9) exp -> . exp DIVISION exp
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
 
-    PARIZQ          shift and go to state 9
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
 
+    exp                            shift and go to state 17
 
 state 9
 
-    (5) consoleLog -> CONSOLE PUNTO LOG PARIZQ . exp PARDER PTCOMA
-    (6) exp -> . exp MAS exp
-    (7) exp -> . exp MENOS exp
-    (8) exp -> . exp MULTIPLICACION exp
-    (9) exp -> . exp DIVISION exp
-    (10) exp -> . exp MAYOR exp
-    (11) exp -> . exp MENOR exp
-    (12) exp -> . exp IGUAL exp
-    (13) exp -> . PARIZQ exp PARDER
-    (14) exp -> . ENTERO
-    (15) exp -> . DECIMAL
-    (16) exp -> . STRING
-
-    PARIZQ          shift and go to state 10
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
-    STRING          shift and go to state 14
-
-    exp                            shift and go to state 11
-
-state 10
-
-    (13) exp -> PARIZQ . exp PARDER
-    (6) exp -> . exp MAS exp
-    (7) exp -> . exp MENOS exp
-    (8) exp -> . exp MULTIPLICACION exp
-    (9) exp -> . exp DIVISION exp
-    (10) exp -> . exp MAYOR exp
-    (11) exp -> . exp MENOR exp
-    (12) exp -> . exp IGUAL exp
-    (13) exp -> . PARIZQ exp PARDER
-    (14) exp -> . ENTERO
-    (15) exp -> . DECIMAL
-    (16) exp -> . STRING
-
-    PARIZQ          shift and go to state 10
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
-    STRING          shift and go to state 14
-
-    exp                            shift and go to state 15
-
-state 11
-
-    (5) consoleLog -> CONSOLE PUNTO LOG PARIZQ exp . PARDER PTCOMA
+    (5) p_print -> PRINT PARIZQ exp . PARDER PTCOMA
     (6) exp -> exp . MAS exp
     (7) exp -> exp . MENOS exp
     (8) exp -> exp . MULTIPLICACION exp
     (9) exp -> exp . DIVISION exp
-    (10) exp -> exp . MAYOR exp
-    (11) exp -> exp . MENOR exp
-    (12) exp -> exp . IGUAL exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
 
-    PARDER          shift and go to state 16
-    MAS             shift and go to state 17
-    MENOS           shift and go to state 18
-    MULTIPLICACION  shift and go to state 19
-    DIVISION        shift and go to state 20
-    MAYOR           shift and go to state 21
-    MENOR           shift and go to state 22
-    IGUAL           shift and go to state 23
+    PARDER          shift and go to state 18
+    MAS             shift and go to state 19
+    MENOS           shift and go to state 20
+    MULTIPLICACION  shift and go to state 21
+    DIVISION        shift and go to state 22
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
+    MAYOR           shift and go to state 25
+    MENOR           shift and go to state 26
+    IGUAL           shift and go to state 27
+    MAYORIGUAL      shift and go to state 28
+    MENORIGUAL      shift and go to state 29
+    DISTINTO        shift and go to state 30
+
+
+state 10
+
+    (19) exp -> ENTERO .
+
+    PARDER          reduce using rule 19 (exp -> ENTERO .)
+    MAS             reduce using rule 19 (exp -> ENTERO .)
+    MENOS           reduce using rule 19 (exp -> ENTERO .)
+    MULTIPLICACION  reduce using rule 19 (exp -> ENTERO .)
+    DIVISION        reduce using rule 19 (exp -> ENTERO .)
+    POTENCIA        reduce using rule 19 (exp -> ENTERO .)
+    MODULO          reduce using rule 19 (exp -> ENTERO .)
+    MAYOR           reduce using rule 19 (exp -> ENTERO .)
+    MENOR           reduce using rule 19 (exp -> ENTERO .)
+    IGUAL           reduce using rule 19 (exp -> ENTERO .)
+    MAYORIGUAL      reduce using rule 19 (exp -> ENTERO .)
+    MENORIGUAL      reduce using rule 19 (exp -> ENTERO .)
+    DISTINTO        reduce using rule 19 (exp -> ENTERO .)
+
+
+state 11
+
+    (20) exp -> DECIMAL .
+
+    PARDER          reduce using rule 20 (exp -> DECIMAL .)
+    MAS             reduce using rule 20 (exp -> DECIMAL .)
+    MENOS           reduce using rule 20 (exp -> DECIMAL .)
+    MULTIPLICACION  reduce using rule 20 (exp -> DECIMAL .)
+    DIVISION        reduce using rule 20 (exp -> DECIMAL .)
+    POTENCIA        reduce using rule 20 (exp -> DECIMAL .)
+    MODULO          reduce using rule 20 (exp -> DECIMAL .)
+    MAYOR           reduce using rule 20 (exp -> DECIMAL .)
+    MENOR           reduce using rule 20 (exp -> DECIMAL .)
+    IGUAL           reduce using rule 20 (exp -> DECIMAL .)
+    MAYORIGUAL      reduce using rule 20 (exp -> DECIMAL .)
+    MENORIGUAL      reduce using rule 20 (exp -> DECIMAL .)
+    DISTINTO        reduce using rule 20 (exp -> DECIMAL .)
 
 
 state 12
 
-    (14) exp -> ENTERO .
+    (21) exp -> STRING .
 
-    PARDER          reduce using rule 14 (exp -> ENTERO .)
-    MAS             reduce using rule 14 (exp -> ENTERO .)
-    MENOS           reduce using rule 14 (exp -> ENTERO .)
-    MULTIPLICACION  reduce using rule 14 (exp -> ENTERO .)
-    DIVISION        reduce using rule 14 (exp -> ENTERO .)
-    MAYOR           reduce using rule 14 (exp -> ENTERO .)
-    MENOR           reduce using rule 14 (exp -> ENTERO .)
-    IGUAL           reduce using rule 14 (exp -> ENTERO .)
+    PARDER          reduce using rule 21 (exp -> STRING .)
+    MAS             reduce using rule 21 (exp -> STRING .)
+    MENOS           reduce using rule 21 (exp -> STRING .)
+    MULTIPLICACION  reduce using rule 21 (exp -> STRING .)
+    DIVISION        reduce using rule 21 (exp -> STRING .)
+    POTENCIA        reduce using rule 21 (exp -> STRING .)
+    MODULO          reduce using rule 21 (exp -> STRING .)
+    MAYOR           reduce using rule 21 (exp -> STRING .)
+    MENOR           reduce using rule 21 (exp -> STRING .)
+    IGUAL           reduce using rule 21 (exp -> STRING .)
+    MAYORIGUAL      reduce using rule 21 (exp -> STRING .)
+    MENORIGUAL      reduce using rule 21 (exp -> STRING .)
+    DISTINTO        reduce using rule 21 (exp -> STRING .)
 
 
 state 13
 
-    (15) exp -> DECIMAL .
+    (22) exp -> CHAR .
 
-    PARDER          reduce using rule 15 (exp -> DECIMAL .)
-    MAS             reduce using rule 15 (exp -> DECIMAL .)
-    MENOS           reduce using rule 15 (exp -> DECIMAL .)
-    MULTIPLICACION  reduce using rule 15 (exp -> DECIMAL .)
-    DIVISION        reduce using rule 15 (exp -> DECIMAL .)
-    MAYOR           reduce using rule 15 (exp -> DECIMAL .)
-    MENOR           reduce using rule 15 (exp -> DECIMAL .)
-    IGUAL           reduce using rule 15 (exp -> DECIMAL .)
+    PARDER          reduce using rule 22 (exp -> CHAR .)
+    MAS             reduce using rule 22 (exp -> CHAR .)
+    MENOS           reduce using rule 22 (exp -> CHAR .)
+    MULTIPLICACION  reduce using rule 22 (exp -> CHAR .)
+    DIVISION        reduce using rule 22 (exp -> CHAR .)
+    POTENCIA        reduce using rule 22 (exp -> CHAR .)
+    MODULO          reduce using rule 22 (exp -> CHAR .)
+    MAYOR           reduce using rule 22 (exp -> CHAR .)
+    MENOR           reduce using rule 22 (exp -> CHAR .)
+    IGUAL           reduce using rule 22 (exp -> CHAR .)
+    MAYORIGUAL      reduce using rule 22 (exp -> CHAR .)
+    MENORIGUAL      reduce using rule 22 (exp -> CHAR .)
+    DISTINTO        reduce using rule 22 (exp -> CHAR .)
 
 
 state 14
 
-    (16) exp -> STRING .
+    (23) exp -> VERDADERO .
 
-    PARDER          reduce using rule 16 (exp -> STRING .)
-    MAS             reduce using rule 16 (exp -> STRING .)
-    MENOS           reduce using rule 16 (exp -> STRING .)
-    MULTIPLICACION  reduce using rule 16 (exp -> STRING .)
-    DIVISION        reduce using rule 16 (exp -> STRING .)
-    MAYOR           reduce using rule 16 (exp -> STRING .)
-    MENOR           reduce using rule 16 (exp -> STRING .)
-    IGUAL           reduce using rule 16 (exp -> STRING .)
+    PARDER          reduce using rule 23 (exp -> VERDADERO .)
+    MAS             reduce using rule 23 (exp -> VERDADERO .)
+    MENOS           reduce using rule 23 (exp -> VERDADERO .)
+    MULTIPLICACION  reduce using rule 23 (exp -> VERDADERO .)
+    DIVISION        reduce using rule 23 (exp -> VERDADERO .)
+    POTENCIA        reduce using rule 23 (exp -> VERDADERO .)
+    MODULO          reduce using rule 23 (exp -> VERDADERO .)
+    MAYOR           reduce using rule 23 (exp -> VERDADERO .)
+    MENOR           reduce using rule 23 (exp -> VERDADERO .)
+    IGUAL           reduce using rule 23 (exp -> VERDADERO .)
+    MAYORIGUAL      reduce using rule 23 (exp -> VERDADERO .)
+    MENORIGUAL      reduce using rule 23 (exp -> VERDADERO .)
+    DISTINTO        reduce using rule 23 (exp -> VERDADERO .)
 
 
 state 15
 
-    (13) exp -> PARIZQ exp . PARDER
-    (6) exp -> exp . MAS exp
-    (7) exp -> exp . MENOS exp
-    (8) exp -> exp . MULTIPLICACION exp
-    (9) exp -> exp . DIVISION exp
-    (10) exp -> exp . MAYOR exp
-    (11) exp -> exp . MENOR exp
-    (12) exp -> exp . IGUAL exp
+    (24) exp -> FALSO .
 
-    PARDER          shift and go to state 24
-    MAS             shift and go to state 17
-    MENOS           shift and go to state 18
-    MULTIPLICACION  shift and go to state 19
-    DIVISION        shift and go to state 20
-    MAYOR           shift and go to state 21
-    MENOR           shift and go to state 22
-    IGUAL           shift and go to state 23
+    PARDER          reduce using rule 24 (exp -> FALSO .)
+    MAS             reduce using rule 24 (exp -> FALSO .)
+    MENOS           reduce using rule 24 (exp -> FALSO .)
+    MULTIPLICACION  reduce using rule 24 (exp -> FALSO .)
+    DIVISION        reduce using rule 24 (exp -> FALSO .)
+    POTENCIA        reduce using rule 24 (exp -> FALSO .)
+    MODULO          reduce using rule 24 (exp -> FALSO .)
+    MAYOR           reduce using rule 24 (exp -> FALSO .)
+    MENOR           reduce using rule 24 (exp -> FALSO .)
+    IGUAL           reduce using rule 24 (exp -> FALSO .)
+    MAYORIGUAL      reduce using rule 24 (exp -> FALSO .)
+    MENORIGUAL      reduce using rule 24 (exp -> FALSO .)
+    DISTINTO        reduce using rule 24 (exp -> FALSO .)
 
 
 state 16
 
-    (5) consoleLog -> CONSOLE PUNTO LOG PARIZQ exp PARDER . PTCOMA
+    (25) exp -> NULO .
 
-    PTCOMA          shift and go to state 25
+    PARDER          reduce using rule 25 (exp -> NULO .)
+    MAS             reduce using rule 25 (exp -> NULO .)
+    MENOS           reduce using rule 25 (exp -> NULO .)
+    MULTIPLICACION  reduce using rule 25 (exp -> NULO .)
+    DIVISION        reduce using rule 25 (exp -> NULO .)
+    POTENCIA        reduce using rule 25 (exp -> NULO .)
+    MODULO          reduce using rule 25 (exp -> NULO .)
+    MAYOR           reduce using rule 25 (exp -> NULO .)
+    MENOR           reduce using rule 25 (exp -> NULO .)
+    IGUAL           reduce using rule 25 (exp -> NULO .)
+    MAYORIGUAL      reduce using rule 25 (exp -> NULO .)
+    MENORIGUAL      reduce using rule 25 (exp -> NULO .)
+    DISTINTO        reduce using rule 25 (exp -> NULO .)
 
 
 state 17
+
+    (18) exp -> PARIZQ exp . PARDER
+    (6) exp -> exp . MAS exp
+    (7) exp -> exp . MENOS exp
+    (8) exp -> exp . MULTIPLICACION exp
+    (9) exp -> exp . DIVISION exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
+
+    PARDER          shift and go to state 31
+    MAS             shift and go to state 19
+    MENOS           shift and go to state 20
+    MULTIPLICACION  shift and go to state 21
+    DIVISION        shift and go to state 22
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
+    MAYOR           shift and go to state 25
+    MENOR           shift and go to state 26
+    IGUAL           shift and go to state 27
+    MAYORIGUAL      shift and go to state 28
+    MENORIGUAL      shift and go to state 29
+    DISTINTO        shift and go to state 30
+
+
+state 18
+
+    (5) p_print -> PRINT PARIZQ exp PARDER . PTCOMA
+
+    PTCOMA          shift and go to state 32
+
+
+state 19
 
     (6) exp -> exp MAS . exp
     (6) exp -> . exp MAS exp
     (7) exp -> . exp MENOS exp
     (8) exp -> . exp MULTIPLICACION exp
     (9) exp -> . exp DIVISION exp
-    (10) exp -> . exp MAYOR exp
-    (11) exp -> . exp MENOR exp
-    (12) exp -> . exp IGUAL exp
-    (13) exp -> . PARIZQ exp PARDER
-    (14) exp -> . ENTERO
-    (15) exp -> . DECIMAL
-    (16) exp -> . STRING
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
 
-    PARIZQ          shift and go to state 10
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
-    STRING          shift and go to state 14
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
 
-    exp                            shift and go to state 26
+    exp                            shift and go to state 33
 
-state 18
+state 20
 
     (7) exp -> exp MENOS . exp
     (6) exp -> . exp MAS exp
     (7) exp -> . exp MENOS exp
     (8) exp -> . exp MULTIPLICACION exp
     (9) exp -> . exp DIVISION exp
-    (10) exp -> . exp MAYOR exp
-    (11) exp -> . exp MENOR exp
-    (12) exp -> . exp IGUAL exp
-    (13) exp -> . PARIZQ exp PARDER
-    (14) exp -> . ENTERO
-    (15) exp -> . DECIMAL
-    (16) exp -> . STRING
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
 
-    PARIZQ          shift and go to state 10
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
-    STRING          shift and go to state 14
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
 
-    exp                            shift and go to state 27
+    exp                            shift and go to state 34
 
-state 19
+state 21
 
     (8) exp -> exp MULTIPLICACION . exp
     (6) exp -> . exp MAS exp
     (7) exp -> . exp MENOS exp
     (8) exp -> . exp MULTIPLICACION exp
     (9) exp -> . exp DIVISION exp
-    (10) exp -> . exp MAYOR exp
-    (11) exp -> . exp MENOR exp
-    (12) exp -> . exp IGUAL exp
-    (13) exp -> . PARIZQ exp PARDER
-    (14) exp -> . ENTERO
-    (15) exp -> . DECIMAL
-    (16) exp -> . STRING
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
 
-    PARIZQ          shift and go to state 10
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
-    STRING          shift and go to state 14
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
 
-    exp                            shift and go to state 28
+    exp                            shift and go to state 35
 
-state 20
+state 22
 
     (9) exp -> exp DIVISION . exp
     (6) exp -> . exp MAS exp
     (7) exp -> . exp MENOS exp
     (8) exp -> . exp MULTIPLICACION exp
     (9) exp -> . exp DIVISION exp
-    (10) exp -> . exp MAYOR exp
-    (11) exp -> . exp MENOR exp
-    (12) exp -> . exp IGUAL exp
-    (13) exp -> . PARIZQ exp PARDER
-    (14) exp -> . ENTERO
-    (15) exp -> . DECIMAL
-    (16) exp -> . STRING
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
 
-    PARIZQ          shift and go to state 10
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
-    STRING          shift and go to state 14
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
 
-    exp                            shift and go to state 29
-
-state 21
-
-    (10) exp -> exp MAYOR . exp
-    (6) exp -> . exp MAS exp
-    (7) exp -> . exp MENOS exp
-    (8) exp -> . exp MULTIPLICACION exp
-    (9) exp -> . exp DIVISION exp
-    (10) exp -> . exp MAYOR exp
-    (11) exp -> . exp MENOR exp
-    (12) exp -> . exp IGUAL exp
-    (13) exp -> . PARIZQ exp PARDER
-    (14) exp -> . ENTERO
-    (15) exp -> . DECIMAL
-    (16) exp -> . STRING
-
-    PARIZQ          shift and go to state 10
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
-    STRING          shift and go to state 14
-
-    exp                            shift and go to state 30
-
-state 22
-
-    (11) exp -> exp MENOR . exp
-    (6) exp -> . exp MAS exp
-    (7) exp -> . exp MENOS exp
-    (8) exp -> . exp MULTIPLICACION exp
-    (9) exp -> . exp DIVISION exp
-    (10) exp -> . exp MAYOR exp
-    (11) exp -> . exp MENOR exp
-    (12) exp -> . exp IGUAL exp
-    (13) exp -> . PARIZQ exp PARDER
-    (14) exp -> . ENTERO
-    (15) exp -> . DECIMAL
-    (16) exp -> . STRING
-
-    PARIZQ          shift and go to state 10
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
-    STRING          shift and go to state 14
-
-    exp                            shift and go to state 31
+    exp                            shift and go to state 36
 
 state 23
 
-    (12) exp -> exp IGUAL . exp
+    (10) exp -> exp POTENCIA . exp
     (6) exp -> . exp MAS exp
     (7) exp -> . exp MENOS exp
     (8) exp -> . exp MULTIPLICACION exp
     (9) exp -> . exp DIVISION exp
-    (10) exp -> . exp MAYOR exp
-    (11) exp -> . exp MENOR exp
-    (12) exp -> . exp IGUAL exp
-    (13) exp -> . PARIZQ exp PARDER
-    (14) exp -> . ENTERO
-    (15) exp -> . DECIMAL
-    (16) exp -> . STRING
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
 
-    PARIZQ          shift and go to state 10
-    ENTERO          shift and go to state 12
-    DECIMAL         shift and go to state 13
-    STRING          shift and go to state 14
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
 
-    exp                            shift and go to state 32
+    exp                            shift and go to state 37
 
 state 24
 
-    (13) exp -> PARIZQ exp PARDER .
+    (11) exp -> exp MODULO . exp
+    (6) exp -> . exp MAS exp
+    (7) exp -> . exp MENOS exp
+    (8) exp -> . exp MULTIPLICACION exp
+    (9) exp -> . exp DIVISION exp
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
 
-    PARDER          reduce using rule 13 (exp -> PARIZQ exp PARDER .)
-    MAS             reduce using rule 13 (exp -> PARIZQ exp PARDER .)
-    MENOS           reduce using rule 13 (exp -> PARIZQ exp PARDER .)
-    MULTIPLICACION  reduce using rule 13 (exp -> PARIZQ exp PARDER .)
-    DIVISION        reduce using rule 13 (exp -> PARIZQ exp PARDER .)
-    MAYOR           reduce using rule 13 (exp -> PARIZQ exp PARDER .)
-    MENOR           reduce using rule 13 (exp -> PARIZQ exp PARDER .)
-    IGUAL           reduce using rule 13 (exp -> PARIZQ exp PARDER .)
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
 
+    exp                            shift and go to state 38
 
 state 25
 
-    (5) consoleLog -> CONSOLE PUNTO LOG PARIZQ exp PARDER PTCOMA .
+    (12) exp -> exp MAYOR . exp
+    (6) exp -> . exp MAS exp
+    (7) exp -> . exp MENOS exp
+    (8) exp -> . exp MULTIPLICACION exp
+    (9) exp -> . exp DIVISION exp
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
 
-    CONSOLE         reduce using rule 5 (consoleLog -> CONSOLE PUNTO LOG PARIZQ exp PARDER PTCOMA .)
-    $end            reduce using rule 5 (consoleLog -> CONSOLE PUNTO LOG PARIZQ exp PARDER PTCOMA .)
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
 
+    exp                            shift and go to state 39
 
 state 26
+
+    (13) exp -> exp MENOR . exp
+    (6) exp -> . exp MAS exp
+    (7) exp -> . exp MENOS exp
+    (8) exp -> . exp MULTIPLICACION exp
+    (9) exp -> . exp DIVISION exp
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
+
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
+
+    exp                            shift and go to state 40
+
+state 27
+
+    (14) exp -> exp IGUAL . exp
+    (6) exp -> . exp MAS exp
+    (7) exp -> . exp MENOS exp
+    (8) exp -> . exp MULTIPLICACION exp
+    (9) exp -> . exp DIVISION exp
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
+
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
+
+    exp                            shift and go to state 41
+
+state 28
+
+    (15) exp -> exp MAYORIGUAL . exp
+    (6) exp -> . exp MAS exp
+    (7) exp -> . exp MENOS exp
+    (8) exp -> . exp MULTIPLICACION exp
+    (9) exp -> . exp DIVISION exp
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
+
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
+
+    exp                            shift and go to state 42
+
+state 29
+
+    (16) exp -> exp MENORIGUAL . exp
+    (6) exp -> . exp MAS exp
+    (7) exp -> . exp MENOS exp
+    (8) exp -> . exp MULTIPLICACION exp
+    (9) exp -> . exp DIVISION exp
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
+
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
+
+    exp                            shift and go to state 43
+
+state 30
+
+    (17) exp -> exp DISTINTO . exp
+    (6) exp -> . exp MAS exp
+    (7) exp -> . exp MENOS exp
+    (8) exp -> . exp MULTIPLICACION exp
+    (9) exp -> . exp DIVISION exp
+    (10) exp -> . exp POTENCIA exp
+    (11) exp -> . exp MODULO exp
+    (12) exp -> . exp MAYOR exp
+    (13) exp -> . exp MENOR exp
+    (14) exp -> . exp IGUAL exp
+    (15) exp -> . exp MAYORIGUAL exp
+    (16) exp -> . exp MENORIGUAL exp
+    (17) exp -> . exp DISTINTO exp
+    (18) exp -> . PARIZQ exp PARDER
+    (19) exp -> . ENTERO
+    (20) exp -> . DECIMAL
+    (21) exp -> . STRING
+    (22) exp -> . CHAR
+    (23) exp -> . VERDADERO
+    (24) exp -> . FALSO
+    (25) exp -> . NULO
+
+    PARIZQ          shift and go to state 8
+    ENTERO          shift and go to state 10
+    DECIMAL         shift and go to state 11
+    STRING          shift and go to state 12
+    CHAR            shift and go to state 13
+    VERDADERO       shift and go to state 14
+    FALSO           shift and go to state 15
+    NULO            shift and go to state 16
+
+    exp                            shift and go to state 44
+
+state 31
+
+    (18) exp -> PARIZQ exp PARDER .
+
+    PARDER          reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    MAS             reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    MENOS           reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    MULTIPLICACION  reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    DIVISION        reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    POTENCIA        reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    MODULO          reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    MAYOR           reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    MENOR           reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    IGUAL           reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    MAYORIGUAL      reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    MENORIGUAL      reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+    DISTINTO        reduce using rule 18 (exp -> PARIZQ exp PARDER .)
+
+
+state 32
+
+    (5) p_print -> PRINT PARIZQ exp PARDER PTCOMA .
+
+    PRINT           reduce using rule 5 (p_print -> PRINT PARIZQ exp PARDER PTCOMA .)
+    $end            reduce using rule 5 (p_print -> PRINT PARIZQ exp PARDER PTCOMA .)
+
+
+state 33
 
     (6) exp -> exp MAS exp .
     (6) exp -> exp . MAS exp
     (7) exp -> exp . MENOS exp
     (8) exp -> exp . MULTIPLICACION exp
     (9) exp -> exp . DIVISION exp
-    (10) exp -> exp . MAYOR exp
-    (11) exp -> exp . MENOR exp
-    (12) exp -> exp . IGUAL exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
 
     PARDER          reduce using rule 6 (exp -> exp MAS exp .)
     MAS             reduce using rule 6 (exp -> exp MAS exp .)
@@ -458,28 +878,43 @@ state 26
     MAYOR           reduce using rule 6 (exp -> exp MAS exp .)
     MENOR           reduce using rule 6 (exp -> exp MAS exp .)
     IGUAL           reduce using rule 6 (exp -> exp MAS exp .)
-    MULTIPLICACION  shift and go to state 19
-    DIVISION        shift and go to state 20
+    MAYORIGUAL      reduce using rule 6 (exp -> exp MAS exp .)
+    MENORIGUAL      reduce using rule 6 (exp -> exp MAS exp .)
+    DISTINTO        reduce using rule 6 (exp -> exp MAS exp .)
+    MULTIPLICACION  shift and go to state 21
+    DIVISION        shift and go to state 22
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
 
   ! MULTIPLICACION  [ reduce using rule 6 (exp -> exp MAS exp .) ]
   ! DIVISION        [ reduce using rule 6 (exp -> exp MAS exp .) ]
-  ! MAS             [ shift and go to state 17 ]
-  ! MENOS           [ shift and go to state 18 ]
-  ! MAYOR           [ shift and go to state 21 ]
-  ! MENOR           [ shift and go to state 22 ]
-  ! IGUAL           [ shift and go to state 23 ]
+  ! POTENCIA        [ reduce using rule 6 (exp -> exp MAS exp .) ]
+  ! MODULO          [ reduce using rule 6 (exp -> exp MAS exp .) ]
+  ! MAS             [ shift and go to state 19 ]
+  ! MENOS           [ shift and go to state 20 ]
+  ! MAYOR           [ shift and go to state 25 ]
+  ! MENOR           [ shift and go to state 26 ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! MAYORIGUAL      [ shift and go to state 28 ]
+  ! MENORIGUAL      [ shift and go to state 29 ]
+  ! DISTINTO        [ shift and go to state 30 ]
 
 
-state 27
+state 34
 
     (7) exp -> exp MENOS exp .
     (6) exp -> exp . MAS exp
     (7) exp -> exp . MENOS exp
     (8) exp -> exp . MULTIPLICACION exp
     (9) exp -> exp . DIVISION exp
-    (10) exp -> exp . MAYOR exp
-    (11) exp -> exp . MENOR exp
-    (12) exp -> exp . IGUAL exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
 
     PARDER          reduce using rule 7 (exp -> exp MENOS exp .)
     MAS             reduce using rule 7 (exp -> exp MENOS exp .)
@@ -487,28 +922,43 @@ state 27
     MAYOR           reduce using rule 7 (exp -> exp MENOS exp .)
     MENOR           reduce using rule 7 (exp -> exp MENOS exp .)
     IGUAL           reduce using rule 7 (exp -> exp MENOS exp .)
-    MULTIPLICACION  shift and go to state 19
-    DIVISION        shift and go to state 20
+    MAYORIGUAL      reduce using rule 7 (exp -> exp MENOS exp .)
+    MENORIGUAL      reduce using rule 7 (exp -> exp MENOS exp .)
+    DISTINTO        reduce using rule 7 (exp -> exp MENOS exp .)
+    MULTIPLICACION  shift and go to state 21
+    DIVISION        shift and go to state 22
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
 
   ! MULTIPLICACION  [ reduce using rule 7 (exp -> exp MENOS exp .) ]
   ! DIVISION        [ reduce using rule 7 (exp -> exp MENOS exp .) ]
-  ! MAS             [ shift and go to state 17 ]
-  ! MENOS           [ shift and go to state 18 ]
-  ! MAYOR           [ shift and go to state 21 ]
-  ! MENOR           [ shift and go to state 22 ]
-  ! IGUAL           [ shift and go to state 23 ]
+  ! POTENCIA        [ reduce using rule 7 (exp -> exp MENOS exp .) ]
+  ! MODULO          [ reduce using rule 7 (exp -> exp MENOS exp .) ]
+  ! MAS             [ shift and go to state 19 ]
+  ! MENOS           [ shift and go to state 20 ]
+  ! MAYOR           [ shift and go to state 25 ]
+  ! MENOR           [ shift and go to state 26 ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! MAYORIGUAL      [ shift and go to state 28 ]
+  ! MENORIGUAL      [ shift and go to state 29 ]
+  ! DISTINTO        [ shift and go to state 30 ]
 
 
-state 28
+state 35
 
     (8) exp -> exp MULTIPLICACION exp .
     (6) exp -> exp . MAS exp
     (7) exp -> exp . MENOS exp
     (8) exp -> exp . MULTIPLICACION exp
     (9) exp -> exp . DIVISION exp
-    (10) exp -> exp . MAYOR exp
-    (11) exp -> exp . MENOR exp
-    (12) exp -> exp . IGUAL exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
 
     PARDER          reduce using rule 8 (exp -> exp MULTIPLICACION exp .)
     MAS             reduce using rule 8 (exp -> exp MULTIPLICACION exp .)
@@ -518,26 +968,41 @@ state 28
     MAYOR           reduce using rule 8 (exp -> exp MULTIPLICACION exp .)
     MENOR           reduce using rule 8 (exp -> exp MULTIPLICACION exp .)
     IGUAL           reduce using rule 8 (exp -> exp MULTIPLICACION exp .)
+    MAYORIGUAL      reduce using rule 8 (exp -> exp MULTIPLICACION exp .)
+    MENORIGUAL      reduce using rule 8 (exp -> exp MULTIPLICACION exp .)
+    DISTINTO        reduce using rule 8 (exp -> exp MULTIPLICACION exp .)
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
 
-  ! MAS             [ shift and go to state 17 ]
-  ! MENOS           [ shift and go to state 18 ]
-  ! MULTIPLICACION  [ shift and go to state 19 ]
-  ! DIVISION        [ shift and go to state 20 ]
-  ! MAYOR           [ shift and go to state 21 ]
-  ! MENOR           [ shift and go to state 22 ]
-  ! IGUAL           [ shift and go to state 23 ]
+  ! POTENCIA        [ reduce using rule 8 (exp -> exp MULTIPLICACION exp .) ]
+  ! MODULO          [ reduce using rule 8 (exp -> exp MULTIPLICACION exp .) ]
+  ! MAS             [ shift and go to state 19 ]
+  ! MENOS           [ shift and go to state 20 ]
+  ! MULTIPLICACION  [ shift and go to state 21 ]
+  ! DIVISION        [ shift and go to state 22 ]
+  ! MAYOR           [ shift and go to state 25 ]
+  ! MENOR           [ shift and go to state 26 ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! MAYORIGUAL      [ shift and go to state 28 ]
+  ! MENORIGUAL      [ shift and go to state 29 ]
+  ! DISTINTO        [ shift and go to state 30 ]
 
 
-state 29
+state 36
 
     (9) exp -> exp DIVISION exp .
     (6) exp -> exp . MAS exp
     (7) exp -> exp . MENOS exp
     (8) exp -> exp . MULTIPLICACION exp
     (9) exp -> exp . DIVISION exp
-    (10) exp -> exp . MAYOR exp
-    (11) exp -> exp . MENOR exp
-    (12) exp -> exp . IGUAL exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
 
     PARDER          reduce using rule 9 (exp -> exp DIVISION exp .)
     MAS             reduce using rule 9 (exp -> exp DIVISION exp .)
@@ -547,99 +1012,374 @@ state 29
     MAYOR           reduce using rule 9 (exp -> exp DIVISION exp .)
     MENOR           reduce using rule 9 (exp -> exp DIVISION exp .)
     IGUAL           reduce using rule 9 (exp -> exp DIVISION exp .)
+    MAYORIGUAL      reduce using rule 9 (exp -> exp DIVISION exp .)
+    MENORIGUAL      reduce using rule 9 (exp -> exp DIVISION exp .)
+    DISTINTO        reduce using rule 9 (exp -> exp DIVISION exp .)
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
 
-  ! MAS             [ shift and go to state 17 ]
-  ! MENOS           [ shift and go to state 18 ]
-  ! MULTIPLICACION  [ shift and go to state 19 ]
-  ! DIVISION        [ shift and go to state 20 ]
-  ! MAYOR           [ shift and go to state 21 ]
-  ! MENOR           [ shift and go to state 22 ]
-  ! IGUAL           [ shift and go to state 23 ]
+  ! POTENCIA        [ reduce using rule 9 (exp -> exp DIVISION exp .) ]
+  ! MODULO          [ reduce using rule 9 (exp -> exp DIVISION exp .) ]
+  ! MAS             [ shift and go to state 19 ]
+  ! MENOS           [ shift and go to state 20 ]
+  ! MULTIPLICACION  [ shift and go to state 21 ]
+  ! DIVISION        [ shift and go to state 22 ]
+  ! MAYOR           [ shift and go to state 25 ]
+  ! MENOR           [ shift and go to state 26 ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! MAYORIGUAL      [ shift and go to state 28 ]
+  ! MENORIGUAL      [ shift and go to state 29 ]
+  ! DISTINTO        [ shift and go to state 30 ]
 
 
-state 30
+state 37
 
-    (10) exp -> exp MAYOR exp .
+    (10) exp -> exp POTENCIA exp .
     (6) exp -> exp . MAS exp
     (7) exp -> exp . MENOS exp
     (8) exp -> exp . MULTIPLICACION exp
     (9) exp -> exp . DIVISION exp
-    (10) exp -> exp . MAYOR exp
-    (11) exp -> exp . MENOR exp
-    (12) exp -> exp . IGUAL exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
 
-    PARDER          reduce using rule 10 (exp -> exp MAYOR exp .)
-    MAYOR           reduce using rule 10 (exp -> exp MAYOR exp .)
-    MENOR           reduce using rule 10 (exp -> exp MAYOR exp .)
-    IGUAL           reduce using rule 10 (exp -> exp MAYOR exp .)
-    MAS             shift and go to state 17
-    MENOS           shift and go to state 18
-    MULTIPLICACION  shift and go to state 19
-    DIVISION        shift and go to state 20
+    PARDER          reduce using rule 10 (exp -> exp POTENCIA exp .)
+    MAS             reduce using rule 10 (exp -> exp POTENCIA exp .)
+    MENOS           reduce using rule 10 (exp -> exp POTENCIA exp .)
+    MULTIPLICACION  reduce using rule 10 (exp -> exp POTENCIA exp .)
+    DIVISION        reduce using rule 10 (exp -> exp POTENCIA exp .)
+    POTENCIA        reduce using rule 10 (exp -> exp POTENCIA exp .)
+    MODULO          reduce using rule 10 (exp -> exp POTENCIA exp .)
+    MAYOR           reduce using rule 10 (exp -> exp POTENCIA exp .)
+    MENOR           reduce using rule 10 (exp -> exp POTENCIA exp .)
+    IGUAL           reduce using rule 10 (exp -> exp POTENCIA exp .)
+    MAYORIGUAL      reduce using rule 10 (exp -> exp POTENCIA exp .)
+    MENORIGUAL      reduce using rule 10 (exp -> exp POTENCIA exp .)
+    DISTINTO        reduce using rule 10 (exp -> exp POTENCIA exp .)
 
-  ! MAS             [ reduce using rule 10 (exp -> exp MAYOR exp .) ]
-  ! MENOS           [ reduce using rule 10 (exp -> exp MAYOR exp .) ]
-  ! MULTIPLICACION  [ reduce using rule 10 (exp -> exp MAYOR exp .) ]
-  ! DIVISION        [ reduce using rule 10 (exp -> exp MAYOR exp .) ]
-  ! MAYOR           [ shift and go to state 21 ]
-  ! MENOR           [ shift and go to state 22 ]
-  ! IGUAL           [ shift and go to state 23 ]
+  ! MAS             [ shift and go to state 19 ]
+  ! MENOS           [ shift and go to state 20 ]
+  ! MULTIPLICACION  [ shift and go to state 21 ]
+  ! DIVISION        [ shift and go to state 22 ]
+  ! POTENCIA        [ shift and go to state 23 ]
+  ! MODULO          [ shift and go to state 24 ]
+  ! MAYOR           [ shift and go to state 25 ]
+  ! MENOR           [ shift and go to state 26 ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! MAYORIGUAL      [ shift and go to state 28 ]
+  ! MENORIGUAL      [ shift and go to state 29 ]
+  ! DISTINTO        [ shift and go to state 30 ]
 
 
-state 31
+state 38
 
-    (11) exp -> exp MENOR exp .
+    (11) exp -> exp MODULO exp .
     (6) exp -> exp . MAS exp
     (7) exp -> exp . MENOS exp
     (8) exp -> exp . MULTIPLICACION exp
     (9) exp -> exp . DIVISION exp
-    (10) exp -> exp . MAYOR exp
-    (11) exp -> exp . MENOR exp
-    (12) exp -> exp . IGUAL exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
 
-    PARDER          reduce using rule 11 (exp -> exp MENOR exp .)
-    MAYOR           reduce using rule 11 (exp -> exp MENOR exp .)
-    MENOR           reduce using rule 11 (exp -> exp MENOR exp .)
-    IGUAL           reduce using rule 11 (exp -> exp MENOR exp .)
-    MAS             shift and go to state 17
-    MENOS           shift and go to state 18
-    MULTIPLICACION  shift and go to state 19
-    DIVISION        shift and go to state 20
+    PARDER          reduce using rule 11 (exp -> exp MODULO exp .)
+    MAS             reduce using rule 11 (exp -> exp MODULO exp .)
+    MENOS           reduce using rule 11 (exp -> exp MODULO exp .)
+    MULTIPLICACION  reduce using rule 11 (exp -> exp MODULO exp .)
+    DIVISION        reduce using rule 11 (exp -> exp MODULO exp .)
+    POTENCIA        reduce using rule 11 (exp -> exp MODULO exp .)
+    MODULO          reduce using rule 11 (exp -> exp MODULO exp .)
+    MAYOR           reduce using rule 11 (exp -> exp MODULO exp .)
+    MENOR           reduce using rule 11 (exp -> exp MODULO exp .)
+    IGUAL           reduce using rule 11 (exp -> exp MODULO exp .)
+    MAYORIGUAL      reduce using rule 11 (exp -> exp MODULO exp .)
+    MENORIGUAL      reduce using rule 11 (exp -> exp MODULO exp .)
+    DISTINTO        reduce using rule 11 (exp -> exp MODULO exp .)
 
-  ! MAS             [ reduce using rule 11 (exp -> exp MENOR exp .) ]
-  ! MENOS           [ reduce using rule 11 (exp -> exp MENOR exp .) ]
-  ! MULTIPLICACION  [ reduce using rule 11 (exp -> exp MENOR exp .) ]
-  ! DIVISION        [ reduce using rule 11 (exp -> exp MENOR exp .) ]
-  ! MAYOR           [ shift and go to state 21 ]
-  ! MENOR           [ shift and go to state 22 ]
-  ! IGUAL           [ shift and go to state 23 ]
+  ! MAS             [ shift and go to state 19 ]
+  ! MENOS           [ shift and go to state 20 ]
+  ! MULTIPLICACION  [ shift and go to state 21 ]
+  ! DIVISION        [ shift and go to state 22 ]
+  ! POTENCIA        [ shift and go to state 23 ]
+  ! MODULO          [ shift and go to state 24 ]
+  ! MAYOR           [ shift and go to state 25 ]
+  ! MENOR           [ shift and go to state 26 ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! MAYORIGUAL      [ shift and go to state 28 ]
+  ! MENORIGUAL      [ shift and go to state 29 ]
+  ! DISTINTO        [ shift and go to state 30 ]
 
 
-state 32
+state 39
 
-    (12) exp -> exp IGUAL exp .
+    (12) exp -> exp MAYOR exp .
     (6) exp -> exp . MAS exp
     (7) exp -> exp . MENOS exp
     (8) exp -> exp . MULTIPLICACION exp
     (9) exp -> exp . DIVISION exp
-    (10) exp -> exp . MAYOR exp
-    (11) exp -> exp . MENOR exp
-    (12) exp -> exp . IGUAL exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
 
-    PARDER          reduce using rule 12 (exp -> exp IGUAL exp .)
-    IGUAL           reduce using rule 12 (exp -> exp IGUAL exp .)
-    MAS             shift and go to state 17
-    MENOS           shift and go to state 18
-    MULTIPLICACION  shift and go to state 19
-    DIVISION        shift and go to state 20
-    MAYOR           shift and go to state 21
-    MENOR           shift and go to state 22
+    PARDER          reduce using rule 12 (exp -> exp MAYOR exp .)
+    MAYOR           reduce using rule 12 (exp -> exp MAYOR exp .)
+    MENOR           reduce using rule 12 (exp -> exp MAYOR exp .)
+    IGUAL           reduce using rule 12 (exp -> exp MAYOR exp .)
+    MAYORIGUAL      reduce using rule 12 (exp -> exp MAYOR exp .)
+    MENORIGUAL      reduce using rule 12 (exp -> exp MAYOR exp .)
+    DISTINTO        reduce using rule 12 (exp -> exp MAYOR exp .)
+    MAS             shift and go to state 19
+    MENOS           shift and go to state 20
+    MULTIPLICACION  shift and go to state 21
+    DIVISION        shift and go to state 22
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
 
-  ! MAS             [ reduce using rule 12 (exp -> exp IGUAL exp .) ]
-  ! MENOS           [ reduce using rule 12 (exp -> exp IGUAL exp .) ]
-  ! MULTIPLICACION  [ reduce using rule 12 (exp -> exp IGUAL exp .) ]
-  ! DIVISION        [ reduce using rule 12 (exp -> exp IGUAL exp .) ]
-  ! MAYOR           [ reduce using rule 12 (exp -> exp IGUAL exp .) ]
-  ! MENOR           [ reduce using rule 12 (exp -> exp IGUAL exp .) ]
-  ! IGUAL           [ shift and go to state 23 ]
+  ! MAS             [ reduce using rule 12 (exp -> exp MAYOR exp .) ]
+  ! MENOS           [ reduce using rule 12 (exp -> exp MAYOR exp .) ]
+  ! MULTIPLICACION  [ reduce using rule 12 (exp -> exp MAYOR exp .) ]
+  ! DIVISION        [ reduce using rule 12 (exp -> exp MAYOR exp .) ]
+  ! POTENCIA        [ reduce using rule 12 (exp -> exp MAYOR exp .) ]
+  ! MODULO          [ reduce using rule 12 (exp -> exp MAYOR exp .) ]
+  ! MAYOR           [ shift and go to state 25 ]
+  ! MENOR           [ shift and go to state 26 ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! MAYORIGUAL      [ shift and go to state 28 ]
+  ! MENORIGUAL      [ shift and go to state 29 ]
+  ! DISTINTO        [ shift and go to state 30 ]
+
+
+state 40
+
+    (13) exp -> exp MENOR exp .
+    (6) exp -> exp . MAS exp
+    (7) exp -> exp . MENOS exp
+    (8) exp -> exp . MULTIPLICACION exp
+    (9) exp -> exp . DIVISION exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
+
+    PARDER          reduce using rule 13 (exp -> exp MENOR exp .)
+    MAYOR           reduce using rule 13 (exp -> exp MENOR exp .)
+    MENOR           reduce using rule 13 (exp -> exp MENOR exp .)
+    IGUAL           reduce using rule 13 (exp -> exp MENOR exp .)
+    MAYORIGUAL      reduce using rule 13 (exp -> exp MENOR exp .)
+    MENORIGUAL      reduce using rule 13 (exp -> exp MENOR exp .)
+    DISTINTO        reduce using rule 13 (exp -> exp MENOR exp .)
+    MAS             shift and go to state 19
+    MENOS           shift and go to state 20
+    MULTIPLICACION  shift and go to state 21
+    DIVISION        shift and go to state 22
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
+
+  ! MAS             [ reduce using rule 13 (exp -> exp MENOR exp .) ]
+  ! MENOS           [ reduce using rule 13 (exp -> exp MENOR exp .) ]
+  ! MULTIPLICACION  [ reduce using rule 13 (exp -> exp MENOR exp .) ]
+  ! DIVISION        [ reduce using rule 13 (exp -> exp MENOR exp .) ]
+  ! POTENCIA        [ reduce using rule 13 (exp -> exp MENOR exp .) ]
+  ! MODULO          [ reduce using rule 13 (exp -> exp MENOR exp .) ]
+  ! MAYOR           [ shift and go to state 25 ]
+  ! MENOR           [ shift and go to state 26 ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! MAYORIGUAL      [ shift and go to state 28 ]
+  ! MENORIGUAL      [ shift and go to state 29 ]
+  ! DISTINTO        [ shift and go to state 30 ]
+
+
+state 41
+
+    (14) exp -> exp IGUAL exp .
+    (6) exp -> exp . MAS exp
+    (7) exp -> exp . MENOS exp
+    (8) exp -> exp . MULTIPLICACION exp
+    (9) exp -> exp . DIVISION exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
+
+    PARDER          reduce using rule 14 (exp -> exp IGUAL exp .)
+    IGUAL           reduce using rule 14 (exp -> exp IGUAL exp .)
+    DISTINTO        reduce using rule 14 (exp -> exp IGUAL exp .)
+    MAS             shift and go to state 19
+    MENOS           shift and go to state 20
+    MULTIPLICACION  shift and go to state 21
+    DIVISION        shift and go to state 22
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
+    MAYOR           shift and go to state 25
+    MENOR           shift and go to state 26
+    MAYORIGUAL      shift and go to state 28
+    MENORIGUAL      shift and go to state 29
+
+  ! MAS             [ reduce using rule 14 (exp -> exp IGUAL exp .) ]
+  ! MENOS           [ reduce using rule 14 (exp -> exp IGUAL exp .) ]
+  ! MULTIPLICACION  [ reduce using rule 14 (exp -> exp IGUAL exp .) ]
+  ! DIVISION        [ reduce using rule 14 (exp -> exp IGUAL exp .) ]
+  ! POTENCIA        [ reduce using rule 14 (exp -> exp IGUAL exp .) ]
+  ! MODULO          [ reduce using rule 14 (exp -> exp IGUAL exp .) ]
+  ! MAYOR           [ reduce using rule 14 (exp -> exp IGUAL exp .) ]
+  ! MENOR           [ reduce using rule 14 (exp -> exp IGUAL exp .) ]
+  ! MAYORIGUAL      [ reduce using rule 14 (exp -> exp IGUAL exp .) ]
+  ! MENORIGUAL      [ reduce using rule 14 (exp -> exp IGUAL exp .) ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! DISTINTO        [ shift and go to state 30 ]
+
+
+state 42
+
+    (15) exp -> exp MAYORIGUAL exp .
+    (6) exp -> exp . MAS exp
+    (7) exp -> exp . MENOS exp
+    (8) exp -> exp . MULTIPLICACION exp
+    (9) exp -> exp . DIVISION exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
+
+    PARDER          reduce using rule 15 (exp -> exp MAYORIGUAL exp .)
+    MAYOR           reduce using rule 15 (exp -> exp MAYORIGUAL exp .)
+    MENOR           reduce using rule 15 (exp -> exp MAYORIGUAL exp .)
+    IGUAL           reduce using rule 15 (exp -> exp MAYORIGUAL exp .)
+    MAYORIGUAL      reduce using rule 15 (exp -> exp MAYORIGUAL exp .)
+    MENORIGUAL      reduce using rule 15 (exp -> exp MAYORIGUAL exp .)
+    DISTINTO        reduce using rule 15 (exp -> exp MAYORIGUAL exp .)
+    MAS             shift and go to state 19
+    MENOS           shift and go to state 20
+    MULTIPLICACION  shift and go to state 21
+    DIVISION        shift and go to state 22
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
+
+  ! MAS             [ reduce using rule 15 (exp -> exp MAYORIGUAL exp .) ]
+  ! MENOS           [ reduce using rule 15 (exp -> exp MAYORIGUAL exp .) ]
+  ! MULTIPLICACION  [ reduce using rule 15 (exp -> exp MAYORIGUAL exp .) ]
+  ! DIVISION        [ reduce using rule 15 (exp -> exp MAYORIGUAL exp .) ]
+  ! POTENCIA        [ reduce using rule 15 (exp -> exp MAYORIGUAL exp .) ]
+  ! MODULO          [ reduce using rule 15 (exp -> exp MAYORIGUAL exp .) ]
+  ! MAYOR           [ shift and go to state 25 ]
+  ! MENOR           [ shift and go to state 26 ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! MAYORIGUAL      [ shift and go to state 28 ]
+  ! MENORIGUAL      [ shift and go to state 29 ]
+  ! DISTINTO        [ shift and go to state 30 ]
+
+
+state 43
+
+    (16) exp -> exp MENORIGUAL exp .
+    (6) exp -> exp . MAS exp
+    (7) exp -> exp . MENOS exp
+    (8) exp -> exp . MULTIPLICACION exp
+    (9) exp -> exp . DIVISION exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
+
+    PARDER          reduce using rule 16 (exp -> exp MENORIGUAL exp .)
+    MAYOR           reduce using rule 16 (exp -> exp MENORIGUAL exp .)
+    MENOR           reduce using rule 16 (exp -> exp MENORIGUAL exp .)
+    IGUAL           reduce using rule 16 (exp -> exp MENORIGUAL exp .)
+    MAYORIGUAL      reduce using rule 16 (exp -> exp MENORIGUAL exp .)
+    MENORIGUAL      reduce using rule 16 (exp -> exp MENORIGUAL exp .)
+    DISTINTO        reduce using rule 16 (exp -> exp MENORIGUAL exp .)
+    MAS             shift and go to state 19
+    MENOS           shift and go to state 20
+    MULTIPLICACION  shift and go to state 21
+    DIVISION        shift and go to state 22
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
+
+  ! MAS             [ reduce using rule 16 (exp -> exp MENORIGUAL exp .) ]
+  ! MENOS           [ reduce using rule 16 (exp -> exp MENORIGUAL exp .) ]
+  ! MULTIPLICACION  [ reduce using rule 16 (exp -> exp MENORIGUAL exp .) ]
+  ! DIVISION        [ reduce using rule 16 (exp -> exp MENORIGUAL exp .) ]
+  ! POTENCIA        [ reduce using rule 16 (exp -> exp MENORIGUAL exp .) ]
+  ! MODULO          [ reduce using rule 16 (exp -> exp MENORIGUAL exp .) ]
+  ! MAYOR           [ shift and go to state 25 ]
+  ! MENOR           [ shift and go to state 26 ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! MAYORIGUAL      [ shift and go to state 28 ]
+  ! MENORIGUAL      [ shift and go to state 29 ]
+  ! DISTINTO        [ shift and go to state 30 ]
+
+
+state 44
+
+    (17) exp -> exp DISTINTO exp .
+    (6) exp -> exp . MAS exp
+    (7) exp -> exp . MENOS exp
+    (8) exp -> exp . MULTIPLICACION exp
+    (9) exp -> exp . DIVISION exp
+    (10) exp -> exp . POTENCIA exp
+    (11) exp -> exp . MODULO exp
+    (12) exp -> exp . MAYOR exp
+    (13) exp -> exp . MENOR exp
+    (14) exp -> exp . IGUAL exp
+    (15) exp -> exp . MAYORIGUAL exp
+    (16) exp -> exp . MENORIGUAL exp
+    (17) exp -> exp . DISTINTO exp
+
+    PARDER          reduce using rule 17 (exp -> exp DISTINTO exp .)
+    IGUAL           reduce using rule 17 (exp -> exp DISTINTO exp .)
+    DISTINTO        reduce using rule 17 (exp -> exp DISTINTO exp .)
+    MAS             shift and go to state 19
+    MENOS           shift and go to state 20
+    MULTIPLICACION  shift and go to state 21
+    DIVISION        shift and go to state 22
+    POTENCIA        shift and go to state 23
+    MODULO          shift and go to state 24
+    MAYOR           shift and go to state 25
+    MENOR           shift and go to state 26
+    MAYORIGUAL      shift and go to state 28
+    MENORIGUAL      shift and go to state 29
+
+  ! MAS             [ reduce using rule 17 (exp -> exp DISTINTO exp .) ]
+  ! MENOS           [ reduce using rule 17 (exp -> exp DISTINTO exp .) ]
+  ! MULTIPLICACION  [ reduce using rule 17 (exp -> exp DISTINTO exp .) ]
+  ! DIVISION        [ reduce using rule 17 (exp -> exp DISTINTO exp .) ]
+  ! POTENCIA        [ reduce using rule 17 (exp -> exp DISTINTO exp .) ]
+  ! MODULO          [ reduce using rule 17 (exp -> exp DISTINTO exp .) ]
+  ! MAYOR           [ reduce using rule 17 (exp -> exp DISTINTO exp .) ]
+  ! MENOR           [ reduce using rule 17 (exp -> exp DISTINTO exp .) ]
+  ! MAYORIGUAL      [ reduce using rule 17 (exp -> exp DISTINTO exp .) ]
+  ! MENORIGUAL      [ reduce using rule 17 (exp -> exp DISTINTO exp .) ]
+  ! IGUAL           [ shift and go to state 27 ]
+  ! DISTINTO        [ shift and go to state 30 ]
 

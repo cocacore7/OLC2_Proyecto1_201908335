@@ -77,18 +77,67 @@ class Arithmetic(Expression):
 
         elif self.operation == arithmeticOperation.DIV:
             if dominant == typeExpression.INTEGER:
+                if int(rightValue.getValue()) != 0:
+                    return Symbol(
+                        "",
+                        int(leftValue.getValue()) / int(rightValue.getValue()),
+                        typeExpression.FLOAT
+                    )
+                else:
+                    print("No es posible dividir " + leftValue.getValue() + " Entre 0")
+            elif dominant == typeExpression.FLOAT:
+                if int(rightValue.getValue()) != 0:
+                    return Symbol(
+                    "",
+                    float(leftValue.getValue()) / float(rightValue.getValue()),
+                    typeExpression.FLOAT
+                )
+                else:
+                    print("No es posible dividir " + leftValue.getValue() + " Entre 0")
+            else:
+                print("No es posible dividir " + leftValue.getValue() + " y " + rightValue.getValue())
+
+        elif self.operation == arithmeticOperation.POT:
+            if dominant == typeExpression.INTEGER:
                 return Symbol(
                     "",
-                    int(leftValue.getValue()) / int(rightValue.getValue()),
+                    int(leftValue.getValue()) ** int(rightValue.getValue()),
+                    typeExpression.INTEGER
+                )
+            elif dominant == typeExpression.FLOAT:
+                return Symbol(
+                    "",
+                    int(leftValue.getValue()) ** int(rightValue.getValue()),
+                    typeExpression.FLOAT
+                )
+            elif dominant == typeExpression.STRING:
+                if rightValue.getType() == typeExpression.INTEGER:
+                    tmp = ""
+                    for i in range(int(rightValue.getValue())):
+                        tmp = tmp + leftValue.getValue()
+                    return Symbol(
+                        "",
+                        tmp,
+                        typeExpression.STRING
+                    )
+                else:
+                    print("No es posible Elevar String a Float")
+            else:
+                print("No es posible Elevar " + leftValue.getValue() + " y " + rightValue.getValue())
+
+        elif self.operation == arithmeticOperation.MOD:
+            if dominant == typeExpression.INTEGER:
+                 return Symbol(
+                    "",
+                    int(leftValue.getValue()) % int(rightValue.getValue()),
                     typeExpression.FLOAT
                 )
             elif dominant == typeExpression.FLOAT:
                 return Symbol(
                     "",
-                    float(leftValue.getValue()) / float(rightValue.getValue()),
+                    float(leftValue.getValue()) % float(rightValue.getValue()),
                     typeExpression.FLOAT
                 )
             else:
-                print("No es posible dividir " + leftValue.getValue() + " y " + rightValue.getValue())
-
+                print("No es posible Obtener El Modulo De " + leftValue.getValue() + " y " + rightValue.getValue())
         return Symbol('', 0, typeExpression.INTEGER)

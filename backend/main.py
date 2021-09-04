@@ -1,4 +1,4 @@
-from Analyzer.Panther import parser
+from Analyzer.Gramatica import parser
 from flask import Flask, request
 from flask_cors import CORS
 from Salida import contenido
@@ -14,11 +14,11 @@ def prueba():
 
 @app.route('/Analizador', methods=['POST'])
 def Analizar():
-    print(request.json['Texto'])
     parser.parse(request.json['Texto'])
     salida = ""
     for valor in contenido:
         salida = salida + valor + "\n"
+    print(contenido)
     contenido.clear()
     return salida
 
