@@ -72,6 +72,15 @@ class Arithmetic(Expression):
                     float(leftValue.getValue()) * float(rightValue.getValue()),
                     typeExpression.FLOAT
                 )
+            elif leftValue.getType() == typeExpression.STRING:
+                if rightValue.getType() == typeExpression.STRING:
+                    return Symbol(
+                    "",
+                    leftValue.getValue() + rightValue.getValue(),
+                    typeExpression.STRING
+                    )
+                else:
+                    print("No es posible multiplicar " + leftValue.getValue() + " y " + rightValue.getValue())
             else:
                 print("No es posible multiplicar " + leftValue.getValue() + " y " + rightValue.getValue())
 

@@ -21,6 +21,10 @@ tokens = (
     'MENORIGUAL',
     'DISTINTO',
 
+    'ANDD',
+    'ORR',
+    'NOTT',
+
     'PRINT',
     'PRINTLN',
 
@@ -47,6 +51,11 @@ t_IGUAL             = r'=='
 t_MAYORIGUAL        = r'>='
 t_MENORIGUAL        = r'<='
 t_DISTINTO          = r'!='
+
+
+t_ANDD              = r'\|\|'
+t_ORR               = r'&&'
+t_NOTT              = r'!'
 
 t_PRINT             = r'print'
 t_PRINTLN           = r'println'
@@ -93,22 +102,27 @@ def t_error(t):
 # Construyendo el analizador léxico
 from Environment.Environment import Environment
 from Instruction.Print import Print
+from Instruction.Print import Println
 from Expression.Primitive import Primitive
 from Expression.Arithmetic import Arithmetic
 from Expression.Relational import Relational
+from Expression.Logic import Logic
 from Enum.arithmeticOperation import arithmeticOperation
 from Enum.relationalOperation import relationalOperation
+from Enum.LogicOperation import logicOperation
 from Enum.typeExpression import typeExpression
 import Analyzer.ply.lex as lex
 lexer = lex.lex()
 
 # Asociación de operadores y precedencia
 precedence = (
+    ('left', 'ANDD','ORR'),
+    ('rigth','NOTT'),
     ('left', 'IGUAL','DISTINTO'),
     ('left', 'MAYOR', 'MENOR','MAYORIGUAL','MENORIGUAL'),
     ('left', 'MAS', 'MENOS'),
-    ('left', 'MULTIPLICACION', 'DIVISION'),
-    ('left', 'POTENCIA', 'MODULO'),
+    ('left', 'MULTIPLICACION', 'DIVISION','MODULO'),
+    ('left', 'POTENCIA'),
 )
 
 # Definición de la gramática========================
@@ -131,7 +145,8 @@ def p_instructions(t):
 
 #====================================================
 def p_instruction(t):
-    '''instruction : p_print 
+    '''instruction  : p_print 
+                    | p_println
     '''
     t[0] = t[1]
 
@@ -140,6 +155,12 @@ def p_print(t):
     '''p_print : PRINT PARIZQ exp PARDER PTCOMA
     '''
     t[0] = Print(t[3])
+
+#====================================================
+def p_println(t):
+    '''p_println : PRINTLN PARIZQ exp PARDER PTCOMA
+    '''
+    t[0] = Println(t[3])
 
 # ====================================================
 def p_exp_aritmetica(t):
@@ -155,6 +176,9 @@ def p_exp_aritmetica(t):
             | exp MAYORIGUAL exp
             | exp MENORIGUAL exp
             | exp DISTINTO exp
+            | exp ANDD exp
+            | exp ORR exp
+            | NOTT exp
     '''
     if t[2] == '+':
         t[0] = Arithmetic(t[1], t[3], arithmeticOperation.PLUS)
@@ -180,6 +204,12 @@ def p_exp_aritmetica(t):
         t[0] = Relational(t[1], t[3], relationalOperation.MENORIGUAL)
     elif t[2] == '!=':
         t[0] = Relational(t[1], t[3], relationalOperation.DISTINTO)
+    elif t[2] == '&&':
+        t[0] = Logic(t[1], t[3], logicOperation.AND)
+    elif t[2] == '||':
+        t[0] = Logic(t[1], t[3], logicOperation.OR)
+    elif t[1] == '!':
+        t[0] = Logic(t[2], t[2], logicOperation.NOT)
 
 
 #====================================================

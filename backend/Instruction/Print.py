@@ -1,7 +1,7 @@
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
-from Salida import contenido
+from Globales.Salida import contenido
 
 
 class Print(Instruction):
@@ -11,4 +11,14 @@ class Print(Instruction):
 
     def execute(self, environment: Environment):
         tempExp = self.expression.execute(environment)
-        contenido.append(str(tempExp.getValue()))
+        contenido.append("P,"+str(tempExp.getValue()))
+
+
+class Println(Instruction):
+
+    def __init__(self, expression: Expression) -> None:
+        self.expression = expression
+
+    def execute(self, environment: Environment):
+        tempExp = self.expression.execute(environment)
+        contenido.append("L,"+str(tempExp.getValue()))

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftIGUALDISTINTOleftMAYORMENORMAYORIGUALMENORIGUALleftMASMENOSleftMULTIPLICACIONDIVISIONleftPOTENCIAMODULOCHAR DECIMAL DISTINTO DIVISION ENTERO FALSO IGUAL MAS MAYOR MAYORIGUAL MENOR MENORIGUAL MENOS MODULO MULTIPLICACION NULO PARDER PARIZQ POTENCIA PRINT PRINTLN PTCOMA STRING VERDADEROinitial : instructionsinstructions : instructions instruction\n                    | instruction\n    instruction : p_print \n    p_print : PRINT PARIZQ exp PARDER PTCOMA\n    exp  : exp MAS exp\n            | exp MENOS exp\n            | exp MULTIPLICACION exp\n            | exp DIVISION exp\n            | exp POTENCIA exp\n            | exp MODULO exp\n            | exp MAYOR exp\n            | exp MENOR exp\n            | exp IGUAL exp\n            | exp MAYORIGUAL exp\n            | exp MENORIGUAL exp\n            | exp DISTINTO exp\n    exp : PARIZQ exp PARDERexp  : ENTERO\n    exp  : DECIMAL\n    exp  : STRING\n    exp  : CHAR\n    exp  : VERDADERO\n    exp  : FALSO\n    exp  : NULO\n    '
+_lr_signature = 'leftANDDORRrigthNOTTleftIGUALDISTINTOleftMAYORMENORMAYORIGUALMENORIGUALleftMASMENOSleftMULTIPLICACIONDIVISIONMODULOleftPOTENCIAANDD CHAR DECIMAL DISTINTO DIVISION ENTERO FALSO IGUAL MAS MAYOR MAYORIGUAL MENOR MENORIGUAL MENOS MODULO MULTIPLICACION NOTT NULO ORR PARDER PARIZQ POTENCIA PRINT PRINTLN PTCOMA STRING VERDADEROinitial : instructionsinstructions : instructions instruction\n                    | instruction\n    instruction  : p_print \n                    | p_println\n    p_print : PRINT PARIZQ exp PARDER PTCOMA\n    p_println : PRINTLN PARIZQ exp PARDER PTCOMA\n    exp  : exp MAS exp\n            | exp MENOS exp\n            | exp MULTIPLICACION exp\n            | exp DIVISION exp\n            | exp POTENCIA exp\n            | exp MODULO exp\n            | exp MAYOR exp\n            | exp MENOR exp\n            | exp IGUAL exp\n            | exp MAYORIGUAL exp\n            | exp MENORIGUAL exp\n            | exp DISTINTO exp\n            | exp ANDD exp\n            | exp ORR exp\n            | NOTT exp\n    exp : PARIZQ exp PARDERexp  : ENTERO\n    exp  : DECIMAL\n    exp  : STRING\n    exp  : CHAR\n    exp  : VERDADERO\n    exp  : FALSO\n    exp  : NULO\n    '
     
-_lr_action_items = {'PRINT':([0,2,3,4,6,32,],[5,5,-3,-4,-2,-5,]),'$end':([1,2,3,4,6,32,],[0,-1,-3,-4,-2,-5,]),'PARIZQ':([5,7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[7,8,8,8,8,8,8,8,8,8,8,8,8,8,8,]),'ENTERO':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[10,10,10,10,10,10,10,10,10,10,10,10,10,10,]),'DECIMAL':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[11,11,11,11,11,11,11,11,11,11,11,11,11,11,]),'STRING':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[12,12,12,12,12,12,12,12,12,12,12,12,12,12,]),'CHAR':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[13,13,13,13,13,13,13,13,13,13,13,13,13,13,]),'VERDADERO':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[14,14,14,14,14,14,14,14,14,14,14,14,14,14,]),'FALSO':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[15,15,15,15,15,15,15,15,15,15,15,15,15,15,]),'NULO':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[16,16,16,16,16,16,16,16,16,16,16,16,16,16,]),'PARDER':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[18,-19,-20,-21,-22,-23,-24,-25,31,-18,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,]),'MAS':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[19,-19,-20,-21,-22,-23,-24,-25,19,-18,-6,-7,-8,-9,-10,-11,19,19,19,19,19,19,]),'MENOS':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[20,-19,-20,-21,-22,-23,-24,-25,20,-18,-6,-7,-8,-9,-10,-11,20,20,20,20,20,20,]),'MULTIPLICACION':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[21,-19,-20,-21,-22,-23,-24,-25,21,-18,21,21,-8,-9,-10,-11,21,21,21,21,21,21,]),'DIVISION':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[22,-19,-20,-21,-22,-23,-24,-25,22,-18,22,22,-8,-9,-10,-11,22,22,22,22,22,22,]),'POTENCIA':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[23,-19,-20,-21,-22,-23,-24,-25,23,-18,23,23,23,23,-10,-11,23,23,23,23,23,23,]),'MODULO':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[24,-19,-20,-21,-22,-23,-24,-25,24,-18,24,24,24,24,-10,-11,24,24,24,24,24,24,]),'MAYOR':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[25,-19,-20,-21,-22,-23,-24,-25,25,-18,-6,-7,-8,-9,-10,-11,-12,-13,25,-15,-16,25,]),'MENOR':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[26,-19,-20,-21,-22,-23,-24,-25,26,-18,-6,-7,-8,-9,-10,-11,-12,-13,26,-15,-16,26,]),'IGUAL':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[27,-19,-20,-21,-22,-23,-24,-25,27,-18,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,]),'MAYORIGUAL':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[28,-19,-20,-21,-22,-23,-24,-25,28,-18,-6,-7,-8,-9,-10,-11,-12,-13,28,-15,-16,28,]),'MENORIGUAL':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[29,-19,-20,-21,-22,-23,-24,-25,29,-18,-6,-7,-8,-9,-10,-11,-12,-13,29,-15,-16,29,]),'DISTINTO':([9,10,11,12,13,14,15,16,17,31,33,34,35,36,37,38,39,40,41,42,43,44,],[30,-19,-20,-21,-22,-23,-24,-25,30,-18,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,]),'PTCOMA':([18,],[32,]),}
+_lr_action_items = {'PRINT':([0,2,3,4,5,8,41,56,],[6,6,-3,-4,-5,-2,-6,-7,]),'PRINTLN':([0,2,3,4,5,8,41,56,],[7,7,-3,-4,-5,-2,-6,-7,]),'$end':([1,2,3,4,5,8,41,56,],[0,-1,-3,-4,-5,-2,-6,-7,]),'PARIZQ':([6,7,9,10,11,13,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[9,10,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,]),'NOTT':([9,10,11,13,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,]),'ENTERO':([9,10,11,13,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,]),'DECIMAL':([9,10,11,13,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,]),'STRING':([9,10,11,13,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,]),'CHAR':([9,10,11,13,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,]),'VERDADERO':([9,10,11,13,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,]),'FALSO':([9,10,11,13,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,]),'NULO':([9,10,11,13,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,]),'PARDER':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[23,-24,-25,-26,-27,-28,-29,-30,39,40,-22,-23,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,-18,-19,-20,-21,]),'MAS':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[24,-24,-25,-26,-27,-28,-29,-30,24,24,24,-23,-8,-9,-10,-11,-12,-13,24,24,24,24,24,24,24,24,]),'MENOS':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[25,-24,-25,-26,-27,-28,-29,-30,25,25,25,-23,-8,-9,-10,-11,-12,-13,25,25,25,25,25,25,25,25,]),'MULTIPLICACION':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[26,-24,-25,-26,-27,-28,-29,-30,26,26,26,-23,26,26,-10,-11,-12,-13,26,26,26,26,26,26,26,26,]),'DIVISION':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[27,-24,-25,-26,-27,-28,-29,-30,27,27,27,-23,27,27,-10,-11,-12,-13,27,27,27,27,27,27,27,27,]),'POTENCIA':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[28,-24,-25,-26,-27,-28,-29,-30,28,28,28,-23,28,28,28,28,-12,28,28,28,28,28,28,28,28,28,]),'MODULO':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[29,-24,-25,-26,-27,-28,-29,-30,29,29,29,-23,29,29,-10,-11,-12,-13,29,29,29,29,29,29,29,29,]),'MAYOR':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[30,-24,-25,-26,-27,-28,-29,-30,30,30,30,-23,-8,-9,-10,-11,-12,-13,-14,-15,30,-17,-18,30,30,30,]),'MENOR':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[31,-24,-25,-26,-27,-28,-29,-30,31,31,31,-23,-8,-9,-10,-11,-12,-13,-14,-15,31,-17,-18,31,31,31,]),'IGUAL':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[32,-24,-25,-26,-27,-28,-29,-30,32,32,32,-23,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,-18,-19,32,32,]),'MAYORIGUAL':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[33,-24,-25,-26,-27,-28,-29,-30,33,33,33,-23,-8,-9,-10,-11,-12,-13,-14,-15,33,-17,-18,33,33,33,]),'MENORIGUAL':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[34,-24,-25,-26,-27,-28,-29,-30,34,34,34,-23,-8,-9,-10,-11,-12,-13,-14,-15,34,-17,-18,34,34,34,]),'DISTINTO':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[35,-24,-25,-26,-27,-28,-29,-30,35,35,35,-23,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,-18,-19,35,35,]),'ANDD':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[36,-24,-25,-26,-27,-28,-29,-30,36,36,36,-23,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,-18,-19,-20,-21,]),'ORR':([12,14,15,16,17,18,19,20,21,22,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,],[37,-24,-25,-26,-27,-28,-29,-30,37,37,37,-23,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,-18,-19,-20,-21,]),'PTCOMA':([23,39,],[41,56,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'initial':([0,],[1,]),'instructions':([0,],[2,]),'instruction':([0,2,],[3,6,]),'p_print':([0,2,],[4,4,]),'exp':([7,8,19,20,21,22,23,24,25,26,27,28,29,30,],[9,17,33,34,35,36,37,38,39,40,41,42,43,44,]),}
+_lr_goto_items = {'initial':([0,],[1,]),'instructions':([0,],[2,]),'instruction':([0,2,],[3,8,]),'p_print':([0,2,],[4,4,]),'p_println':([0,2,],[5,5,]),'exp':([9,10,11,13,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[12,21,22,38,42,43,44,45,46,47,48,49,50,51,52,53,54,55,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,29 +27,34 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> initial","S'",1,None,None,None),
-  ('initial -> instructions','initial',1,'p_initial','Gramatica.py',116),
-  ('instructions -> instructions instruction','instructions',2,'p_instructions','Gramatica.py',123),
-  ('instructions -> instruction','instructions',1,'p_instructions','Gramatica.py',124),
-  ('instruction -> p_print','instruction',1,'p_instruction','Gramatica.py',134),
-  ('p_print -> PRINT PARIZQ exp PARDER PTCOMA','p_print',5,'p_print','Gramatica.py',140),
-  ('exp -> exp MAS exp','exp',3,'p_exp_aritmetica','Gramatica.py',146),
-  ('exp -> exp MENOS exp','exp',3,'p_exp_aritmetica','Gramatica.py',147),
-  ('exp -> exp MULTIPLICACION exp','exp',3,'p_exp_aritmetica','Gramatica.py',148),
-  ('exp -> exp DIVISION exp','exp',3,'p_exp_aritmetica','Gramatica.py',149),
-  ('exp -> exp POTENCIA exp','exp',3,'p_exp_aritmetica','Gramatica.py',150),
-  ('exp -> exp MODULO exp','exp',3,'p_exp_aritmetica','Gramatica.py',151),
-  ('exp -> exp MAYOR exp','exp',3,'p_exp_aritmetica','Gramatica.py',152),
-  ('exp -> exp MENOR exp','exp',3,'p_exp_aritmetica','Gramatica.py',153),
-  ('exp -> exp IGUAL exp','exp',3,'p_exp_aritmetica','Gramatica.py',154),
-  ('exp -> exp MAYORIGUAL exp','exp',3,'p_exp_aritmetica','Gramatica.py',155),
-  ('exp -> exp MENORIGUAL exp','exp',3,'p_exp_aritmetica','Gramatica.py',156),
-  ('exp -> exp DISTINTO exp','exp',3,'p_exp_aritmetica','Gramatica.py',157),
-  ('exp -> PARIZQ exp PARDER','exp',3,'p_exp_agrupacion','Gramatica.py',187),
-  ('exp -> ENTERO','exp',1,'p_exp_valor_entero','Gramatica.py',193),
-  ('exp -> DECIMAL','exp',1,'p_exp_valor_decimal','Gramatica.py',200),
-  ('exp -> STRING','exp',1,'p_exp_valor_string','Gramatica.py',207),
-  ('exp -> CHAR','exp',1,'p_exp_valor_char','Gramatica.py',214),
-  ('exp -> VERDADERO','exp',1,'p_exp_valor_verdadero','Gramatica.py',221),
-  ('exp -> FALSO','exp',1,'p_exp_valor_falso','Gramatica.py',228),
-  ('exp -> NULO','exp',1,'p_exp_valor_nulo','Gramatica.py',235),
+  ('initial -> instructions','initial',1,'p_initial','Gramatica.py',128),
+  ('instructions -> instructions instruction','instructions',2,'p_instructions','Gramatica.py',135),
+  ('instructions -> instruction','instructions',1,'p_instructions','Gramatica.py',136),
+  ('instruction -> p_print','instruction',1,'p_instruction','Gramatica.py',146),
+  ('instruction -> p_println','instruction',1,'p_instruction','Gramatica.py',147),
+  ('p_print -> PRINT PARIZQ exp PARDER PTCOMA','p_print',5,'p_print','Gramatica.py',153),
+  ('p_println -> PRINTLN PARIZQ exp PARDER PTCOMA','p_println',5,'p_println','Gramatica.py',159),
+  ('exp -> exp MAS exp','exp',3,'p_exp_aritmetica','Gramatica.py',165),
+  ('exp -> exp MENOS exp','exp',3,'p_exp_aritmetica','Gramatica.py',166),
+  ('exp -> exp MULTIPLICACION exp','exp',3,'p_exp_aritmetica','Gramatica.py',167),
+  ('exp -> exp DIVISION exp','exp',3,'p_exp_aritmetica','Gramatica.py',168),
+  ('exp -> exp POTENCIA exp','exp',3,'p_exp_aritmetica','Gramatica.py',169),
+  ('exp -> exp MODULO exp','exp',3,'p_exp_aritmetica','Gramatica.py',170),
+  ('exp -> exp MAYOR exp','exp',3,'p_exp_aritmetica','Gramatica.py',171),
+  ('exp -> exp MENOR exp','exp',3,'p_exp_aritmetica','Gramatica.py',172),
+  ('exp -> exp IGUAL exp','exp',3,'p_exp_aritmetica','Gramatica.py',173),
+  ('exp -> exp MAYORIGUAL exp','exp',3,'p_exp_aritmetica','Gramatica.py',174),
+  ('exp -> exp MENORIGUAL exp','exp',3,'p_exp_aritmetica','Gramatica.py',175),
+  ('exp -> exp DISTINTO exp','exp',3,'p_exp_aritmetica','Gramatica.py',176),
+  ('exp -> exp ANDD exp','exp',3,'p_exp_aritmetica','Gramatica.py',177),
+  ('exp -> exp ORR exp','exp',3,'p_exp_aritmetica','Gramatica.py',178),
+  ('exp -> NOTT exp','exp',2,'p_exp_aritmetica','Gramatica.py',179),
+  ('exp -> PARIZQ exp PARDER','exp',3,'p_exp_agrupacion','Gramatica.py',209),
+  ('exp -> ENTERO','exp',1,'p_exp_valor_entero','Gramatica.py',215),
+  ('exp -> DECIMAL','exp',1,'p_exp_valor_decimal','Gramatica.py',222),
+  ('exp -> STRING','exp',1,'p_exp_valor_string','Gramatica.py',229),
+  ('exp -> CHAR','exp',1,'p_exp_valor_char','Gramatica.py',236),
+  ('exp -> VERDADERO','exp',1,'p_exp_valor_verdadero','Gramatica.py',243),
+  ('exp -> FALSO','exp',1,'p_exp_valor_falso','Gramatica.py',250),
+  ('exp -> NULO','exp',1,'p_exp_valor_nulo','Gramatica.py',257),
 ]
