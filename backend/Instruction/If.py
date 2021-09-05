@@ -3,6 +3,7 @@ from Environment.Environment import Environment
 from Abstract.Instruction import Instruction
 from Abstract.Expression import Expression
 
+
 class If(Instruction):
 
     def __init__(self, condition: Expression, block, elseBlock) -> None:
@@ -11,10 +12,10 @@ class If(Instruction):
         self.elseBlock = elseBlock
 
     def execute(self, environment: Environment):
-        
+
         tempCondition: Symbol = self.condition.execute(environment)
 
-        if(tempCondition.getValue() == True):
+        if tempCondition.getValue():
             self.block.execute(environment)
 
             tempCondition = self.condition.execute(environment)

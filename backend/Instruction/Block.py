@@ -1,7 +1,6 @@
-from Environment.Symbol import Symbol
 from Environment.Environment import Environment
 from Abstract.Instruction import Instruction
-from Abstract.Expression import Expression
+
 
 class Block(Instruction):
 

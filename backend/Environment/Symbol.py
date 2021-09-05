@@ -1,5 +1,5 @@
 class Symbol:
-    #Nuestros simbolos poseen un id, un valor y un tipo
+    # Nuestros simbolos poseen un id, un valor y un tipo
     def __init__(self, id: str, value, type):
         self.id = id
         self.value = value

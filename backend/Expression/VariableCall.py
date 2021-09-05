@@ -4,6 +4,7 @@ from Environment.Environment import Environment
 from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
 
+
 class VariableCall(Expression):
 
     def __init__(self, id: str) -> None:
@@ -12,7 +13,7 @@ class VariableCall(Expression):
     def execute(self, environment: Environment) -> Symbol:
         retValue = environment.getVariable(self.id)
 
-        if(retValue == None):
-            retValue = Primitive('nothing',typeExpression.NULO).execute(environment)
+        if retValue is None:
+            retValue = Primitive('nothing', typeExpression.NULO).execute(environment)
 
         return retValue

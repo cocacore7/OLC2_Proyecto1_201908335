@@ -1,5 +1,13 @@
-print("Hola" == "aloH");
-print("a" == "a");
-print(3 < 5);
-print(7*5+1);
-print("El CACAS");
+println("Hola" == "aloH");
+println("a" == "a");
+println(3 < 5);
+println(7*5+1);
+println("El CACAS");
+e = true;
+println(e);
+e = false;
+println(e);
+x = "MACARIO ";
+println(x + "JOTO");
+y = 3::INT64;
+println(y + 18 *7);

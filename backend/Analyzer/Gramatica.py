@@ -1,12 +1,10 @@
 reservadas = {
-    'let' : 'LET',
-    
     'true' : 'VERDADERO',
     'false' : 'FALSO',
     'nothing' : 'NULO',
 
-    'int' : 'RINT',
-    'float' : 'RFLOAT',
+    'int64' : 'RINT',
+    'float64' : 'RFLOAT',
     'string' : 'RSTRING',
     'char' : 'RCHAR',
     'bool' : 'RBOOL',
@@ -123,7 +121,11 @@ def t_ID(t):
      return t
 
 #Caracteres ignorados
-t_ignore = " \t\r\n"
+t_ignore = " \t\r"
+
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += t.value.count("\n")
 
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
@@ -151,7 +153,6 @@ from Instruction.Print import Print
 from Instruction.Print import Println
 
 from Instruction.Declaration import Declaration
-from Instruction.Assignment import Assignment
 
 from Instruction.Function import Function
 from Instruction.Parameter import Parameter
@@ -199,7 +200,6 @@ def p_instruction(t):
     '''instruction  : p_print 
                     | p_println
                     | declaration
-                    | assignment
                     | function
                     | callFuncSt
                     | whileSt
@@ -222,16 +222,15 @@ def p_println(t):
     '''
     t[0] = Println(t[3])
 
-#================================DECLARACION Y ASIGNACION
+#================================ASIGNACION
 def p_declaration(t):
-    '''declaration  : LET ID DOSPT typeDef decArray IGUAL exp PTCOMA
+    '''declaration  : ID IGUAL exp PTCOMA
+                    | ID IGUAL exp DOSPT DOSPT typeDef PTCOMA
     '''
-    t[0] = Declaration(t[2],t[4],t[7],t[5])
-
-def p_assignment(t):
-    '''assignment   : ID IGUAL exp PTCOMA
-    '''
-    t[0] = Assignment(t[1],t[3])
+    if(len(t) == 5):
+        t[0] = Declaration(t[1],t[3],None,False)
+    elif(len(t) == 8):
+        t[0] = Declaration(t[1],t[3],t[6],False)
 
 #================================FUNCIONES
 def p_function(t):
@@ -332,17 +331,17 @@ def p_listValues(t):
         t[0] = [t[1]]
 
 def p_typeDef(t):
-    '''typeDef  : RSTRING
-                | RINT
+    '''typeDef  : RINT
                 | RFLOAT
-                | RBOOL
+                | RSTRING
                 | RCHAR
+                | RBOOL
     '''
-    if t[1] == 'string' : t[0] = typeExpression.STRING
-    elif t[1] == 'int' : t[0] = typeExpression.INTEGER
-    elif t[1] == 'float' : t[0] = typeExpression.FLOAT
-    elif t[1] == 'bool' : t[0] = typeExpression.BOOL
+    if t[1] == 'int64' : t[0] = typeExpression.INTEGER
+    elif t[1] == 'float64' : t[0] = typeExpression.FLOAT
+    elif t[1] == 'string' : t[0] = typeExpression.STRING
     elif t[1] == 'char' : t[0] = typeExpression.CHAR
+    elif t[1] == 'bool' : t[0] = typeExpression.BOOL
 
 #================================EXPRESIONES ARITMETICAS, LOGICAS Y RELACIONALES
 def p_exp_aritmetica(t):

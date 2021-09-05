@@ -21,34 +21,34 @@ class Logic(Expression):
             if leftValue.getType() == typeExpression.BOOL:
                 if rightValue.getType() == typeExpression.BOOL:
                     return Symbol(
-                    "",
-                    leftValue.getValue() and rightValue.getValue(),
-                    typeExpression.BOOL
+                        "",
+                        leftValue.getValue() and rightValue.getValue(),
+                        typeExpression.BOOL
                     )
                 else:
-                    print("No Se Permite Evaluar And De "+ rightValue.getType() + " y " +leftValue.getType())
+                    print("No Se Permite Evaluar And De " + rightValue.getType() + " y " + leftValue.getType())
             else:
-                print("No Se Permite Evaluar And De "+ rightValue.getType() + " y " +leftValue.getType())
+                print("No Se Permite Evaluar And De " + rightValue.getType() + " y " + leftValue.getType())
 
         elif self.operation == logicOperation.OR:
             if leftValue.getType() == typeExpression.BOOL:
                 if rightValue.getType() == typeExpression.BOOL:
                     return Symbol(
-                    "",
-                    leftValue.getValue() or rightValue.getValue(),
-                    typeExpression.BOOL
+                        "",
+                        leftValue.getValue() or rightValue.getValue(),
+                        typeExpression.BOOL
                     )
                 else:
-                    print("No Se Permite Evaluar Or De "+ rightValue.getType() + " y " +leftValue.getType())
+                    print("No Se Permite Evaluar Or De " + rightValue.getType() + " y " + leftValue.getType())
             else:
-                print("No Se Permite Evaluar Or De "+ rightValue.getType() + " y " +leftValue.getType())
+                print("No Se Permite Evaluar Or De " + rightValue.getType() + " y " + leftValue.getType())
 
         elif self.operation == logicOperation.NOT:
             if leftValue.getType() == typeExpression.BOOL:
                 return Symbol(
-                "",
-                not leftValue.getValue(),
-                typeExpression.BOOL
+                    "",
+                    not leftValue.getValue(),
+                    typeExpression.BOOL
                 )
             else:
                 print("No Se Permite Evaluar Not De " + leftValue.getType())
