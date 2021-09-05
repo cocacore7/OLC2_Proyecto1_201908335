@@ -1851,7 +1851,6 @@ state 54
 
     PARDER          reduce using rule 20 (exp -> exp ANDD exp .)
     ANDD            reduce using rule 20 (exp -> exp ANDD exp .)
-    ORR             reduce using rule 20 (exp -> exp ANDD exp .)
     MAS             shift and go to state 24
     MENOS           shift and go to state 25
     MULTIPLICACION  shift and go to state 26
@@ -1864,6 +1863,7 @@ state 54
     MAYORIGUAL      shift and go to state 33
     MENORIGUAL      shift and go to state 34
     DISTINTO        shift and go to state 35
+    ORR             shift and go to state 37
 
   ! MAS             [ reduce using rule 20 (exp -> exp ANDD exp .) ]
   ! MENOS           [ reduce using rule 20 (exp -> exp ANDD exp .) ]
@@ -1877,8 +1877,8 @@ state 54
   ! MAYORIGUAL      [ reduce using rule 20 (exp -> exp ANDD exp .) ]
   ! MENORIGUAL      [ reduce using rule 20 (exp -> exp ANDD exp .) ]
   ! DISTINTO        [ reduce using rule 20 (exp -> exp ANDD exp .) ]
+  ! ORR             [ reduce using rule 20 (exp -> exp ANDD exp .) ]
   ! ANDD            [ shift and go to state 36 ]
-  ! ORR             [ shift and go to state 37 ]
 
 
 state 55

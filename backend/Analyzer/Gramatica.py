@@ -116,8 +116,9 @@ lexer = lex.lex()
 
 # Asociación de operadores y precedencia
 precedence = (
-    ('left', 'ANDD','ORR'),
     ('rigth','NOTT'),
+    ('left', 'ANDD'),
+    ('left', 'ORR'),
     ('left', 'IGUAL','DISTINTO'),
     ('left', 'MAYOR', 'MENOR','MAYORIGUAL','MENORIGUAL'),
     ('left', 'MAS', 'MENOS'),
