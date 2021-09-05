@@ -1148,21 +1148,9 @@ state 38
     (20) exp -> exp . ANDD exp
     (21) exp -> exp . ORR exp
 
-  ! shift/reduce conflict for MAS resolved as shift
-  ! shift/reduce conflict for MENOS resolved as shift
-  ! shift/reduce conflict for MULTIPLICACION resolved as shift
-  ! shift/reduce conflict for DIVISION resolved as shift
-  ! shift/reduce conflict for POTENCIA resolved as shift
-  ! shift/reduce conflict for MODULO resolved as shift
-  ! shift/reduce conflict for MAYOR resolved as shift
-  ! shift/reduce conflict for MENOR resolved as shift
-  ! shift/reduce conflict for IGUAL resolved as shift
-  ! shift/reduce conflict for MAYORIGUAL resolved as shift
-  ! shift/reduce conflict for MENORIGUAL resolved as shift
-  ! shift/reduce conflict for DISTINTO resolved as shift
-  ! shift/reduce conflict for ANDD resolved as shift
-  ! shift/reduce conflict for ORR resolved as shift
     PARDER          reduce using rule 22 (exp -> NOTT exp .)
+    ANDD            reduce using rule 22 (exp -> NOTT exp .)
+    ORR             reduce using rule 22 (exp -> NOTT exp .)
     MAS             shift and go to state 24
     MENOS           shift and go to state 25
     MULTIPLICACION  shift and go to state 26
@@ -1175,8 +1163,6 @@ state 38
     MAYORIGUAL      shift and go to state 33
     MENORIGUAL      shift and go to state 34
     DISTINTO        shift and go to state 35
-    ANDD            shift and go to state 36
-    ORR             shift and go to state 37
 
   ! MAS             [ reduce using rule 22 (exp -> NOTT exp .) ]
   ! MENOS           [ reduce using rule 22 (exp -> NOTT exp .) ]
@@ -1190,8 +1176,8 @@ state 38
   ! MAYORIGUAL      [ reduce using rule 22 (exp -> NOTT exp .) ]
   ! MENORIGUAL      [ reduce using rule 22 (exp -> NOTT exp .) ]
   ! DISTINTO        [ reduce using rule 22 (exp -> NOTT exp .) ]
-  ! ANDD            [ reduce using rule 22 (exp -> NOTT exp .) ]
-  ! ORR             [ reduce using rule 22 (exp -> NOTT exp .) ]
+  ! ANDD            [ shift and go to state 36 ]
+  ! ORR             [ shift and go to state 37 ]
 
 
 state 39
@@ -1939,20 +1925,3 @@ state 56
     PRINTLN         reduce using rule 7 (p_println -> PRINTLN PARIZQ exp PARDER PTCOMA .)
     $end            reduce using rule 7 (p_println -> PRINTLN PARIZQ exp PARDER PTCOMA .)
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for MAS in state 38 resolved as shift
-WARNING: shift/reduce conflict for MENOS in state 38 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLICACION in state 38 resolved as shift
-WARNING: shift/reduce conflict for DIVISION in state 38 resolved as shift
-WARNING: shift/reduce conflict for POTENCIA in state 38 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 38 resolved as shift
-WARNING: shift/reduce conflict for MAYOR in state 38 resolved as shift
-WARNING: shift/reduce conflict for MENOR in state 38 resolved as shift
-WARNING: shift/reduce conflict for IGUAL in state 38 resolved as shift
-WARNING: shift/reduce conflict for MAYORIGUAL in state 38 resolved as shift
-WARNING: shift/reduce conflict for MENORIGUAL in state 38 resolved as shift
-WARNING: shift/reduce conflict for DISTINTO in state 38 resolved as shift
-WARNING: shift/reduce conflict for ANDD in state 38 resolved as shift
-WARNING: shift/reduce conflict for ORR in state 38 resolved as shift
