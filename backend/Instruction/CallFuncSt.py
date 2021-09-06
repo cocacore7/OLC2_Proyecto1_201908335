@@ -14,8 +14,11 @@ class CallFuncSt(Instruction):
         tempFunc: Function = environment.getFunction(self.id)
         newEnvironment = Environment(environment.getGlobal())
 
+        #Verificar Que El Tamaño De Parametros y valores sean los mismos
+        #Verificar Que Tipos Sean Los Mismos
         for x in range(0, len(tempFunc.parameters)):
             tempPar: Parameter = tempFunc.parameters[x]
             tempPar.setValue(self.parameters[x])
 
-        tempFunc.executeFunction(newEnvironment)
+
+        tempFunc.executeFunction(environment.getGlobal())

@@ -5,10 +5,9 @@ from Enum.typeExpression import typeExpression
 
 class Function(Instruction):
 
-    def __init__(self, id: str, parameters, type: typeExpression, block) -> None:
+    def __init__(self, id: str, parameters, block) -> None:
         self.id = id
         self.parameters = parameters
-        self.type = type
         self.block = block
 
     def execute(self, environment: Environment):
@@ -19,6 +18,8 @@ class Function(Instruction):
         newEnv = Environment(environment)
         for parameter in self.parameters:
             parameter.execute(newEnv)
+        print(newEnv.father.variable)
+        print(newEnv.variable)
 
         for ins in self.block:
             ins.execute(newEnv)

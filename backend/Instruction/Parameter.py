@@ -1,3 +1,4 @@
+from math import fabs
 from Expression.Primitive import Primitive
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
@@ -17,11 +18,12 @@ class Parameter(Instruction):
 
     def execute(self, environment: Environment):
         tempValue = self.value.execute(environment)
-
-        if self.type.value != tempValue.getType().value:
-            print("Los tipos no coinciden")
-            environment.saveVariable('nothing', Primitive('nothing', typeExpression.NULO).execute(environment),
-                                     typeExpression.NULO)
-            return
-
-        environment.saveVariable(self.id, tempValue, self.type)
+        if self.type is not None:
+            if self.type.value != tempValue.getType().value:
+                print("Los tipos no coinciden")
+                environment.saveVariable(self.id,Primitive('nothing',typeExpression.NULO).execute(environment),typeExpression.NULO,False)
+                #Error De Tipos No Coincidentes En Valor Y Parametro
+                return
+            environment.saveVariable(self.id, tempValue, self.type,False)
+        else:
+            environment.saveVariable(self.id, tempValue, tempValue.getType(),False)

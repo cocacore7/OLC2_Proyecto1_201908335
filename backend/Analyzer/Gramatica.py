@@ -9,10 +9,20 @@ reservadas = {
     'char' : 'RCHAR',
     'bool' : 'RBOOL',
 
+    'lowercase': 'LOWERCASE',
+    'uppercase': 'UPPERCASE',
+    'log10': 'LOG10',
+    'log': 'LOG',
+    'sin': 'SIN',
+    'cos': 'COS',
+    'tan': 'TAN',
+    'sqrt': 'SQRT',
+
     'print' : 'PRINT',
     'println' : 'PRINTLN',
     
     'function' : 'FUNCTION',
+    'end': 'END',
     
     'while' : 'RWHILE',
     'if' : 'RIF',
@@ -137,6 +147,7 @@ def t_error(t):
 from Enum.arithmeticOperation import arithmeticOperation
 from Enum.relationalOperation import relationalOperation
 from Enum.LogicOperation import logicOperation
+from Enum.OperacionVaria import operacionVaria
 from Enum.typeExpression import typeExpression
 
 from Environment.Environment import Environment
@@ -145,6 +156,7 @@ from Expression.Primitive import Primitive
 from Expression.Arithmetic import Arithmetic
 from Expression.Relational import Relational
 from Expression.Logic import Logic
+from Expression.FuncionesVarias import FuncionVaria
 from Expression.VariableCall import VariableCall
 from Expression.Array import Array
 from Expression.ArrayCall import ArrayCall
@@ -234,9 +246,9 @@ def p_declaration(t):
 
 #================================FUNCIONES
 def p_function(t):
-    '''function : FUNCTION ID parametersFunc DOSPT typeDef block
+    '''function : FUNCTION ID parametersFunc block
     '''
-    t[0] = Function(t[2],t[3],t[5],t[6])
+    t[0] = Function(t[2],t[3],t[4])
 
 def p_parametersFunc(t):
     '''parametersFunc   : PARIZQ parameters PARDER
@@ -247,12 +259,6 @@ def p_parametersFunc(t):
     elif(len(t) == 3):
         t[0] = []
 
-def p_callFuncSt(t):
-    '''callFuncSt   : ID parametersCallFunc PTCOMA
-    '''
-    t[0] = CallFuncSt(t[1],t[2])
-
-#================================PARAMETROS
 def p_parameters(t):
     '''parameters   : parameters COMA parameter
                     | parameter
@@ -264,9 +270,19 @@ def p_parameters(t):
         t[0] = [t[1]]
 
 def p_parameter(t):
-    '''parameter    : ID DOSPT typeDef
+    '''parameter    : ID DOSPT DOSPT typeDef
+                    | ID
     '''
-    t[0] = Parameter(t[1],t[3])
+    if(len(t) == 5):
+        t[0] = Parameter(t[1],t[4])
+    elif(len(t) == 2):
+        t[0] = Parameter(t[1],None)
+
+#================================LLAMADA A FUNCIONES
+def p_callFuncSt(t):
+    '''callFuncSt   : ID parametersCallFunc PTCOMA
+    '''
+    t[0] = CallFuncSt(t[1],t[2])
 
 def p_parametersCallFunc(t):
     '''parametersCallFunc   : PARIZQ listValues PARDER
@@ -277,13 +293,23 @@ def p_parametersCallFunc(t):
     elif(len(t) == 3):
         t[0] = []
 
-#================================BLOQUES DE CODIGO
-def p_block(t):
-    '''block    : LLAVEIZQ instructions LLAVEDER
-                | LLAVEIZQ LLAVEDER
+def p_listValues(t):
+    '''listValues   : listValues COMA exp
+                    | exp
     '''
     if(len(t) == 4):
-        t[0] = t[2]
+        t[1].append(t[3])
+        t[0] = t[1]
+    elif(len(t) == 2):
+        t[0] = [t[1]]
+
+#================================BLOQUES DE CODIGO
+def p_block(t):
+    '''block    : instructions END PTCOMA
+                | END PTCOMA
+    '''
+    if(len(t) == 4):
+        t[0] = t[1]
     else:
         t[0] = []
 
@@ -317,31 +343,6 @@ def p_decArray(t):
         t[0] = True
     elif(len(t) == 2):
         t[0] = False
-
-
-#================================LISTAS DE VALORES PARA PARAMETROS DE FUNCION
-def p_listValues(t):
-    '''listValues   : listValues COMA exp
-                    | exp
-    '''
-    if(len(t) == 4):
-        t[1].append(t[3])
-        t[0] = t[1]
-    elif(len(t) == 2):
-        t[0] = [t[1]]
-
-def p_typeDef(t):
-    '''typeDef  : RINT
-                | RFLOAT
-                | RSTRING
-                | RCHAR
-                | RBOOL
-    '''
-    if t[1] == 'int64' : t[0] = typeExpression.INTEGER
-    elif t[1] == 'float64' : t[0] = typeExpression.FLOAT
-    elif t[1] == 'string' : t[0] = typeExpression.STRING
-    elif t[1] == 'char' : t[0] = typeExpression.CHAR
-    elif t[1] == 'bool' : t[0] = typeExpression.BOOL
 
 #================================EXPRESIONES ARITMETICAS, LOGICAS Y RELACIONALES
 def p_exp_aritmetica(t):
@@ -392,8 +393,52 @@ def p_exp_aritmetica(t):
     elif t[1] == '!':
         t[0] = Logic(t[2], t[2], logicOperation.NOT)
 
+def p_exp_uppercase(t):
+    'exp : UPPERCASE PARIZQ exp PARDER'
+    t[0] = FuncionVaria(t[3], None, operacionVaria.UPPER)
+
+def p_exp_lowercase(t):
+    'exp : LOWERCASE PARIZQ exp PARDER'
+    t[0] = FuncionVaria(t[3], None, operacionVaria.LOWER)
+
+def p_exp_sin(t):
+    'exp : SIN PARIZQ exp PARDER'
+    t[0] = FuncionVaria(t[3], None, operacionVaria.SIN)
+
+def p_exp_cos(t):
+    'exp : COS PARIZQ exp PARDER'
+    t[0] = FuncionVaria(t[3], None, operacionVaria.COS)
+
+def p_exp_tan(t):
+    'exp : TAN PARIZQ exp PARDER'
+    t[0] = FuncionVaria(t[3], None, operacionVaria.TAN)
+
+def p_exp_sqrt(t):
+    'exp : SQRT PARIZQ exp PARDER'
+    t[0] = FuncionVaria(t[3], None, operacionVaria.SQRT)
+
+def p_exp_log(t):
+    'exp : LOG10 PARIZQ exp PARDER'
+    t[0] = FuncionVaria(t[3], None, operacionVaria.LOG10)
+
+def p_exp_log10(t):
+    'exp : LOG PARIZQ exp COMA exp PARDER'
+    t[0] = FuncionVaria(t[3], t[5], operacionVaria.LOG)
 
 #================================TIPOS DE EXPRESIONES, DATOS Y ARREGLOS
+def p_typeDef(t):
+    '''typeDef  : RINT
+                | RFLOAT
+                | RSTRING
+                | RCHAR
+                | RBOOL
+    '''
+    if t[1] == 'int64' : t[0] = typeExpression.INTEGER
+    elif t[1] == 'float64' : t[0] = typeExpression.FLOAT
+    elif t[1] == 'string' : t[0] = typeExpression.STRING
+    elif t[1] == 'char' : t[0] = typeExpression.CHAR
+    elif t[1] == 'bool' : t[0] = typeExpression.BOOL
+
 def p_exp_agrupacion(t):
     'exp : PARIZQ exp PARDER'
     t[0] = t[2]

@@ -1,13 +1,27 @@
-println("Hola" == "aloH");
-println("a" == "a");
-println(3 < 5);
-println(7*5+1);
-println("El CACAS");
-e = true;
-println(e);
-e = false;
-println(e);
 x = "MACARIO ";
-println(x + "JOTO");
-y = 3::INT64;
-println(y + 18 *7);
+println(lowercase( x * "JOTO"));
+
+
+function f1(x)
+    println("Hola "*x);
+end;
+a = "CACAS";
+f1(a);
+
+function f2(x::int64,t)
+    println(7*x);
+end;
+c = 7::int64;
+f2(c,c);
+
+function f3(x)
+    println(5*x);
+end;
+d = 5::int64;
+f3(d);
+
+function f4(x::String)
+    println("Hola "*x);
+end;
+e = "ERICK";
+f4(e);

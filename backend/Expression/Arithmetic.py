@@ -6,6 +6,23 @@ from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
 
 
+def obtener(numero):
+        if numero == 0:
+            return "String"
+        elif numero == 1:
+            return "Int64"
+        elif numero == 2:
+            return "Float64"
+        elif numero == 3:
+            return "Bool"
+        elif numero == 4:
+            return "Char"
+        elif numero == 5:
+            return "Nothing"
+        elif numero == 6:
+            return "Error"
+
+
 class Arithmetic(Expression):
 
     def __init__(self, leftExp: Expression, rightExp: Expression, operation: arithmeticOperation):
@@ -22,13 +39,7 @@ class Arithmetic(Expression):
         dominant = Dominant[leftValue.getType().value][rightValue.getType().value]
 
         if self.operation == arithmeticOperation.PLUS:
-            if dominant == typeExpression.STRING:
-                return Symbol(
-                    "",
-                    str(leftValue.getValue()) + str(rightValue.getValue()),
-                    typeExpression.STRING
-                )
-            elif dominant == typeExpression.INTEGER:
+            if dominant == typeExpression.INTEGER:
                 return Symbol(
                     "",
                     int(leftValue.getValue()) + int(rightValue.getValue()),
@@ -41,7 +52,7 @@ class Arithmetic(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No es posible sumar " + leftValue.getValue() + " y " + rightValue.getValue())
+                print("No es posible sumar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
 
         elif self.operation == arithmeticOperation.MINUS:
             if dominant == typeExpression.INTEGER:
@@ -57,7 +68,7 @@ class Arithmetic(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No es posible restar " + leftValue.getValue() + " y " + rightValue.getValue())
+                print("No es posible restar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
 
         elif self.operation == arithmeticOperation.MULTIPLY:
             if dominant == typeExpression.INTEGER:
@@ -80,9 +91,9 @@ class Arithmetic(Expression):
                     typeExpression.STRING
                     )
                 else:
-                    print("No es posible multiplicar " + leftValue.getValue() + " y " + rightValue.getValue())
+                    print("No es posible multiplicar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
             else:
-                print("No es posible multiplicar " + leftValue.getValue() + " y " + rightValue.getValue())
+                print("No es posible multiplicar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
 
         elif self.operation == arithmeticOperation.DIV:
             if dominant == typeExpression.INTEGER:
@@ -93,7 +104,7 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible dividir " + leftValue.getValue() + " Entre 0")
+                    print("No es posible dividir " + str(leftValue.getValue()) + " Entre 0")
             elif dominant == typeExpression.FLOAT:
                 if int(rightValue.getValue()) != 0:
                     return Symbol(
@@ -102,9 +113,9 @@ class Arithmetic(Expression):
                     typeExpression.FLOAT
                 )
                 else:
-                    print("No es posible dividir " + leftValue.getValue() + " Entre 0")
+                    print("No es posible dividir " + str(leftValue.getValue()) + " Entre 0")
             else:
-                print("No es posible dividir " + leftValue.getValue() + " y " + rightValue.getValue())
+                print("No es posible dividir " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
 
         elif self.operation == arithmeticOperation.POT:
             if dominant == typeExpression.INTEGER:
@@ -132,7 +143,7 @@ class Arithmetic(Expression):
                 else:
                     print("No es posible Elevar String a Float")
             else:
-                print("No es posible Elevar " + leftValue.getValue() + " y " + rightValue.getValue())
+                print("No es posible Elevar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
 
         elif self.operation == arithmeticOperation.MOD:
             if dominant == typeExpression.INTEGER:
@@ -148,5 +159,5 @@ class Arithmetic(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No es posible Obtener El Modulo De " + leftValue.getValue() + " y " + rightValue.getValue())
+                print("No es posible Obtener El Modulo De " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
         return Symbol('', 0, typeExpression.INTEGER)

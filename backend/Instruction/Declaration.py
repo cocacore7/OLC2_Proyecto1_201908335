@@ -1,3 +1,4 @@
+from Expression.Primitive import Primitive
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
@@ -16,15 +17,14 @@ class Declaration(Instruction):
 
         tempValue = self.value.execute(environment)
         if self.type is not None:
-            a = obtener(self.type.value)
-            b = obtener(tempValue.getType().value)
             if self.type.value != tempValue.getType().value:
-                print("Los tipos no coinciden, Se obtuvo un " + b + ", Se Esperaba Un "+a)
-                # Almacenar Error Del Print
+                print("Los tipos no coinciden, Se obtuvo un " + obtener(tempValue.getType().value) + ", Se Esperaba Un "+obtener(self.type.value))
+                environment.saveVariable(self.id,Primitive('nothing',typeExpression.NULO).execute(environment),typeExpression.NULO,False)
+                #Almacenar Este Error
                 return
             environment.saveVariable(self.id, tempValue, self.type, self.isArray)
         else:
-            environment.saveVariable(self.id, tempValue, tempValue.getType().value, self.isArray)
+            environment.saveVariable(self.id, tempValue, tempValue.getType(), self.isArray)
 
 def obtener(numero):
         if numero == 0:

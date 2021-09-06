@@ -12,7 +12,7 @@ class Environment:
         self.father = father
 
     def getGlobal(self):
-        tempEnv: Environment = self;
+        tempEnv: Environment = self
         while tempEnv.father is not None:
             tempEnv = tempEnv.father
         return tempEnv
@@ -22,7 +22,7 @@ class Environment:
         while tempEnv is not None:
             if tempEnv.variable.get(id) is not None:
                 tempVar: Symbol = tempEnv.variable.get(id)
-                if tempVar.getType() == value.getType().value:
+                if tempVar.getType() == value.getType():
                     tempVar.value = value
                     self.variable[id] = tempVar
                     return
