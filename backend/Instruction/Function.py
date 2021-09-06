@@ -1,6 +1,5 @@
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
-from Enum.typeExpression import typeExpression
 
 
 class Function(Instruction):
@@ -18,8 +17,7 @@ class Function(Instruction):
         newEnv = Environment(environment)
         for parameter in self.parameters:
             parameter.execute(newEnv)
-        print(newEnv.father.variable)
-        print(newEnv.variable)
 
+        newEnv2 = Environment(newEnv)
         for ins in self.block:
-            ins.execute(newEnv)
+            ins.execute(newEnv2)

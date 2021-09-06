@@ -11,7 +11,8 @@ class Print(Instruction):
 
     def execute(self, environment: Environment):
         tempExp = self.expression.execute(environment)
-        contenido.append("P,"+str(tempExp.getValue()))
+        contenido.append("P," + str(tempExp.getValue()))
+        print(str(tempExp.getValue()))
 
 
 class Println(Instruction):
@@ -21,4 +22,5 @@ class Println(Instruction):
 
     def execute(self, environment: Environment):
         tempExp = self.expression.execute(environment)
-        contenido.append("L,"+str(tempExp.getValue()))
+        contenido.append("L," + str(tempExp.getValue()))
+        print(str(tempExp.getValue()))

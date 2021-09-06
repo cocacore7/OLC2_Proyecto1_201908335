@@ -17,11 +17,46 @@ class Environment:
             tempEnv = tempEnv.father
         return tempEnv
 
-    def saveVariable(self, id: str, value, type: typeExpression, isArray: bool):
-        tempEnv = self
-        while tempEnv is not None:
-            if tempEnv.variable.get(id) is not None:
-                tempVar: Symbol = tempEnv.variable.get(id)
+    def saveVariable(self, id: str, value, type: typeExpression, isArray: bool, entorno: str, tipoD: str):
+        if self.father is not None:
+            # Esto Es Para Funciones, Hacer Por Aparte Ciclos Y Condicionales
+            if tipoD == "F":
+                if entorno == "G":
+                    globalenv = self.getGlobal()
+                    if globalenv.variable.get(id) is not None:
+                        tempVar: Symbol = globalenv.variable.get(id)
+                        if tempVar.getType() == value.getType():
+                            tempVar.value = value
+                            globalenv.variable[id] = tempVar
+                            return
+                        else:
+                            # CASTEOS IMPLICITOS
+                            print("Error: la variable " + id + " no puede ser cambiada de tipo")
+                            return
+                elif entorno == "L":
+                    if self.variable.get(id) is not None:
+                        tempVar: Symbol = self.variable.get(id)
+                        if tempVar.getType() == value.getType():
+                            tempVar.value = value
+                            self.variable[id] = tempVar
+                            return
+                        else:
+                            # CASTEOS IMPLICITOS
+                            print("Error: la variable " + id + " no puede ser cambiada de tipo")
+                            return
+                    tempVar = Symbol(id, value, type)
+                    tempVar.array = isArray
+                    self.variable[id] = tempVar
+                    return
+            elif tipoD == "C":
+                if entorno == "G":
+                    globalenv = self.father.father
+                    return
+                elif entorno == "L":
+                    return
+        else:
+            if self.variable.get(id) is not None:
+                tempVar: Symbol = self.variable.get(id)
                 if tempVar.getType() == value.getType():
                     tempVar.value = value
                     self.variable[id] = tempVar
@@ -30,7 +65,21 @@ class Environment:
                     # CASTEOS IMPLICITOS
                     print("Error: la variable " + id + " no puede ser cambiada de tipo")
                     return
-            tempEnv = tempEnv.father
+            tempVar = Symbol(id, value, type)
+            tempVar.array = isArray
+            self.variable[id] = tempVar
+
+    def saveParameter(self, id: str, value, type: typeExpression, isArray: bool):
+        if self.variable.get(id) is not None:
+            tempVar: Symbol = self.variable.get(id)
+            if tempVar.getType() == value.getType():
+                tempVar.value = value
+                self.variable[id] = tempVar
+                return
+            else:
+                # CASTEOS IMPLICITOS
+                print("Error: la variable " + id + " no puede ser cambiada de tipo")
+                return
         tempVar = Symbol(id, value, type)
         tempVar.array = isArray
         self.variable[id] = tempVar

@@ -12,7 +12,6 @@ class CallFuncSt(Instruction):
 
     def execute(self, environment: Environment):
         tempFunc: Function = environment.getFunction(self.id)
-        newEnvironment = Environment(environment.getGlobal())
 
         #Verificar Que El Tamaño De Parametros y valores sean los mismos
         #Verificar Que Tipos Sean Los Mismos

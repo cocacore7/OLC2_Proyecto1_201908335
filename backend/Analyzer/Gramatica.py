@@ -22,11 +22,8 @@ reservadas = {
     'println' : 'PRINTLN',
     
     'function' : 'FUNCTION',
+    'global': 'GLOBAL',
     'end': 'END',
-    
-    'while' : 'RWHILE',
-    'if' : 'RIF',
-    'else' : 'RELSE'
 }
 
 tokens = [
@@ -127,7 +124,7 @@ def t_CHAR(t):
 
 def t_ID(t):
      r'[a-zA-Z_][a-zA-Z_0-9]*'
-     t.type = reservadas.get(t.value.lower(),'ID') 
+     t.type = reservadas.get(t.value.lower(),'ID')
      return t
 
 #Caracteres ignorados
@@ -169,10 +166,6 @@ from Instruction.Declaration import Declaration
 from Instruction.Function import Function
 from Instruction.Parameter import Parameter
 from Instruction.CallFuncSt import CallFuncSt
-from Instruction.Block import Block
-
-from Instruction.If import If
-from Instruction.While import While
 
 import Analyzer.ply.lex as lex
 lexer = lex.lex()
@@ -207,6 +200,16 @@ def p_instructions(t):
     elif(len(t) == 2):
         t[0] = [t[1]]
 
+def p_instructionsf(t):
+    '''instructionsf : instructionsf instructionf
+                     | instructionf
+    '''
+    if(len(t) == 3):
+        t[1].append(t[2])
+        t[0] = t[1]
+    elif(len(t) == 2):
+        t[0] = [t[1]]
+
 #================================INSTRUCCIONES
 def p_instruction(t):
     '''instruction  : p_print 
@@ -214,8 +217,13 @@ def p_instruction(t):
                     | declaration
                     | function
                     | callFuncSt
-                    | whileSt
-                    | ifSt
+    '''
+    t[0] = t[1]
+
+def p_instructionf(t):
+    '''instructionf : p_print
+                    | p_println
+                    | declarationf
     '''
     t[0] = t[1]
 
@@ -234,19 +242,31 @@ def p_println(t):
     '''
     t[0] = Println(t[3])
 
-#================================ASIGNACION
+#================================ASIGNACIONES
 def p_declaration(t):
     '''declaration  : ID IGUAL exp PTCOMA
                     | ID IGUAL exp DOSPT DOSPT typeDef PTCOMA
     '''
     if(len(t) == 5):
-        t[0] = Declaration(t[1],t[3],None,False)
+        t[0] = Declaration(t[1],t[3],None,False,"N","N")
     elif(len(t) == 8):
-        t[0] = Declaration(t[1],t[3],t[6],False)
+        t[0] = Declaration(t[1],t[3],t[6],False,"N","N")
+
+def p_declarationf(t):
+    '''declarationf : ID IGUAL exp PTCOMA
+                    | GLOBAL ID IGUAL exp PTCOMA
+                    | ID IGUAL exp DOSPT DOSPT typeDef PTCOMA
+    '''
+    if(len(t) == 5):
+        t[0] = Declaration(t[1],t[3],None,False,"L","F")
+    elif(len(t) == 8):
+        t[0] = Declaration(t[1],t[3],t[6],False,"L","F")
+    elif(len(t) == 6):
+        t[0] = Declaration(t[2],t[4],None,False,"G","F")
 
 #================================FUNCIONES
 def p_function(t):
-    '''function : FUNCTION ID parametersFunc block
+    '''function : FUNCTION ID parametersFunc blockf
     '''
     t[0] = Function(t[2],t[3],t[4])
 
@@ -274,9 +294,9 @@ def p_parameter(t):
                     | ID
     '''
     if(len(t) == 5):
-        t[0] = Parameter(t[1],t[4])
+        t[0] = Parameter(t[1],t[4],False)
     elif(len(t) == 2):
-        t[0] = Parameter(t[1],None)
+        t[0] = Parameter(t[1],None,False)
 
 #================================LLAMADA A FUNCIONES
 def p_callFuncSt(t):
@@ -304,8 +324,8 @@ def p_listValues(t):
         t[0] = [t[1]]
 
 #================================BLOQUES DE CODIGO
-def p_block(t):
-    '''block    : instructions END PTCOMA
+def p_blockf(t):
+    '''blockf   : instructionsf END PTCOMA
                 | END PTCOMA
     '''
     if(len(t) == 4):
@@ -313,31 +333,10 @@ def p_block(t):
     else:
         t[0] = []
 
-#================================INSTRUCCION WHILE
-def p_whileSt(t):
-    '''whileSt  : RWHILE PARIZQ exp PARDER block 
-    '''
-    t[0] = While(t[3],t[5])
-
-#================================INSTRUCCIONES IF
-def p_ifSt(t):
-    ''' ifSt  : RIF PARIZQ exp PARDER block elseSt
-    '''
-    t[0] = If(t[3],Block(t[5]),t[6])
-
-def p_elseSt(t):
-    '''elseSt   : RELSE block
-                | ifSt
-    '''
-    if(len(t) == 2):
-        t[0] = t[2]
-    elif(len(t) == 3):
-        t[0] = Block(t[2])
-
 #================================ARREGLOS
 def p_decArray(t):
     '''decArray : CORIZQ CORDER
-                | empty 
+                | empty
     '''
     if(len(t) == 3):
         t[0] = True
@@ -486,13 +485,13 @@ def p_exp_variable(t):
         t[0] = VariableCall(t[1])
     elif(len(t) == 3):
         t[0] = t[2]
-        
+
 def p_exp_array(t):
     'exp : CORIZQ listValues CORDER'
     t[0] = Array(t[2])
 
 def p_list_array(t):
-    '''listArray    : listArray  CORIZQ exp CORDER 
+    '''listArray    : listArray  CORIZQ exp CORDER
                     | CORIZQ exp CORDER
     '''
     if(len(t) == 5):

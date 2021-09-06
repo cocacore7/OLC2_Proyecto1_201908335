@@ -4,6 +4,8 @@ println(lowercase( x * "JOTO"));
 
 function f1(x)
     println("Hola "*x);
+    x = 85::int64;
+    println(x+5);
 end;
 a = "CACAS";
 f1(a);
