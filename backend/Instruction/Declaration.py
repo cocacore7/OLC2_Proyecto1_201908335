@@ -17,17 +17,26 @@ class Declaration(Instruction):
 
     def execute(self, environment: Environment):
 
-        tempValue = self.value.execute(environment)
-        if self.type is not None:
-            if self.type.value != tempValue.getType().value:
-                print("Los tipos no coinciden, Se obtuvo un " + obtener(
-                    tempValue.getType().value) + ", Se Esperaba Un " + obtener(self.type.value))
-                environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),typeExpression.NULO, False, self.tipoD,self.entorno)
-                # Almacenar Este Error
-                return
-            environment.saveVariable(self.id, tempValue, self.type, self.isArray, self.tipoD,self.entorno)
+        if self.value is not None:
+            tempValue = self.value.execute(environment)
+            if self.type is not None:
+                if self.type != typeExpression.NULO:
+                    if self.type.value != tempValue.getType().value:
+                        print("Los tipos no coinciden, Se obtuvo un " + obtener(
+                            tempValue.getType().value) + ", Se Esperaba Un " + obtener(self.type.value))
+                        environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),typeExpression.NULO, False, self.tipoD, self.entorno)
+                        return
+                    environment.saveVariable(self.id, tempValue, self.type, self.isArray, self.tipoD,self.entorno)
+                else:
+                    environment.saveVariable(self.id, tempValue, tempValue.getType(), self.isArray, self.tipoD, self.entorno)
+            else:
+                print("Tipo De Dato Incorrecto, Se Esperaba: String, Int64, Float64, Bool o Char" )
+                environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
+                                         typeExpression.NULO, False, self.tipoD, self.entorno)
         else:
-            environment.saveVariable(self.id, tempValue, tempValue.getType(), self.isArray, self.tipoD,self.entorno)
+
+            environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
+                                     typeExpression.NULO, False, self.tipoD, self.entorno)
 
 
 def obtener(numero):

@@ -22,7 +22,7 @@ class Parameter(Instruction):
         if self.type is not None:
             if self.type.value != tempValue.getType().value:
                 print("Los tipos no coinciden")
-                environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
+                environment.saveParameter(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
                                          typeExpression.NULO, False)
                 # Error De Tipos No Coincidentes En Valor Y Parametro
                 return

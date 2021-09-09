@@ -8,7 +8,6 @@ class Block(Instruction):
         self.block = block
 
     def execute(self, environment: Environment):
-        newEnv = Environment(environment)
 
         for ins in self.block:
-            ins.execute(newEnv)
+            ins.execute(environment)

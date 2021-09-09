@@ -8,6 +8,8 @@ class Environment:
         # Usamos un diccionario para nuestra tabla de simbolos, guardara el id como clave y como cuerpo un simbolo
         self.variable = {}
         self.function = {}
+        self.globalAccess = {}
+        self.localAccess = {}
         # Father es el entorno exterior al cual podemos acceder
         self.father = father
 
@@ -30,9 +32,97 @@ class Environment:
                             globalenv.variable[id] = tempVar
                             return
                         else:
-                            # CASTEOS IMPLICITOS
-                            print("Error: la variable " + id + " no puede ser cambiada de tipo")
+                            if tempVar.getType() == typeExpression.NULO:
+                                tempVar.value = value
+                                globalenv.variable[id] = tempVar
+                                return
+                            else:
+                                # CASTEOS IMPLICITOS
+                                print("Error: la variable " + id + " no puede ser cambiada de tipo")
+                                return
+                    tempVar = Symbol(id, value, type)
+                    tempVar.array = isArray
+                    globalenv.variable[id] = tempVar
+                    self.globalAccess[id] = id
+                elif entorno == "L":
+                    if self.globalAccess.get(id) is None:
+                        if self.variable.get(id) is not None:
+                            tempVar: Symbol = self.variable.get(id)
+                            if tempVar.getType() == value.getType():
+                                tempVar.value = value
+                                self.variable[id] = tempVar
+                                return
+                            else:
+                                if tempVar.getType() == typeExpression.NULO:
+                                    tempVar.value = value
+                                    self.variable[id] = tempVar
+                                    return
+                                else:
+                                    # CASTEOS IMPLICITOS
+                                    print("Error: la variable " + id + " no puede ser cambiada de tipo")
+                                    return
+                        tempVar = Symbol(id, value, type)
+                        tempVar.array = isArray
+                        self.variable[id] = tempVar
+                        return
+                    else:
+                        globalenv = self.getGlobal()
+                        tempVar: Symbol = globalenv.variable.get(id)
+                        if tempVar.getType() == value.getType():
+                            tempVar.value = value
+                            globalenv.variable[id] = tempVar
                             return
+                        else:
+                            if tempVar.getType() == typeExpression.NULO:
+                                tempVar.value = value
+                                globalenv.variable[id] = tempVar
+                                return
+                            else:
+                                # CASTEOS IMPLICITOS
+                                print("Error: la variable " + id + " no puede ser cambiada de tipo")
+                                return
+            elif tipoD == "C":
+                if entorno == "G":
+                    if self.localAccess.get(id) is None:
+                        tempEnv = self.father
+                        while tempEnv is not None:
+                            if tempEnv.variable.get(id) is not None:
+                                tempVar: Symbol = tempEnv.variable.get(id)
+                                if tempVar.getType() == value.getType():
+                                    tempVar.value = value
+                                    tempEnv.variable[id] = tempVar
+                                    return
+                                else:
+                                    if tempVar.getType() == typeExpression.NULO:
+                                        tempVar.value = value
+                                        tempEnv.variable[id] = tempVar
+                                        return
+                                    else:
+                                        # CASTEOS IMPLICITOS
+                                        print("Error: la variable " + id + " no puede ser cambiada de tipo")
+                                        return
+                            tempEnv = tempEnv.father
+                        globalenv = self.getGlobal()
+                        tempVar = Symbol(id, value, type)
+                        tempVar.array = isArray
+                        globalenv.variable[id] = tempVar
+                        return
+                    else:
+                        tempVar: Symbol = self.variable.get(id)
+                        if tempVar.getType() == value.getType():
+                            tempVar.value = value
+                            self.variable[id] = tempVar
+                            return
+                        else:
+                            if tempVar.getType() == typeExpression.NULO:
+                                tempVar.value = value
+                                self.variable[id] = tempVar
+                                return
+                            else:
+                                # CASTEOS IMPLICITOS
+                                print("Error: la variable " + id + " no puede ser cambiada de tipo")
+                                return
+                    return
                 elif entorno == "L":
                     if self.variable.get(id) is not None:
                         tempVar: Symbol = self.variable.get(id)
@@ -41,18 +131,18 @@ class Environment:
                             self.variable[id] = tempVar
                             return
                         else:
-                            # CASTEOS IMPLICITOS
-                            print("Error: la variable " + id + " no puede ser cambiada de tipo")
-                            return
+                            if tempVar.getType() == typeExpression.NULO:
+                                tempVar.value = value
+                                self.variable[id] = tempVar
+                                return
+                            else:
+                                # CASTEOS IMPLICITOS
+                                print("Error: la variable " + id + " no puede ser cambiada de tipo")
+                                return
                     tempVar = Symbol(id, value, type)
                     tempVar.array = isArray
                     self.variable[id] = tempVar
-                    return
-            elif tipoD == "C":
-                if entorno == "G":
-                    globalenv = self.father.father
-                    return
-                elif entorno == "L":
+                    self.localAccess[id] = id
                     return
         else:
             if self.variable.get(id) is not None:

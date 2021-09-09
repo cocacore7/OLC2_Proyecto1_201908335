@@ -1,29 +1,11 @@
-x = "MACARIO ";
-println(lowercase( x * "JOTO"));
-
-
-function f1(x)
-    println("Hola "*x);
-    x = 85::int64;
-    println(x+5);
+num1 = 1;
+while num1 <= 9
+    num2 = 1;
+    while num2 <= num1
+        print(string(num2)*"*"*string(num1)*"=");
+        println(num1*num2);
+        num2 = num2 + 1;
+    end;
+    println("_");
+    num1 = num1 +1;
 end;
-a = "CACAS";
-f1(a);
-
-function f2(x::int64,t)
-    println(7*x);
-end;
-c = 7::int64;
-f2(c,c);
-
-function f3(x)
-    println(5*x);
-end;
-d = 5::int64;
-f3(d);
-
-function f4(x::String)
-    println("Hola "*x);
-end;
-e = "ERICK";
-f4(e);

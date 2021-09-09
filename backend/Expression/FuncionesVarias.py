@@ -8,7 +8,7 @@ import math
 
 class FuncionVaria(Expression):
 
-    def __init__(self, leftExp: Expression,rigthExp: Expression, operation: operacionVaria) -> None:
+    def __init__(self, leftExp: Expression, rigthExp: Expression, operation: operacionVaria) -> None:
         self.leftExp = leftExp
         self.rigthExp = rigthExp
         self.operation = operation
