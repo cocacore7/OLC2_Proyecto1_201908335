@@ -24,7 +24,6 @@ class Parameter(Instruction):
                 print("Los tipos no coinciden")
                 environment.saveParameter(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
                                          typeExpression.NULO, False)
-                # Error De Tipos No Coincidentes En Valor Y Parametro
                 return
             environment.saveParameter(self.id, tempValue, self.type, self.isArray)
         else:

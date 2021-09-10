@@ -23,14 +23,6 @@ def obtener(numero):
         return "Error"
 
 
-def Error():
-    return Symbol(
-        "",
-        'nothing',
-        typeExpression.NULO
-    )
-
-
 class FuncionVaria2(Expression):
 
     def __init__(self, type: typeExpression, rigthExp: Expression, operation: operacionVaria) -> None:
@@ -40,10 +32,7 @@ class FuncionVaria2(Expression):
 
     def execute(self, environment: Environment) -> Symbol:
 
-        if self.type is None:
-            Tipo = typeExpression.ERROR
-        else:
-            Tipo = self.type
+        Tipo = self.type
         rigthValue = self.rigthExp.execute(environment)
 
         if self.operation == operacionVaria.PARSE:
@@ -58,7 +47,7 @@ class FuncionVaria2(Expression):
                     except ValueError:
                         print("String Incorrecto, No Es Un Numero Int64: " + rigthValue.getValue())
                 else:
-                    print("Dato a Parsear Incorrecto " + rigthValue.getType() + ", Se Esperaba String")
+                    print("Dato a Parsear Incorrecto " + str(rigthValue.getValue()) + ", Se Esperaba String")
             elif Tipo == typeExpression.FLOAT:
                 if rigthValue.getType() == typeExpression.STRING:
                     try:
@@ -70,14 +59,9 @@ class FuncionVaria2(Expression):
                     except ValueError:
                         print("String Incorrecto, No Es Un Numero Float64: " + rigthValue.getValue())
                 else:
-                    print("Dato a Parsear Incorrecto " + rigthValue.getType() + ", Se Esperaba String")
+                    print("Dato a Parsear Incorrecto " + str(rigthValue.getValue()) + ", Se Esperaba String")
             else:
-                if Tipo == typeExpression.ERROR:
-                    print("Tipo De Dato A Parsear Incorrecto: Error, Se Esperaba Int64 o Float64")
-                    return Error()
-                else:
-                    print("Tipo De Dato A Parsear Incorrecto: " + obtener(Tipo.value) + ", Se Esperaba Int64 o Float64")
-                    return Error()
+                print("Tipo De Dato A Parsear Incorrecto: " + obtener(Tipo.value) + ", Se Esperaba Int64 o Float64")
 
         elif self.operation == operacionVaria.TRUNC:
             if Tipo == typeExpression.INTEGER:
@@ -88,14 +72,9 @@ class FuncionVaria2(Expression):
                         typeExpression.INTEGER
                     )
                 else:
-                    print("Dato a Parsear Incorrecto " + rigthValue.getType() + ", Se Esperaba Float64")
+                    print("Dato a Parsear Incorrecto " + str(rigthValue.getValue()) + ", Se Esperaba Float64")
             else:
-                if Tipo == typeExpression.ERROR:
-                    print("Tipo De Dato A Truncar Incorrecto: Error, Se Esperaba Int64")
-                    return Error()
-                else:
-                    print("Tipo De Dato A Truncar Incorrecto: " + obtener(Tipo.value) + ", Se Esperaba Int64")
-                    return Error()
+                print("Tipo De Dato A Truncar Incorrecto: " + obtener(Tipo.value) + ", Se Esperaba Int64")
 
         elif self.operation == operacionVaria.FLOAT:
             if rigthValue.getType() == typeExpression.INTEGER:
@@ -105,7 +84,7 @@ class FuncionVaria2(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("Dato A Convertir Float Incorrecto: " + rigthValue.getType() + ", Se Esperaba Int64")
+                print("Dato A Convertir Float Incorrecto: " + str(rigthValue.getValue()) + ", Se Esperaba Int64")
 
         elif self.operation == operacionVaria.STRING:
             if rigthValue.getType() == typeExpression.STRING:
@@ -139,7 +118,7 @@ class FuncionVaria2(Expression):
                     typeExpression.STRING
                 )
             else:
-                print("Dato A Convertir String Incorrecto: " + rigthValue.getType())
+                print("Dato A Convertir String Incorrecto: " + str(rigthValue.getValue()))
 
         elif self.operation == operacionVaria.TYPEOF:
             if rigthValue.getType() == typeExpression.STRING:
@@ -173,4 +152,6 @@ class FuncionVaria2(Expression):
                     typeExpression.STRING
                 )
             else:
-                print("Dato A Convertir String Incorrecto: " + rigthValue.getType())
+                print("Dato A Convertir String Incorrecto: " + str(rigthValue.getValue()))
+
+        return Symbol("", 'nothing', typeExpression.NULO)

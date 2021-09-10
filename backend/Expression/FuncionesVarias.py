@@ -16,8 +16,7 @@ class FuncionVaria(Expression):
     def execute(self, environment: Environment) -> Symbol:
 
         leftValue = self.leftExp.execute(environment)
-        if self.rigthExp is not None:
-            rigthValue = self.rigthExp.execute(environment)
+        rigthValue = self.rigthExp.execute(environment)
 
         if self.operation == operacionVaria.LOWER:
             if leftValue.getType() == typeExpression.STRING:
@@ -27,7 +26,7 @@ class FuncionVaria(Expression):
                     typeExpression.STRING
                 )
             else:
-                print("No Se Puede Realizar LowerCase De " + leftValue.getType())
+                print("No Se Puede Realizar LowerCase De " + str(leftValue.getValue()))
 
         elif self.operation == operacionVaria.UPPER:
             if leftValue.getType() == typeExpression.STRING:
@@ -37,7 +36,7 @@ class FuncionVaria(Expression):
                     typeExpression.STRING
                 )
             else:
-                print("No Se Puede Realizar UpperCase De " + leftValue.getType())
+                print("No Se Puede Realizar UpperCase De " + str(leftValue.getValue()))
 
         elif self.operation == operacionVaria.LOG10:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -53,41 +52,41 @@ class FuncionVaria(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No Se Puede Realizar LOG10 De " + leftValue.getType())
+                print("No Se Puede Realizar LOG10 De " + str(leftValue.getValue()))
 
         elif self.operation == operacionVaria.LOG:
             if leftValue.getType() == typeExpression.INTEGER:
                 if rigthValue.getType() == typeExpression.INTEGER:
                     return Symbol(
                         "",
-                        math.log(int(leftValue.getValue()),int(rigthValue.getValue())),
+                        math.log(int(rigthValue.getValue()),int(leftValue.getValue())),
                         typeExpression.FLOAT
                     )
                 elif rigthValue.getType() == typeExpression.FLOAT:
                     return Symbol(
                         "",
-                        math.log(int(leftValue.getValue()),float(rigthValue.getValue())),
+                        math.log(int(rigthValue.getValue()),float(leftValue.getValue())),
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No Se Puede Realizar LOG De " + leftValue.getType() + " Con base " + rigthValue.getType())
+                    print("No Se Puede Realizar LOG De " + str(leftValue.getValue()) + " Con base " + str(rigthValue.getValue()))
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rigthValue.getType() == typeExpression.INTEGER:
                     return Symbol(
                         "",
-                        math.log(float(leftValue.getValue()),int(rigthValue.getValue())),
+                        math.log(float(rigthValue.getValue()),int(leftValue.getValue())),
                         typeExpression.FLOAT
                     )
                 elif rigthValue.getType() == typeExpression.FLOAT:
                     return Symbol(
                         "",
-                        math.log(float(leftValue.getValue()),float(rigthValue.getValue())),
+                        math.log(float(rigthValue.getValue()),float(leftValue.getValue())),
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No Se Puede Realizar LOG De " + leftValue.getType() + " Con base " + rigthValue.getType())
+                    print("No Se Puede Realizar LOG De " + str(leftValue.getValue()) + " Con base " + str(rigthValue.getValue()))
             else:
-                print("No Se Puede Realizar LOG De " + leftValue.getType() + " Con base " + rigthValue.getType())
+                print("No Se Puede Realizar LOG De " + str(leftValue.getValue()) + " Con base " + str(rigthValue.getValue()))
 
         elif self.operation == operacionVaria.SIN:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -103,7 +102,7 @@ class FuncionVaria(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No Se Puede Realizar Seno De " + leftValue.getType())
+                print("No Se Puede Realizar Seno De " + str(leftValue.getValue()))
 
         elif self.operation == operacionVaria.COS:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -119,7 +118,7 @@ class FuncionVaria(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No Se Puede Realizar Coseno De " + leftValue.getType())
+                print("No Se Puede Realizar Coseno De " + str(leftValue.getValue()))
 
         elif self.operation == operacionVaria.TAN:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -135,7 +134,7 @@ class FuncionVaria(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No Se Puede Realizar Tangente De " + leftValue.getType())
+                print("No Se Puede Realizar Tangente De " + str(leftValue.getValue()))
 
         elif self.operation == operacionVaria.SQRT:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -151,4 +150,6 @@ class FuncionVaria(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No Se Puede Realizar Raiz Cuadrada De " + leftValue.getType())
+                print("No Se Puede Realizar Raiz Cuadrada De " + str(leftValue.getValue()))
+
+        return Symbol("", 'nothing', typeExpression.NULO)

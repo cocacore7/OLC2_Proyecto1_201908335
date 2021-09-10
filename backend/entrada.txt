@@ -1,11 +1,2 @@
-num1 = 1;
-while num1 <= 9
-    num2 = 1;
-    while num2 <= num1
-        print(string(num2)*"*"*string(num1)*"=");
-        println(num1*num2);
-        num2 = num2 + 1;
-    end;
-    println("_");
-    num1 = num1 +1;
-end;
+
+

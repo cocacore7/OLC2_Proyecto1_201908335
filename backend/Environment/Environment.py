@@ -5,7 +5,7 @@ from Environment.Symbol import Symbol
 class Environment:
 
     def __init__(self, father):
-        # Usamos un diccionario para nuestra tabla de simbolos, guardara el id como clave y como cuerpo un simbolo
+        # Usamos un diccionario para nuestra tabla de simbolos, Funciones Creadas, Accesos locales y glovales
         self.variable = {}
         self.function = {}
         self.globalAccess = {}

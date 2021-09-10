@@ -17,4 +17,3 @@ class operacionVaria(enum.Enum):
     TYPEOF = 12
     PUSH = 13
     POP = 14
-    LENGHT = 15

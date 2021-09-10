@@ -27,12 +27,12 @@ class Relational(Expression):
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Mayor Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             elif leftValue.getType() == typeExpression.INTEGER:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
                         "",
-                        float(leftValue.getValue()) > float(rightValue.getValue()),
+                        int(leftValue.getValue()) > float(rightValue.getValue()),
                         typeExpression.BOOL
                     )
                 elif rightValue.getType() == typeExpression.INTEGER:
@@ -43,7 +43,7 @@ class Relational(Expression):
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Mayor Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -54,14 +54,14 @@ class Relational(Expression):
                 elif rightValue.getType() == typeExpression.INTEGER:
                     return Symbol(
                         "",
-                        float(leftValue.getValue()) > float(rightValue.getValue()),
+                        float(leftValue.getValue()) > int(rightValue.getValue()),
                         typeExpression.BOOL
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Mayor Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             else:
-                print("No Se Permite Evaluar Operacion Mayor Con " + rightValue.getType() + " y " + leftValue.getType())
+                print("No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
 
         elif self.operation == relationalOperation.MENOR:
             if leftValue.getType() == typeExpression.STRING:
@@ -73,12 +73,12 @@ class Relational(Expression):
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Menor Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             elif leftValue.getType() == typeExpression.INTEGER:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
                         "",
-                        float(leftValue.getValue()) < float(rightValue.getValue()),
+                        int(leftValue.getValue()) < float(rightValue.getValue()),
                         typeExpression.BOOL
                     )
                 elif rightValue.getType() == typeExpression.INTEGER:
@@ -89,7 +89,7 @@ class Relational(Expression):
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Menor Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -100,21 +100,14 @@ class Relational(Expression):
                 elif rightValue.getType() == typeExpression.INTEGER:
                     return Symbol(
                         "",
-                        float(leftValue.getValue()) < float(rightValue.getValue()),
+                        float(leftValue.getValue()) < int(rightValue.getValue()),
                         typeExpression.BOOL
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Menor Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             else:
-                print("No Se Permite Evaluar Operacion Menor Con " + rightValue.getType() + " y " + leftValue.getType())
-
-        elif self.operation == relationalOperation.IGUAL:
-            return Symbol(
-                "",
-                leftValue.getValue() == rightValue.getValue(),
-                typeExpression.BOOL
-            )
+                print("No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
 
         elif self.operation == relationalOperation.MAYORIGUAL:
             if leftValue.getType() == typeExpression.STRING:
@@ -126,12 +119,12 @@ class Relational(Expression):
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Mayor Igual Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Mayor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             elif leftValue.getType() == typeExpression.INTEGER:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
                         "",
-                        float(leftValue.getValue()) >= float(rightValue.getValue()),
+                        int(leftValue.getValue()) >= float(rightValue.getValue()),
                         typeExpression.BOOL
                     )
                 elif rightValue.getType() == typeExpression.INTEGER:
@@ -142,7 +135,7 @@ class Relational(Expression):
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Mayor Igual Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Mayor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -153,15 +146,15 @@ class Relational(Expression):
                 elif rightValue.getType() == typeExpression.INTEGER:
                     return Symbol(
                         "",
-                        float(leftValue.getValue()) >= float(rightValue.getValue()),
+                        float(leftValue.getValue()) >= int(rightValue.getValue()),
                         typeExpression.BOOL
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Mayor Igual Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Mayor Igual Con " + rightValue.getValue() + " y " + leftValue.getValue())
             else:
                 print(
-                    "No Se Permite Evaluar Operacion Mayor Con Igual " + rightValue.getType() + " y " + leftValue.getType())
+                    "No Se Permite Evaluar Operacion Mayor Con Igual " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
 
         elif self.operation == relationalOperation.MENORIGUAL:
             if leftValue.getType() == typeExpression.STRING:
@@ -173,12 +166,12 @@ class Relational(Expression):
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Menor Igual Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             elif leftValue.getType() == typeExpression.INTEGER:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
                         "",
-                        float(leftValue.getValue()) <= float(rightValue.getValue()),
+                        int(leftValue.getValue()) <= float(rightValue.getValue()),
                         typeExpression.BOOL
                     )
                 elif rightValue.getType() == typeExpression.INTEGER:
@@ -189,7 +182,7 @@ class Relational(Expression):
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Menor Igual Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -200,15 +193,22 @@ class Relational(Expression):
                 elif rightValue.getType() == typeExpression.INTEGER:
                     return Symbol(
                         "",
-                        float(leftValue.getValue()) <= float(rightValue.getValue()),
+                        float(leftValue.getValue()) <= int(rightValue.getValue()),
                         typeExpression.BOOL
                     )
                 else:
                     print(
-                        "No Se Permite Evaluar Operacion Menor Igual Con " + rightValue.getType() + " y " + leftValue.getType())
+                        "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             else:
                 print(
-                    "No Se Permite Evaluar Operacion Menor Igual Con " + rightValue.getType() + " y " + leftValue.getType())
+                    "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+
+        elif self.operation == relationalOperation.IGUAL:
+            return Symbol(
+                "",
+                leftValue.getValue() == rightValue.getValue(),
+                typeExpression.BOOL
+            )
 
         elif self.operation == relationalOperation.DISTINTO:
             return Symbol(
@@ -216,3 +216,5 @@ class Relational(Expression):
                 leftValue.getValue() != rightValue.getValue(),
                 typeExpression.BOOL
             )
+
+        return Symbol("", 'nothing', typeExpression.NULO)

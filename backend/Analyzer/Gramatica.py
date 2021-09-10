@@ -3,11 +3,11 @@ reservadas = {
     'false': 'FALSO',
     'nothing': 'NULO',
 
-    'int64': 'RINT',
-    'float64': 'RFLOAT',
-    'string': 'RSTRING',
-    'char': 'RCHAR',
-    'bool': 'RBOOL',
+    'Int64': 'RINT',
+    'Float64': 'RFLOAT',
+    'String': 'RSTRING',
+    'Char': 'RCHAR',
+    'Bool': 'RBOOL',
 
     'lowercase': 'LOWERCASE',
     'uppercase': 'UPPERCASE',
@@ -19,7 +19,8 @@ reservadas = {
     'sqrt': 'SQRT',
     'parse': 'PARSE',
     'trunc': 'TRUNC',
-    'float': 'FLOAT',
+    'float': 'MFLOAT',
+    'string': 'MSTRING',
     'typeof': 'TYPEOF',
 
     'print': 'PRINT',
@@ -134,8 +135,13 @@ def t_CHAR(t):
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reservadas.get(t.value.lower(), 'ID')
+    t.type = reservadas.get(t.value, 'ID')
     return t
+
+
+def t_COMENTARIO_SIMPLE(t):
+    r'\#.*\n'
+    t.lexer.lineno += 1
 
 
 # Caracteres ignorados
@@ -190,12 +196,12 @@ lexer = lex.lex()
 precedence = (
     ('left', 'ANDD'),
     ('left', 'ORR'),
-    ('left', 'NOTT'),
-    ('left', 'IGUAL', 'DISTINTO'),
-    ('left', 'MAYOR', 'MENOR', 'MAYORIGUAL', 'MENORIGUAL'),
+    ('right', 'UNOT'),
+    ('left', 'IGUALIGUAL', 'DISTINTO', 'MAYOR', 'MENOR', 'MAYORIGUAL', 'MENORIGUAL'),
     ('left', 'MAS', 'MENOS'),
     ('left', 'MULTIPLICACION', 'DIVISION', 'MODULO'),
-    ('left', 'POTENCIA'),
+    ('nonassoc', 'POTENCIA'),
+    ('right', 'UMENOS')
 )
 
 
@@ -274,11 +280,6 @@ def p_instructionc(t):
                     | whileSt
     '''
     t[0] = t[1]
-
-
-def p_empty(t):
-    'empty :'
-    pass
 
 
 # ================================INSTRUCCIONES IMPRIMIR
@@ -560,6 +561,7 @@ def p_whileSt(t):
     '''
     t[0] = While(t[2], t[3])
 
+
 # ================================BLOQUES DE CODIGO
 def p_blockf(t):
     '''blockf   : instructionsf END PTCOMA
@@ -594,14 +596,6 @@ def p_blockifc(t):
 
 
 # ================================ARREGLOS
-def p_decArray(t):
-    '''decArray : CORIZQ CORDER
-                | empty
-    '''
-    if len(t) == 3:
-        t[0] = True
-    elif len(t) == 2:
-        t[0] = False
 
 
 # ================================EXPRESIONES ARITMETICAS, LOGICAS Y RELACIONALES
@@ -612,15 +606,7 @@ def p_exp_aritmetica(t):
             | exp DIVISION exp
             | exp POTENCIA exp
             | exp MODULO exp
-            | exp MAYOR exp
-            | exp MENOR exp
-            | exp IGUALIGUAL exp
-            | exp MAYORIGUAL exp
-            | exp MENORIGUAL exp
-            | exp DISTINTO exp
-            | exp ANDD exp
-            | exp ORR exp
-            | NOTT exp
+            | MENOS exp %prec UMENOS
     '''
     if t[2] == '+':
         t[0] = Arithmetic(t[1], t[3], arithmeticOperation.PLUS)
@@ -634,19 +620,38 @@ def p_exp_aritmetica(t):
         t[0] = Arithmetic(t[1], t[3], arithmeticOperation.POT)
     elif t[2] == '%':
         t[0] = Arithmetic(t[1], t[3], arithmeticOperation.MOD)
+    elif t[1] == '-':
+        t[0] = Arithmetic(t[2], t[2], arithmeticOperation.NEG)
+
+
+def p_exp_relacional(t):
+    '''exp  : exp IGUALIGUAL exp
+            | exp DISTINTO exp
+            | exp MAYOR exp
+            | exp MENOR exp
+            | exp MAYORIGUAL exp
+            | exp MENORIGUAL exp
+    '''
+    if t[2] == '==':
+        t[0] = Relational(t[1], t[3], relationalOperation.IGUAL)
+    elif t[2] == '!=':
+        t[0] = Relational(t[1], t[3], relationalOperation.DISTINTO)
     elif t[2] == '>':
         t[0] = Relational(t[1], t[3], relationalOperation.MAYOR)
     elif t[2] == '<':
         t[0] = Relational(t[1], t[3], relationalOperation.MENOR)
-    elif t[2] == '==':
-        t[0] = Relational(t[1], t[3], relationalOperation.IGUAL)
     elif t[2] == '>=':
         t[0] = Relational(t[1], t[3], relationalOperation.MAYORIGUAL)
     elif t[2] == '<=':
         t[0] = Relational(t[1], t[3], relationalOperation.MENORIGUAL)
-    elif t[2] == '!=':
-        t[0] = Relational(t[1], t[3], relationalOperation.DISTINTO)
-    elif t[2] == '&&':
+
+
+def p_exp_logica(t):
+    '''exp  : exp ANDD exp
+            | exp ORR exp
+            | NOTT exp %prec UNOT
+    '''
+    if t[2] == '&&':
         t[0] = Logic(t[1], t[3], logicOperation.AND)
     elif t[2] == '||':
         t[0] = Logic(t[1], t[3], logicOperation.OR)
@@ -654,14 +659,15 @@ def p_exp_aritmetica(t):
         t[0] = Logic(t[2], t[2], logicOperation.NOT)
 
 
+# ================================FUNCIONES VARIAS
 def p_exp_uppercase(t):
     'exp : UPPERCASE PARIZQ exp PARDER'
-    t[0] = FuncionVaria(t[3], None, operacionVaria.UPPER)
+    t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.UPPER)
 
 
 def p_exp_lowercase(t):
     'exp : LOWERCASE PARIZQ exp PARDER'
-    t[0] = FuncionVaria(t[3], None, operacionVaria.LOWER)
+    t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.LOWER)
 
 
 def p_exp_log(t):
@@ -671,29 +677,30 @@ def p_exp_log(t):
 
 def p_exp_log10(t):
     'exp : LOG10 PARIZQ exp PARDER'
-    t[0] = FuncionVaria(t[3], None, operacionVaria.LOG10)
+    t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.LOG10)
 
 
 def p_exp_sin(t):
     'exp : SIN PARIZQ exp PARDER'
-    t[0] = FuncionVaria(t[3], None, operacionVaria.SIN)
+    t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.SIN)
 
 
 def p_exp_cos(t):
     'exp : COS PARIZQ exp PARDER'
-    t[0] = FuncionVaria(t[3], None, operacionVaria.COS)
+    t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.COS)
 
 
 def p_exp_tan(t):
     'exp : TAN PARIZQ exp PARDER'
-    t[0] = FuncionVaria(t[3], None, operacionVaria.TAN)
+    t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.TAN)
 
 
 def p_exp_sqrt(t):
     'exp : SQRT PARIZQ exp PARDER'
-    t[0] = FuncionVaria(t[3], None, operacionVaria.SQRT)
+    t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.SQRT)
 
 
+# ================================FUNCIONES VARIAS 2
 def p_exp_parse(t):
     'exp : PARSE PARIZQ typeDef COMA exp PARDER'
     t[0] = FuncionVaria2(t[3], t[5], operacionVaria.PARSE)
@@ -705,18 +712,18 @@ def p_exp_trunc(t):
 
 
 def p_exp_float(t):
-    'exp : FLOAT PARIZQ exp PARDER'
-    t[0] = FuncionVaria2(None, t[3], operacionVaria.FLOAT)
+    'exp : MFLOAT PARIZQ exp PARDER'
+    t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.FLOAT)
 
 
 def p_exp_string(t):
-    'exp : RSTRING PARIZQ exp PARDER'
-    t[0] = FuncionVaria2(None, t[3], operacionVaria.STRING)
+    'exp : MSTRING PARIZQ exp PARDER'
+    t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.STRING)
 
 
 def p_exp_typeof(t):
     'exp : TYPEOF PARIZQ exp PARDER'
-    t[0] = FuncionVaria2(None, t[3], operacionVaria.TYPEOF)
+    t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.TYPEOF)
 
 
 # ================================TIPOS DE EXPRESIONES, DATOS Y ARREGLOS

@@ -26,9 +26,10 @@ class Logic(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print("No Se Permite Evaluar And De " + rightValue.getType() + " y " + leftValue.getType())
+                    print("No Se Permite Evaluar And De " + str(rightValue.getValue()) + " y " + str(
+                        leftValue.getValue()))
             else:
-                print("No Se Permite Evaluar And De " + rightValue.getType() + " y " + leftValue.getType())
+                print("No Se Permite Evaluar And De " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
 
         elif self.operation == logicOperation.OR:
             if leftValue.getType() == typeExpression.BOOL:
@@ -39,9 +40,10 @@ class Logic(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print("No Se Permite Evaluar Or De " + rightValue.getType() + " y " + leftValue.getType())
+                    print(
+                        "No Se Permite Evaluar Or De " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
             else:
-                print("No Se Permite Evaluar Or De " + rightValue.getType() + " y " + leftValue.getType())
+                print("No Se Permite Evaluar Or De " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
 
         elif self.operation == logicOperation.NOT:
             if leftValue.getType() == typeExpression.BOOL:
@@ -51,4 +53,6 @@ class Logic(Expression):
                     typeExpression.BOOL
                 )
             else:
-                print("No Se Permite Evaluar Not De " + leftValue.getType())
+                print("No Se Permite Evaluar Not De " + str(leftValue.getValue()))
+
+        return Symbol("", 'nothing', typeExpression.NULO)

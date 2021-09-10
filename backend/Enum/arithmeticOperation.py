@@ -14,3 +14,4 @@ class arithmeticOperation(enum.Enum):
     COS = 9
     TAN = 10
     SQRT = 11
+    NEG = 12
