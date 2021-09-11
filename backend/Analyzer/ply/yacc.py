@@ -3429,7 +3429,7 @@ def yacc(method='LALR', debug=yaccdebug, module=None, tabmodule=tab_module, star
         errors = True
 
     if errors:
-        raise YaccError('Unable to build parser')
+         raise YaccError('Unable to build parser')
 
     # Run the LRGeneratedTable on the grammar
     if debug:

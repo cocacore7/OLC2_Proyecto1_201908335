@@ -1,2 +1,33 @@
+function figura1(n)
+    cadenaFigura = "";
+    
+    i = -3*n/2;
+    #inicia dibujo
+    while i <= n 
+        cadenaFigura = "";
+        
+        j = -3*n/2;
+            absolutoi = i;
+        while j <= 3*n
+            absolutoj = j;
+            if i < 0
+                absolutoi = i * -1;
+            end;
+            if j < 0
+                absolutoj = j * -1;
+            end;
 
+            if (absolutoi + absolutoj < n)|| ((-n / 2 - i) * (-n / 2 - i) + (n / 2 - j) * (n / 2 - j) <= n * n / 2)|| ((-n / 2 - i) * (-n / 2 - i) + (-n / 2 - j) * (-n / 2 - j) <= n * n / 2)
+                cadenaFigura = cadenaFigura * "* ";
+            else
+                cadenaFigura = cadenaFigura * ". ";
+            end;
+            j = j +1;
+        end;
+        println(cadenaFigura);
+        i=i+1;
+    end;
+    println("si la figura es un corazon te aseguro un 100");
+end;
 
+figura1(10);

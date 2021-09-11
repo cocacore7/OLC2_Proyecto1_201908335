@@ -284,15 +284,26 @@ def p_instructionc(t):
 
 # ================================INSTRUCCIONES IMPRIMIR
 def p_print(t):
-    '''p_print : PRINT PARIZQ exp PARDER PTCOMA
+    '''p_print  : PRINT PARIZQ exps PARDER PTCOMA
     '''
     t[0] = Print(t[3])
 
 
 def p_println(t):
-    '''p_println : PRINTLN PARIZQ exp PARDER PTCOMA
+    '''p_println    : PRINTLN PARIZQ exps PARDER PTCOMA
     '''
     t[0] = Println(t[3])
+
+
+def p_expresions(t):
+    '''exps     : exps COMA exp
+                | exp
+    '''
+    if len(t) == 4:
+        t[1].append(t[3])
+        t[0] = t[1]
+    elif len(t) == 2:
+        t[0] = [t[1]]
 
 
 # ================================ASIGNACIONES

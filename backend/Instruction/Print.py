@@ -10,9 +10,10 @@ class Print(Instruction):
         self.expression = expression
 
     def execute(self, environment: Environment):
-        tempExp = self.expression.execute(environment)
-        contenido.append("P," + str(tempExp.getValue()))
-        print(str(tempExp.getValue()))
+        for ins in self.expression:
+            tempExp = ins.execute(environment)
+            contenido.append("P," + str(tempExp.getValue()))
+            print(str(tempExp.getValue()))
 
 
 class Println(Instruction):
@@ -21,6 +22,7 @@ class Println(Instruction):
         self.expression = expression
 
     def execute(self, environment: Environment):
-        tempExp = self.expression.execute(environment)
-        contenido.append("L," + str(tempExp.getValue()))
-        print(str(tempExp.getValue()))
+        for ins in self.expression:
+            tempExp = ins.execute(environment)
+            contenido.append("L," + str(tempExp.getValue()))
+            print(str(tempExp.getValue()))
