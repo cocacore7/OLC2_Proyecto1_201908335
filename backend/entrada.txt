@@ -1,4 +1,17 @@
-a = "Hola Mundo";
-for i in a
-    println(i);
+var = "Hola"::String;
+println(var);
+var = 12;
+println(var);
+
+function f1()
+    var = true;
+    println(var);
+    global var = 'A';
+
+    x = var;
+    println(var);
+    println(x);
 end;
+
+f1();
+println(var);

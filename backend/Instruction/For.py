@@ -27,7 +27,6 @@ class For(Instruction):
         else:
             self.parameter.type = lefthExp.type
 
-        newEnv = Environment(newEnvP)
         if rigthExp.type != typeExpression.NULO:
             if lefthExp.type == typeExpression.INTEGER:
                 if rigthExp.type == typeExpression.INTEGER:
@@ -36,6 +35,7 @@ class For(Instruction):
                             self.parameter.setValue(i)
                             newEnvP.saveParameter(self.parameter.id, self.parameter, self.parameter.type,
                                                   self.parameter.isArray)
+                            newEnv = Environment(newEnvP)
                             for ins in self.block:
                                 ins.execute(newEnv)
                     else:
@@ -56,8 +56,10 @@ class For(Instruction):
                     self.parameter.setValue(i)
                     newEnvP.saveParameter(self.parameter.id, self.parameter, self.parameter.type,
                                           self.parameter.isArray)
+                    newEnv = Environment(newEnvP)
                     for ins in self.block:
                         ins.execute(newEnv)
+            # Aqui Va El De Arreglos Tambien
             else:
                 print("El tipo De Dato Especificado No Es Valido: " + obtener(lefthExp.type))
                 return

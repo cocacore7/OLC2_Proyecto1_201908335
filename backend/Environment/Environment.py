@@ -21,46 +21,33 @@ class Environment:
 
     def saveVariable(self, id: str, value, type: typeExpression, isArray: bool, entorno: str, tipoD: str):
         if self.father is not None:
-            # Esto Es Para Funciones, Hacer Por Aparte Ciclos Y Condicionales
             if tipoD == "F":
                 if entorno == "G":
                     globalenv = self.getGlobal()
                     if globalenv.variable.get(id) is not None:
                         tempVar: Symbol = globalenv.variable.get(id)
-                        if tempVar.getType() == value.getType():
-                            tempVar.value = value
-                            globalenv.variable[id] = tempVar
-                            return
-                        else:
-                            if tempVar.getType() == typeExpression.NULO:
-                                tempVar.value = value
-                                globalenv.variable[id] = tempVar
-                                return
-                            else:
-                                # CASTEOS IMPLICITOS
-                                print("Error: la variable " + id + " no puede ser cambiada de tipo")
-                                return
+                        tempVar.value = value
+                        tempVar.type = value.getType()
+                        globalenv.variable[id] = tempVar
+                        self.globalAccess[id] = id
+                        if self.variable.get(id) is not None:
+                            del self.variable[id]
+                        return
                     tempVar = Symbol(id, value, type)
                     tempVar.array = isArray
                     globalenv.variable[id] = tempVar
                     self.globalAccess[id] = id
+                    if self.variable.get(id) is not None:
+                        del self.variable[id]
+                    return
                 elif entorno == "L":
                     if self.globalAccess.get(id) is None:
                         if self.variable.get(id) is not None:
                             tempVar: Symbol = self.variable.get(id)
-                            if tempVar.getType() == value.getType():
-                                tempVar.value = value
-                                self.variable[id] = tempVar
-                                return
-                            else:
-                                if tempVar.getType() == typeExpression.NULO:
-                                    tempVar.value = value
-                                    self.variable[id] = tempVar
-                                    return
-                                else:
-                                    # CASTEOS IMPLICITOS
-                                    print("Error: la variable " + id + " no puede ser cambiada de tipo")
-                                    return
+                            tempVar.value = value
+                            tempVar.type = value.getType()
+                            self.variable[id] = tempVar
+                            return
                         tempVar = Symbol(id, value, type)
                         tempVar.array = isArray
                         self.variable[id] = tempVar
@@ -68,19 +55,10 @@ class Environment:
                     else:
                         globalenv = self.getGlobal()
                         tempVar: Symbol = globalenv.variable.get(id)
-                        if tempVar.getType() == value.getType():
-                            tempVar.value = value
-                            globalenv.variable[id] = tempVar
-                            return
-                        else:
-                            if tempVar.getType() == typeExpression.NULO:
-                                tempVar.value = value
-                                globalenv.variable[id] = tempVar
-                                return
-                            else:
-                                # CASTEOS IMPLICITOS
-                                print("Error: la variable " + id + " no puede ser cambiada de tipo")
-                                return
+                        tempVar.value = value
+                        tempVar.type = value.getType()
+                        globalenv.variable[id] = tempVar
+                        return
             elif tipoD == "C":
                 if entorno == "G":
                     if self.localAccess.get(id) is None:
@@ -88,19 +66,10 @@ class Environment:
                         while tempEnv is not None:
                             if tempEnv.variable.get(id) is not None:
                                 tempVar: Symbol = tempEnv.variable.get(id)
-                                if tempVar.getType() == value.getType():
-                                    tempVar.value = value
-                                    tempEnv.variable[id] = tempVar
-                                    return
-                                else:
-                                    if tempVar.getType() == typeExpression.NULO:
-                                        tempVar.value = value
-                                        tempEnv.variable[id] = tempVar
-                                        return
-                                    else:
-                                        # CASTEOS IMPLICITOS
-                                        print("Error: la variable " + id + " no puede ser cambiada de tipo")
-                                        return
+                                tempVar.value = value
+                                tempVar.type = value.getType()
+                                tempEnv.variable[id] = tempVar
+                                return
                             tempEnv = tempEnv.father
                         globalenv = self.getGlobal()
                         tempVar = Symbol(id, value, type)
@@ -109,36 +78,18 @@ class Environment:
                         return
                     else:
                         tempVar: Symbol = self.variable.get(id)
-                        if tempVar.getType() == value.getType():
-                            tempVar.value = value
-                            self.variable[id] = tempVar
-                            return
-                        else:
-                            if tempVar.getType() == typeExpression.NULO:
-                                tempVar.value = value
-                                self.variable[id] = tempVar
-                                return
-                            else:
-                                # CASTEOS IMPLICITOS
-                                print("Error: la variable " + id + " no puede ser cambiada de tipo")
-                                return
-                    return
+                        tempVar.value = value
+                        tempVar.type = value.getType()
+                        self.variable[id] = tempVar
+                        return
                 elif entorno == "L":
                     if self.variable.get(id) is not None:
                         tempVar: Symbol = self.variable.get(id)
-                        if tempVar.getType() == value.getType():
-                            tempVar.value = value
-                            self.variable[id] = tempVar
-                            return
-                        else:
-                            if tempVar.getType() == typeExpression.NULO:
-                                tempVar.value = value
-                                self.variable[id] = tempVar
-                                return
-                            else:
-                                # CASTEOS IMPLICITOS
-                                print("Error: la variable " + id + " no puede ser cambiada de tipo")
-                                return
+                        tempVar.value = value
+                        tempVar.type = value.getType
+                        self.variable[id] = tempVar
+                        self.localAccess[id] = id
+                        return
                     tempVar = Symbol(id, value, type)
                     tempVar.array = isArray
                     self.variable[id] = tempVar
@@ -147,14 +98,10 @@ class Environment:
         else:
             if self.variable.get(id) is not None:
                 tempVar: Symbol = self.variable.get(id)
-                if tempVar.getType() == value.getType():
-                    tempVar.value = value
-                    self.variable[id] = tempVar
-                    return
-                else:
-                    # CASTEOS IMPLICITOS
-                    print("Error: la variable " + id + " no puede ser cambiada de tipo")
-                    return
+                tempVar.value = value
+                tempVar.type = value.getType()
+                self.variable[id] = tempVar
+                return
             tempVar = Symbol(id, value, type)
             tempVar.array = isArray
             self.variable[id] = tempVar
