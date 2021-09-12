@@ -34,7 +34,9 @@ reservadas = {
     'if': 'RIF',
     'elseif': 'RELSEIF',
     'else': 'RELSE',
-    'while': 'RWHILE'
+    'while': 'RWHILE',
+    'for': 'RFOR',
+    'in': 'RIN'
 }
 
 tokens = [
@@ -186,6 +188,7 @@ from Instruction.Parameter import Parameter
 from Instruction.CallFuncSt import CallFuncSt
 from Instruction.If import If
 from Instruction.While import While
+from Instruction.For import For
 from Instruction.Block import Block
 
 import Analyzer.ply.lex as lex
@@ -256,6 +259,7 @@ def p_instruction(t):
                     | callFuncSt
                     | ifSt
                     | whileSt
+                    | forSt
     '''
     t[0] = t[1]
 
@@ -267,6 +271,7 @@ def p_instructionf(t):
                     | callFuncSt
                     | ifSt
                     | whileSt
+                    | forSt
     '''
     t[0] = t[1]
 
@@ -278,6 +283,7 @@ def p_instructionc(t):
                     | callFuncSt
                     | ifStc
                     | whileSt
+                    | forSt
     '''
     t[0] = t[1]
 
@@ -571,6 +577,17 @@ def p_whileSt(t):
     '''whileSt  : RWHILE exp blockc
     '''
     t[0] = While(t[2], t[3])
+
+
+# ================================CICLO FOR
+def p_forSt(t):
+    '''forSt    : RFOR parameter RIN exp DOSPT exp blockc
+                | RFOR parameter RIN exp blockc
+    '''
+    if len(t) == 8:
+        t[0] = For(t[2], t[4], t[6], t[7])
+    elif len(t) == 6:
+        t[0] = For(t[2], t[4], Primitive('nothing', typeExpression.NULO), t[5])
 
 
 # ================================BLOQUES DE CODIGO

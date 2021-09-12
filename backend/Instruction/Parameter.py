@@ -8,7 +8,7 @@ from Abstract.Instruction import Instruction
 
 class Parameter(Instruction):
 
-    def __init__(self, id: str, type: typeExpression,isArray: bool) -> None:
+    def __init__(self, id: str, type: typeExpression, isArray: bool) -> None:
         self.id = id
         self.type = type
         self.value = None
@@ -23,8 +23,20 @@ class Parameter(Instruction):
             if self.type.value != tempValue.getType().value:
                 print("Los tipos no coinciden")
                 environment.saveParameter(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
-                                         typeExpression.NULO, False)
+                                          typeExpression.NULO, False)
                 return
             environment.saveParameter(self.id, tempValue, self.type, self.isArray)
         else:
             environment.saveParameter(self.id, tempValue, tempValue.getType(), self.isArray)
+
+    def getId(self):
+        return self.id
+
+    def getValue(self):
+        return self.value
+
+    def getType(self):
+        return self.type
+
+    def isArray(self):
+        return self.array

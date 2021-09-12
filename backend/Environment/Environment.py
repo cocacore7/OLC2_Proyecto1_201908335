@@ -162,14 +162,10 @@ class Environment:
     def saveParameter(self, id: str, value, type: typeExpression, isArray: bool):
         if self.variable.get(id) is not None:
             tempVar: Symbol = self.variable.get(id)
-            if tempVar.getType() == value.getType():
-                tempVar.value = value
-                self.variable[id] = tempVar
-                return
-            else:
-                # CASTEOS IMPLICITOS
-                print("Error: la variable " + id + " no puede ser cambiada de tipo")
-                return
+            tempVar.value = value
+            tempVar.type = value.getType()
+            self.variable[id] = tempVar
+            return
         tempVar = Symbol(id, value, type)
         tempVar.array = isArray
         self.variable[id] = tempVar
