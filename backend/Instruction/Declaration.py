@@ -7,7 +7,7 @@ from Enum.typeExpression import typeExpression
 
 class Declaration(Instruction):
 
-    def __init__(self, id: str, value: Expression, type: typeExpression, isArray: bool,tipoD: str, entorno: str) -> None:
+    def __init__(self, id: str, value: Expression, type: typeExpression, isArray: bool, tipoD: str, entorno: str) -> None:
         self.id = id
         self.value = value
         self.type = type
@@ -24,13 +24,13 @@ class Declaration(Instruction):
                     if self.type.value != tempValue.getType().value:
                         print("Los tipos no coinciden, Se obtuvo un " + obtener(
                             tempValue.getType().value) + ", Se Esperaba Un " + obtener(self.type.value))
-                        environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),typeExpression.NULO, False, self.tipoD, self.entorno)
+                        environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment), typeExpression.NULO, False, self.tipoD, self.entorno)
                         return
-                    environment.saveVariable(self.id, tempValue, self.type, self.isArray, self.tipoD,self.entorno)
+                    environment.saveVariable(self.id, tempValue, self.type, self.isArray, self.tipoD, self.entorno)
                 else:
                     environment.saveVariable(self.id, tempValue, tempValue.getType(), self.isArray, self.tipoD, self.entorno)
             else:
-                print("Tipo De Dato Incorrecto, Se Esperaba: String, Int64, Float64, Bool o Char" )
+                print("Tipo De Dato Incorrecto, Se Esperaba: String, Int64, Float64, Bool o Char")
                 environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
                                          typeExpression.NULO, False, self.tipoD, self.entorno)
         else:

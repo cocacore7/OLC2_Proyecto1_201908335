@@ -3,6 +3,7 @@ from Environment.Environment import Environment
 from Abstract.Instruction import Instruction
 from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
+from Enum.TransferSentence import TransferSentence
 
 
 class If(Instruction):
@@ -19,7 +20,14 @@ class If(Instruction):
 
         if tempCondition.getType() == typeExpression.BOOL:
             if tempCondition.getValue():
-                self.block.execute(environment)
+                temp = self.block.execute(environment)
+                if temp is not None:
+                    if temp.type == TransferSentence.RETURN:
+                        return temp
+                    elif temp.type == TransferSentence.BREAK:
+                        return temp
+                    elif temp.type == TransferSentence.CONTINUE:
+                        return temp
             else:
                 if len(self.elifBlock) > 0:
                     verdadero = False
@@ -27,12 +35,33 @@ class If(Instruction):
                         tempCondition: Symbol = self.elifBlock[i].condition.execute(environment)
                         if tempCondition.getType() == typeExpression.BOOL:
                             if tempCondition.getValue():
-                                self.elifBlock[i].block.execute(environment)
+                                temp = self.elifBlock[i].block.execute(environment)
+                                if temp is not None:
+                                    if temp.type == TransferSentence.RETURN:
+                                        return temp
+                                    elif temp.type == TransferSentence.BREAK:
+                                        return temp
+                                    elif temp.type == TransferSentence.CONTINUE:
+                                        return temp
                                 verdadero = True
                                 break
                     if not verdadero:
-                        self.elseBlock.execute(environment)
+                        temp = self.elseBlock.execute(environment)
+                        if temp is not None:
+                            if temp.type == TransferSentence.RETURN:
+                                return temp
+                            elif temp.type == TransferSentence.BREAK:
+                                return temp
+                            elif temp.type == TransferSentence.CONTINUE:
+                                return temp
                 else:
-                    self.elseBlock.execute(environment)
+                    temp = self.elseBlock.execute(environment)
+                    if temp is not None:
+                        if temp.type == TransferSentence.RETURN:
+                            return temp
+                        elif temp.type == TransferSentence.BREAK:
+                            return temp
+                        elif temp.type == TransferSentence.CONTINUE:
+                            return temp
         else:
             print("Condicion Incorrecta, No es Booleana")

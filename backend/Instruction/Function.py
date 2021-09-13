@@ -1,5 +1,6 @@
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
+from Enum.TransferSentence import TransferSentence
 
 
 class Function(Instruction):
@@ -20,4 +21,14 @@ class Function(Instruction):
 
         newEnv2 = Environment(newEnv)
         for ins in self.block:
-            ins.execute(newEnv2)
+            temp = ins.execute(newEnv2)
+            if temp is not None:
+                if temp.type == TransferSentence.RETURN:
+                    temp.funcion = True
+                    return temp
+                elif temp.type == TransferSentence.BREAK:
+                    print("Sentencias Break Incorrecta, No Se Permite En Funciones")
+                    return
+                elif temp.type == TransferSentence.CONTINUE:
+                    print("Sentencias Continue Incorrecta, No Se Permite En Funciones")
+                    return

@@ -86,7 +86,7 @@ class Environment:
                     if self.variable.get(id) is not None:
                         tempVar: Symbol = self.variable.get(id)
                         tempVar.value = value
-                        tempVar.type = value.getType
+                        tempVar.type = value.getType()
                         self.variable[id] = tempVar
                         self.localAccess[id] = id
                         return
@@ -107,12 +107,6 @@ class Environment:
             self.variable[id] = tempVar
 
     def saveParameter(self, id: str, value, type: typeExpression, isArray: bool):
-        if self.variable.get(id) is not None:
-            tempVar: Symbol = self.variable.get(id)
-            tempVar.value = value
-            tempVar.type = value.getType()
-            self.variable[id] = tempVar
-            return
         tempVar = Symbol(id, value, type)
         tempVar.array = isArray
         self.variable[id] = tempVar

@@ -36,7 +36,11 @@ reservadas = {
     'else': 'RELSE',
     'while': 'RWHILE',
     'for': 'RFOR',
-    'in': 'RIN'
+    'in': 'RIN',
+
+    'break': 'RBREAK',
+    'continue': 'RCONTINUE',
+    'return': 'RRETURN'
 }
 
 tokens = [
@@ -166,6 +170,7 @@ from Enum.relationalOperation import relationalOperation
 from Enum.LogicOperation import logicOperation
 from Enum.OperacionVaria import operacionVaria
 from Enum.typeExpression import typeExpression
+from Enum.TransferSentence import TransferSentence
 
 from Environment.Environment import Environment
 
@@ -191,6 +196,10 @@ from Instruction.While import While
 from Instruction.For import For
 from Instruction.Block import Block
 
+from Instruction.Return import Return
+from Instruction.Break import Break
+from Instruction.Continue import Continue
+
 import Analyzer.ply.lex as lex
 
 lexer = lex.lex()
@@ -213,7 +222,18 @@ def p_initial(t):
     '''initial : instructions'''
     globalEnv = Environment(None)
     for ins in t[1]:
-        ins.execute(globalEnv)
+        temp = ins.execute(globalEnv)
+        if temp is not None:
+            if temp.type == TransferSentence.RETURN:
+                if not temp.funcion:
+                    if temp.ciclo:
+                        print("No Puede Haber Return En Ciclo Sin Una Funcion")
+                    else:
+                        print("No Puede Haber Return En Entorno Global")
+            elif temp.type == TransferSentence.BREAK:
+                print("No Puede Haber Break En Entorno Global")
+            elif temp.type == TransferSentence.CONTINUE:
+                print("No Puede Haber Continue En Entorno Global")
 
 
 # ================================LISTA DE INSTRUCCIONES
@@ -260,6 +280,9 @@ def p_instruction(t):
                     | ifSt
                     | whileSt
                     | forSt
+                    | returnST
+                    | breakST
+                    | continueST
     '''
     t[0] = t[1]
 
@@ -272,6 +295,9 @@ def p_instructionf(t):
                     | ifSt
                     | whileSt
                     | forSt
+                    | returnST
+                    | breakST
+                    | continueST
     '''
     t[0] = t[1]
 
@@ -284,6 +310,9 @@ def p_instructionc(t):
                     | ifStc
                     | whileSt
                     | forSt
+                    | returnST
+                    | breakST
+                    | continueST
     '''
     t[0] = t[1]
 
@@ -623,6 +652,29 @@ def p_blockifc(t):
     t[0] = t[1]
 
 
+# ================================SENTENCIAS DE TRANSFERENCIA
+def p_return(t):
+    '''returnST : RRETURN exp PTCOMA
+                | RRETURN PTCOMA
+    '''
+    if len(t) == 4:
+        t[0] = Return(TransferSentence.RETURN, t[2])
+    else:
+        t[0] = Return(TransferSentence.RETURN, Primitive('nothing', typeExpression.NULO))
+
+
+def p_break(t):
+    '''breakST  : RBREAK PTCOMA
+    '''
+    t[0] = Break(TransferSentence.BREAK)
+
+
+def p_continue(t):
+    '''continueST  : RCONTINUE PTCOMA
+    '''
+    t[0] = Continue(TransferSentence.CONTINUE)
+
+
 # ================================ARREGLOS
 
 
@@ -687,6 +739,13 @@ def p_exp_logica(t):
         t[0] = Logic(t[2], t[2], logicOperation.NOT)
 
 
+# ================================EXPRESION RETURN FUNCIONES
+def p_callFuncSt2(t):
+    '''exp   : ID parametersCallFunc
+    '''
+    t[0] = CallFuncSt(t[1], t[2])
+
+
 # ================================FUNCIONES VARIAS
 def p_exp_uppercase(t):
     'exp : UPPERCASE PARIZQ exp PARDER'
@@ -735,8 +794,13 @@ def p_exp_parse(t):
 
 
 def p_exp_trunc(t):
-    'exp : TRUNC PARIZQ typeDef COMA exp PARDER'
-    t[0] = FuncionVaria2(t[3], t[5], operacionVaria.TRUNC)
+    '''exp  : TRUNC PARIZQ typeDef COMA exp PARDER
+            | TRUNC PARIZQ exp PARDER
+    '''
+    if len(t) == 7:
+        t[0] = FuncionVaria2(t[3], t[5], operacionVaria.TRUNC)
+    else:
+        t[0] = FuncionVaria2(typeExpression.INTEGER, t[3], operacionVaria.TRUNC)
 
 
 def p_exp_float(t):

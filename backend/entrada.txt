@@ -1,17 +1,30 @@
-var = "Hola"::String;
-println(var);
-var = 12;
-println(var);
-
-function f1()
-    var = true;
-    println(var);
-    global var = 'A';
-
-    x = var;
-    println(var);
-    println(x);
+function ackerman(m::Int64, n::Int64)
+    if m == 0
+        return n + 1;
+    elseif m > 0 && n == 0
+        return ackerman(m - 1, 1);
+    else
+        return ackerman(m - 1, ackerman(m, n - 1));
+    end;
 end;
 
-f1();
-println(var);
+function hanoi(discos, origen, auxiliar, destino)
+    if discos == 1
+        println("Mover de ", origen, " a ", destino);
+    else
+        hanoi(discos - 1, origen, destino, auxiliar);
+        println("Mover de ", origen, " a ", destino);
+        hanoi(discos - 1, auxiliar, origen, destino);
+    end;
+end;
+
+function factorial(num::Int64)
+    if num == 1
+        return 1;
+    else
+        return num * factorial(num - 1);
+    end;
+end;
+
+println(factorial(10));
+println(ackerman(3, 7));

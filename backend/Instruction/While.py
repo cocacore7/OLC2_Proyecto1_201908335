@@ -2,6 +2,7 @@ from Environment.Symbol import Symbol
 from Environment.Environment import Environment
 from Abstract.Instruction import Instruction
 from Abstract.Expression import Expression
+from Enum.TransferSentence import TransferSentence
 
 
 class While(Instruction):
@@ -18,6 +19,14 @@ class While(Instruction):
             newEnv = Environment(environment)
 
             for ins in self.block:
-                ins.execute(newEnv)
+                temp = ins.execute(newEnv)
+                if temp is not None:
+                    if temp.type == TransferSentence.RETURN:
+                        temp.ciclo = True
+                        return temp
+                    elif temp.type == TransferSentence.BREAK:
+                        return
+                    elif temp.type == TransferSentence.CONTINUE:
+                        break
 
             tempCondition = self.condition.execute(environment)

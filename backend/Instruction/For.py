@@ -3,6 +3,7 @@ from Environment.Environment import Environment
 from Abstract.Instruction import Instruction
 from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
+from Enum.TransferSentence import TransferSentence
 
 
 class For(Instruction):
@@ -30,14 +31,22 @@ class For(Instruction):
         if rigthExp.type != typeExpression.NULO:
             if lefthExp.type == typeExpression.INTEGER:
                 if rigthExp.type == typeExpression.INTEGER:
-                    if lefthExp.value < rigthExp.value:
+                    if lefthExp.value <= rigthExp.value:
                         for i in range(lefthExp.value, rigthExp.value + 1):
                             self.parameter.setValue(i)
                             newEnvP.saveParameter(self.parameter.id, self.parameter, self.parameter.type,
                                                   self.parameter.isArray)
                             newEnv = Environment(newEnvP)
                             for ins in self.block:
-                                ins.execute(newEnv)
+                                temp = ins.execute(newEnv)
+                                if temp is not None:
+                                    if temp.type == TransferSentence.RETURN:
+                                        temp.ciclo = True
+                                        return temp
+                                    elif temp.type == TransferSentence.BREAK:
+                                        return
+                                    elif temp.type == TransferSentence.CONTINUE:
+                                        break
                     else:
                         print("El Valor Izquierdo Es Menor Al Derecho: " + str(lefthExp.value) + " y " + str(
                             rigthExp.value))
@@ -58,7 +67,15 @@ class For(Instruction):
                                           self.parameter.isArray)
                     newEnv = Environment(newEnvP)
                     for ins in self.block:
-                        ins.execute(newEnv)
+                        temp = ins.execute(newEnv)
+                        if temp is not None:
+                            if temp.type == TransferSentence.RETURN:
+                                temp.ciclo = True
+                                return temp
+                            elif temp.type == TransferSentence.BREAK:
+                                return
+                            elif temp.type == TransferSentence.CONTINUE:
+                                break
             # Aqui Va El De Arreglos Tambien
             else:
                 print("El tipo De Dato Especificado No Es Valido: " + obtener(lefthExp.type))
