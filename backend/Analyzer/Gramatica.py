@@ -145,13 +145,10 @@ def t_ID(t):
     return t
 
 
-def t_COMENTARIO_SIMPLE(t):
-    r'\#.*\n'
-    t.lexer.lineno += 1
-
-
 # Caracteres ignorados
 t_ignore = " \t\r"
+t_ignore_COMMENT = r'\#.*'
+t_ignore_COMMENTM = r'\#=(.|\n)*?=\#'
 
 
 def t_newline(t):
