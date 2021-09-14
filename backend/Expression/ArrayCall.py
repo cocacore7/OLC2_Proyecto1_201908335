@@ -17,7 +17,11 @@ class ArrayCall(Expression):
         if tempArray.isArray():
             tempIndex = self.index.execute(environment)
             tempValue = tempArray.getValue()
-            return tempValue[int(tempIndex.getValue())]
+            if len(tempValue) > int(tempIndex.getValue())-1 > -1:
+                return tempValue[int(tempIndex.getValue())-1]
+            else:
+                print("Indice De Arreglo Fuera De Rango")
+                return Symbol('', 'nothing', typeExpression.NULO)
         else:
             print("Error: No es posible acceder a un " + str(tempArray.getType()))
-            return Symbol('', typeExpression.INTEGER, 0)
+            return Symbol('', 'nothing', typeExpression.NULO)

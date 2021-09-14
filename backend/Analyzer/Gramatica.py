@@ -8,6 +8,12 @@ reservadas = {
     'String': 'RSTRING',
     'Char': 'RCHAR',
     'Bool': 'RBOOL',
+    'Array{Int64}': 'RINTA',
+    'Array{Float64}': 'RFLOATA',
+    'Array{String}': 'RSTRINGA',
+    'Array{Char}': 'RCHARA',
+    'Array{Bool}': 'RBOOLA',
+    'Array': 'RARRAY',
 
     'lowercase': 'LOWERCASE',
     'uppercase': 'UPPERCASE',
@@ -75,6 +81,8 @@ tokens = [
              'DOSPT',
              'CORDER',
              'CORIZQ',
+             'LLADER',
+             'LLAIZQ',
              'PTCOMA'
          ] + list(reservadas.values())
 
@@ -101,6 +109,8 @@ t_PARIZQ = r'\('
 t_PARDER = r'\)'
 t_CORIZQ = r'\['
 t_CORDER = r'\]'
+t_LLAIZQ = r'\{'
+t_LLADER = r'\}'
 t_IGUAL = r'='
 t_DOSPT = r':'
 t_PTCOMA = r'\;'
@@ -172,19 +182,20 @@ from Enum.TransferSentence import TransferSentence
 from Environment.Environment import Environment
 
 from Expression.Primitive import Primitive
+from Expression.Array import Array
 from Expression.Arithmetic import Arithmetic
 from Expression.Relational import Relational
 from Expression.Logic import Logic
 from Expression.FuncionesVarias import FuncionVaria
 from Expression.FuncionesVarias2 import FuncionVaria2
 from Expression.VariableCall import VariableCall
-from Expression.Array import Array
 from Expression.ArrayCall import ArrayCall
 
 from Instruction.Print import Print
 from Instruction.Print import Println
 
 from Instruction.Declaration import Declaration
+from Instruction.DeclarationArray import DeclarationArray
 from Instruction.Function import Function
 from Instruction.Parameter import Parameter
 from Instruction.CallFuncSt import CallFuncSt
@@ -348,17 +359,32 @@ def p_declaration(t):
                     | LOCAL ID IGUAL exp DOSPT DOSPT typeDef PTCOMA
                     | LOCAL ID IGUAL exp PTCOMA
                     | LOCAL ID PTCOMA
+                    | ID IGUAL CORIZQ exps CORDER PTCOMA
+                    | ID IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID IGUAL CORIZQ exps CORDER PTCOMA
+                    | LOCAL ID IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | LOCAL ID IGUAL CORIZQ exps CORDER PTCOMA
     '''
     if len(t) == 5:
         t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "N", "N")
     elif len(t) == 8:
-        t[0] = Declaration(t[1], t[3], t[6], False, "N", "N")
+        if t[4] == "[":
+            t[0] = DeclarationArray(t[2], t[5], typeExpression.ANY, True, "N", "N")
+        else:
+            t[0] = Declaration(t[1], t[3], t[6], False, "N", "N")
     elif len(t) == 9:
         t[0] = Declaration(t[2], t[4], t[7], False, "N", "N")
     elif len(t) == 6:
         t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "N", "N")
     elif len(t) == 4:
         t[0] = Declaration(t[2], None, typeExpression.NULO, False, "N", "N")
+    elif len(t) == 7:
+        t[0] = DeclarationArray(t[1], t[4], typeExpression.ANY, True, "N", "N")
+    elif len(t) == 10:
+        t[0] = DeclarationArray(t[1], t[4], t[8], True, "N", "N")
+    elif len(t) == 11:
+        t[0] = DeclarationArray(t[2], t[5], t[9], True, "N", "N")
 
 
 def p_declarationf(t):
@@ -370,11 +396,23 @@ def p_declarationf(t):
                     | LOCAL ID IGUAL exp DOSPT DOSPT typeDef PTCOMA
                     | LOCAL ID IGUAL exp PTCOMA
                     | LOCAL ID PTCOMA
+                    | ID IGUAL CORIZQ exps CORDER PTCOMA
+                    | ID IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID IGUAL CORIZQ exps CORDER PTCOMA
+                    | LOCAL ID IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | LOCAL ID IGUAL CORIZQ exps CORDER PTCOMA
     '''
     if len(t) == 5:
         t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "L", "F")
     elif len(t) == 8:
-        t[0] = Declaration(t[1], t[3], t[6], False, "L", "F")
+        if t[4] == "[":
+            if t[1] == "local":
+                t[0] = DeclarationArray(t[2], t[5], typeExpression.ANY, True, "L", "F")
+            elif t[1] == "global":
+                t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "G", "F")
+        else:
+            t[0] = Declaration(t[1], t[3], t[6], False, "L", "F")
     elif len(t) == 9:
         if t[1] == "local":
             t[0] = Declaration(t[2], t[4], t[7], False, "L", "F")
@@ -390,6 +428,15 @@ def p_declarationf(t):
             t[0] = Declaration(t[2], None, typeExpression.NULO, False, "L", "F")
         elif t[1] == "global":
             t[0] = Declaration(t[2], None, typeExpression.NULO, False, "G", "F")
+    elif len(t) == 7:
+        t[0] = DeclarationArray(t[1], t[4], typeExpression.ANY, True, "L", "F")
+    elif len(t) == 10:
+        t[0] = DeclarationArray(t[1], t[4], t[8], True, "L", "F")
+    elif len(t) == 11:
+        if t[1] == "local":
+            t[0] = DeclarationArray(t[2], t[5], t[9], True, "L", "F")
+        elif t[1] == "global":
+            t[0] = DeclarationArray(t[2], t[5], t[9], True, "G", "F")
 
 
 def p_declarationc(t):
@@ -401,11 +448,23 @@ def p_declarationc(t):
                     | GLOBAL ID IGUAL exp DOSPT DOSPT typeDef PTCOMA
                     | GLOBAL ID IGUAL exp PTCOMA
                     | GLOBAL ID PTCOMA
+                    | ID IGUAL CORIZQ exps CORDER PTCOMA
+                    | ID IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID IGUAL CORIZQ exps CORDER PTCOMA
+                    | LOCAL ID IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | LOCAL ID IGUAL CORIZQ exps CORDER PTCOMA
     '''
     if len(t) == 5:
         t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "G", "C")
     elif len(t) == 8:
-        t[0] = Declaration(t[1], t[3], t[6], False, "G", "C")
+        if t[4] == "[":
+            if t[1] == "local":
+                t[0] = DeclarationArray(t[2], t[5], typeExpression.ANY, True, "L", "C")
+            elif t[1] == "global":
+                t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "G", "C")
+        else:
+            t[0] = Declaration(t[1], t[3], t[6], False, "G", "C")
     elif len(t) == 9:
         if t[1] == "local":
             t[0] = Declaration(t[2], t[4], t[7], False, "L", "C")
@@ -421,6 +480,15 @@ def p_declarationc(t):
             t[0] = Declaration(t[2], None, typeExpression.NULO, False, "L", "C")
         elif t[1] == "global":
             t[0] = Declaration(t[2], None, typeExpression.NULO, False, "G", "C")
+    elif len(t) == 7:
+        t[0] = DeclarationArray(t[1], t[4], typeExpression.ANY, True, "G", "C")
+    elif len(t) == 10:
+        t[0] = DeclarationArray(t[1], t[4], t[8], True, "G", "C")
+    elif len(t) == 11:
+        if t[1] == "local":
+            t[0] = DeclarationArray(t[2], t[5], t[9], True, "L", "C")
+        elif t[1] == "global":
+            t[0] = DeclarationArray(t[2], t[5], t[9], True, "G", "C")
 
 
 # ================================FUNCIONES
@@ -673,6 +741,15 @@ def p_continue(t):
 
 
 # ================================ARREGLOS
+def p_list_array(t):
+    '''listArray    : listArray  CORIZQ exp CORDER
+                    | CORIZQ exp CORDER
+    '''
+    if len(t) == 5:
+        t[0] = ArrayCall(t[1], t[3])
+    elif len(t) == 4:
+        tempVar = VariableCall(t[-1])
+        t[0] = ArrayCall(tempVar, t[2])
 
 
 # ================================EXPRESIONES ARITMETICAS, LOGICAS Y RELACIONALES
@@ -822,6 +899,11 @@ def p_typeDef(t):
                 | RSTRING
                 | RCHAR
                 | RBOOL
+                | RARRAY LLAIZQ RINT LLADER
+                | RARRAY LLAIZQ RFLOAT LLADER
+                | RARRAY LLAIZQ RSTRING LLADER
+                | RARRAY LLAIZQ RCHAR LLADER
+                | RARRAY LLAIZQ RBOOL LLADER
     '''
     if t[1] == 'Int64':
         t[0] = typeExpression.INTEGER
@@ -833,6 +915,17 @@ def p_typeDef(t):
         t[0] = typeExpression.CHAR
     elif t[1] == 'Bool':
         t[0] = typeExpression.BOOL
+    elif t[1] == 'Array':
+        if t[3] == 'Int64':
+            t[0] = typeExpression.INTEGERA
+        elif t[3] == 'Float64':
+            t[0] = typeExpression.FLOATA
+        elif t[3] == 'String':
+            t[0] = typeExpression.STRINGA
+        elif t[3] == 'Char':
+            t[0] = typeExpression.CHARA
+        elif t[3] == 'Bool':
+            t[0] = typeExpression.BOOLA
 
 
 def p_exp_agrupacion(t):
@@ -893,19 +986,16 @@ def p_exp_variable(t):
 
 
 def p_exp_array(t):
-    'exp : CORIZQ listValues CORDER'
-    t[0] = Array(t[2])
-
-
-def p_list_array(t):
-    '''listArray    : listArray  CORIZQ exp CORDER
-                    | CORIZQ exp CORDER
+    '''exp  : CORIZQ listValues CORDER
+            | CORIZQ listValues CORDER DOSPT DOSPT typeDef
+            | CORIZQ CORDER
     '''
-    if len(t) == 5:
-        t[0] = ArrayCall(t[1], t[3])
-    elif len(t) == 4:
-        tempVar = VariableCall(t[-1])
-        t[0] = ArrayCall(tempVar, t[2])
+    if len(t) == 4:
+        t[0] = Array(t[2], typeExpression.ANY)
+    elif len(t) == 3:
+        t[0] = Array([], typeExpression.ANY)
+    else:
+        t[0] = Array(t[2], t[6])
 
 
 # ====================================================

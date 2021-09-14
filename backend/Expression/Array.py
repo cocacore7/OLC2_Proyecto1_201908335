@@ -1,19 +1,116 @@
 from Environment.Environment import Environment
 from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
+from Enum.typeExpression import typeExpression
 
 
 class Array(Expression):
 
-    def __init__(self, listExp) -> None:
+    def __init__(self, listExp, type: typeExpression) -> None:
         self.listExp = listExp
+        self.type = type
 
     def execute(self, environment: Environment) -> Symbol:
         tempExp = []
+        cualquiera = typeExpression.NULO
         for exp in self.listExp:
+            if self.type == typeExpression.ANY:
+                if cualquiera == typeExpression.NULO:
+                    cualquiera = tipoExpR1(exp.type)
+                else:
+                    cualquiera = tipoExpR2(cualquiera, exp.type)
+            else:
+                if self.type == typeExpression.INTEGERA:
+                    if exp.type != typeExpression.INTEGER:
+                        print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Int64")
+                        break
+                elif self.type == typeExpression.FLOATA:
+                    if exp.type != typeExpression.FLOAT:
+                        print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Float64")
+                        break
+                elif self.type == typeExpression.STRINGA:
+                    if exp.type != typeExpression.STRING:
+                        print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un String")
+                        break
+                elif self.type == typeExpression.CHARA:
+                    if exp.type != typeExpression.CHAR:
+                        print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Char")
+                        break
+                elif self.type == typeExpression.BOOLA:
+                    if exp.type != typeExpression.BOOL:
+                        print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Bool")
+                        break
+                else:
+                    print("Declaracion Incorrecta: " + obtener(self.type.value) + ", No es Tipo Array")
+                    break
             tempExp.append(exp.execute(environment))
 
-        tempSymbol: Symbol = Symbol('', tempExp, tempExp[0].getType())
+        tempSymbol: Symbol = Symbol('', tempExp, cualquiera)
         tempSymbol.array = True
 
         return tempSymbol
+
+
+def tipoExpR1(type: typeExpression):
+    if type == typeExpression.INTEGER:
+        return typeExpression.INTEGERA
+    elif type == typeExpression.FLOAT:
+        return typeExpression.FLOATA
+    elif type == typeExpression.STRING:
+        return typeExpression.STRINGA
+    elif type == typeExpression.CHAR:
+        return typeExpression.CHARA
+    elif type == typeExpression.BOOL:
+        return typeExpression.BOOLA
+    else:
+        return typeExpression.NULO
+
+
+def tipoExpR2(cond: typeExpression, type: typeExpression):
+    if cond == typeExpression.INTEGER:
+        if type != typeExpression.INTEGER:
+            return typeExpression.ANY
+    elif cond == "Float64":
+        if type != typeExpression.FLOAT:
+            return typeExpression.ANY
+    elif cond == "String":
+        if type != typeExpression.STRING:
+            return typeExpression.ANY
+    elif cond == "Char":
+        if type != typeExpression.CHAR:
+            return typeExpression.ANY
+    elif cond == "Bool":
+        if type != typeExpression.BOOL:
+            return typeExpression.ANY
+    elif cond == "Nothing":
+        if type != typeExpression.NULO:
+            return typeExpression.ANY
+    else:
+        return cond
+
+
+def obtener(numero):
+    if numero == 0:
+        return "String"
+    elif numero == 1:
+        return "Int64"
+    elif numero == 2:
+        return "Float64"
+    elif numero == 3:
+        return "Bool"
+    elif numero == 4:
+        return "Char"
+    elif numero == 5:
+        return "Nothing"
+    elif numero == 6:
+        return "Array{String}"
+    elif numero == 7:
+        return "Array{Int64}"
+    elif numero == 8:
+        return "Array{Float64}"
+    elif numero == 9:
+        return "Array{Bool}"
+    elif numero == 10:
+        return "Array{Char}"
+    elif numero == 11:
+        return "Array{Any}"
