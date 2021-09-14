@@ -154,4 +154,64 @@ class FuncionVaria2(Expression):
             else:
                 print("Dato A Convertir String Incorrecto: " + str(rigthValue.getValue()))
 
+        elif self.operation == operacionVaria.PUSH:
+            if rigthValue.getType() == typeExpression.STRING:
+                return Symbol(
+                    "",
+                    "String",
+                    typeExpression.STRING
+                )
+            else:
+                print("Funcion Push Invalida Para Tipo: " + str(rigthValue.getValue()))
+
+        elif self.operation == operacionVaria.POP:
+            if rigthValue.getType() == typeExpression.STRING:
+                return Symbol(
+                    "",
+                    "String",
+                    typeExpression.STRING
+                )
+            else:
+                print("Funcion Pop Invalida Para Tipo: " + str(rigthValue.getValue()))
+
+        elif self.operation == operacionVaria.LENGTH:
+            if rigthValue.getType() == typeExpression.ANY:
+                return Symbol(
+                    "",
+                    len(rigthValue.value),
+                    typeExpression.INTEGER
+                )
+            elif rigthValue.getType() == typeExpression.INTEGERA:
+                return Symbol(
+                    "",
+                    len(rigthValue.value),
+                    typeExpression.INTEGER
+                )
+            elif rigthValue.getType() == typeExpression.FLOATA:
+                return Symbol(
+                    "",
+                    len(rigthValue.value),
+                    typeExpression.INTEGER
+                )
+            elif rigthValue.getType() == typeExpression.STRINGA:
+                return Symbol(
+                    "",
+                    len(rigthValue.value),
+                    typeExpression.INTEGER
+                )
+            elif rigthValue.getType() == typeExpression.CHARA:
+                return Symbol(
+                    "",
+                    len(rigthValue.value),
+                    typeExpression.INTEGER
+                )
+            elif rigthValue.getType() == typeExpression.BOOLA:
+                return Symbol(
+                    "",
+                    len(rigthValue.value),
+                    typeExpression.INTEGER
+                )
+            else:
+                print("Funcion Length Invalida Para: " + str(rigthValue.getValue()))
+
         return Symbol("", 'nothing', typeExpression.NULO)

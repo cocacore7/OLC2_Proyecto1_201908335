@@ -36,7 +36,7 @@ class Println(Instruction):
                 print(str(self.printArray(tempExp.getValue(), "")))
 
     def printArray(self, arr, mensaje: str):
-        mensaje = mensaje + "["
+        mensaje = mensaje + "[ "
         for i in range(len(arr) - 1):
             if arr[i].isArray():
                 mensaje = self.printArray2(arr[i].getValue(), mensaje)

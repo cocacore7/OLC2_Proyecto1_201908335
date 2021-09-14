@@ -1,3 +1,7 @@
-global var1 = [3,["Hola",["Hola","a"]::Array{String}],3,[1,2]::Array{Int64}];
+global var1 = [3, ["Hola",["Hola","a"]::Array{String}], 3, [1,2]::Array{Int64}];
 
-println(var1);
+println(length(var1[2][2]));
+
+for i in 1:length(var1)
+    println(var1[i]);
+end;

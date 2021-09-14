@@ -28,6 +28,9 @@ reservadas = {
     'float': 'MFLOAT',
     'string': 'MSTRING',
     'typeof': 'TYPEOF',
+    'push': 'RPUSH',
+    'pop': 'RPOP',
+    'length': 'RLENGTH',
 
     'print': 'PRINT',
     'println': 'PRINTLN',
@@ -890,6 +893,11 @@ def p_exp_string(t):
 def p_exp_typeof(t):
     'exp : TYPEOF PARIZQ exp PARDER'
     t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.TYPEOF)
+
+
+def p_exp_length(t):
+    'exp : RLENGTH PARIZQ exp PARDER'
+    t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.LENGTH)
 
 
 # ================================TIPOS DE EXPRESIONES, DATOS Y ARREGLOS

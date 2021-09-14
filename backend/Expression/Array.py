@@ -24,22 +24,32 @@ class Array(Expression):
                     if exp.type != typeExpression.INTEGER:
                         print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Int64")
                         break
+                    else:
+                        cualquiera = typeExpression.INTEGERA
                 elif self.type == typeExpression.FLOATA:
                     if exp.type != typeExpression.FLOAT:
                         print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Float64")
                         break
+                    else:
+                        cualquiera = typeExpression.FLOATA
                 elif self.type == typeExpression.STRINGA:
                     if exp.type != typeExpression.STRING:
                         print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un String")
                         break
+                    else:
+                        cualquiera = typeExpression.STRINGA
                 elif self.type == typeExpression.CHARA:
                     if exp.type != typeExpression.CHAR:
                         print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Char")
                         break
+                    else:
+                        cualquiera = typeExpression.CHARA
                 elif self.type == typeExpression.BOOLA:
                     if exp.type != typeExpression.BOOL:
                         print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Bool")
                         break
+                    else:
+                        cualquiera = typeExpression.BOOLA
                 else:
                     print("Declaracion Incorrecta: " + obtener(self.type.value) + ", No es Tipo Array")
                     break
