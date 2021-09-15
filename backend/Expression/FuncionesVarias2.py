@@ -20,7 +20,17 @@ def obtener(numero):
     elif numero == 5:
         return "Nothing"
     elif numero == 6:
-        return "Error"
+        return "Array{String}"
+    elif numero == 7:
+        return "Array{Int64}"
+    elif numero == 8:
+        return "Array{Float64}"
+    elif numero == 9:
+        return "Array{Bool}"
+    elif numero == 10:
+        return "Array{Char}"
+    elif numero == 11:
+        return "Array{Any}"
 
 
 class FuncionVaria2(Expression):
@@ -153,26 +163,6 @@ class FuncionVaria2(Expression):
                 )
             else:
                 print("Dato A Convertir String Incorrecto: " + str(rigthValue.getValue()))
-
-        elif self.operation == operacionVaria.PUSH:
-            if rigthValue.getType() == typeExpression.STRING:
-                return Symbol(
-                    "",
-                    "String",
-                    typeExpression.STRING
-                )
-            else:
-                print("Funcion Push Invalida Para Tipo: " + str(rigthValue.getValue()))
-
-        elif self.operation == operacionVaria.POP:
-            if rigthValue.getType() == typeExpression.STRING:
-                return Symbol(
-                    "",
-                    "String",
-                    typeExpression.STRING
-                )
-            else:
-                print("Funcion Pop Invalida Para Tipo: " + str(rigthValue.getValue()))
 
         elif self.operation == operacionVaria.LENGTH:
             if rigthValue.getType() == typeExpression.ANY:

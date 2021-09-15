@@ -16,8 +16,8 @@ class Print(Instruction):
                 contenido.append("P," + str(tempExp.getValue()))
                 print(str(tempExp.getValue()))
             else:
-                contenido.append("P," + str(self.printArray(tempExp.getValue(), "")))
-                print(str(self.printArray(tempExp.getValue(), "")))
+                contenido.append("P," + str(self.printArray(tempExp.getValue(), "", False)))
+                print(str(self.printArray(tempExp.getValue(), "", False)))
 
 
 class Println(Instruction):
@@ -32,37 +32,25 @@ class Println(Instruction):
                 contenido.append("L," + str(tempExp.getValue()))
                 print(str(tempExp.getValue()))
             else:
-                contenido.append("L," + str(self.printArray(tempExp.getValue(), "")))
-                print(str(self.printArray(tempExp.getValue(), "")))
+                contenido.append("L," + str(self.printArray(tempExp.getValue(), "", False)))
+                print(str(self.printArray(tempExp.getValue(), "", False)))
 
-    def printArray(self, arr, mensaje: str):
+    def printArray(self, arr, mensaje: str, sig: bool):
         mensaje = mensaje + "[ "
-        for i in range(len(arr) - 1):
+        for i in range(len(arr)):
             if arr[i].isArray():
-                mensaje = self.printArray2(arr[i].getValue(), mensaje)
+                if (i+1) >= len(arr):
+                    mensaje = self.printArray(arr[i].getValue(), mensaje, False)
+                else:
+                    mensaje = self.printArray(arr[i].getValue(), mensaje, True)
             else:
-                mensaje += str(arr[i].getValue()) + ", "
-        if len(arr) != 0:
-            if arr[len(arr) - 1].isArray():
-                mensaje = self.printArray2(arr[len(arr) - 1].getValue(), mensaje)
-                mensaje = mensaje + "] "
-            else:
-                mensaje += str(arr[len(arr) - 1].getValue())
-                mensaje = mensaje + "] "
+                if i == (len(arr)-1):
+                    mensaje += str(arr[i].getValue()) + " "
+                else:
+                    mensaje += str(arr[i].getValue()) + ", "
+        if sig:
+            mensaje = mensaje + "], "
+        else:
+            mensaje = mensaje + "] "
         return mensaje
 
-    def printArray2(self, arr, mensaje: str):
-        mensaje = mensaje + "["
-        for i in range(len(arr) - 1):
-            if arr[i].isArray():
-                mensaje = self.printArray2(arr[i].getValue(), mensaje)
-            else:
-                mensaje += str(arr[i].getValue()) + ", "
-        if len(arr) != 0:
-            if arr[len(arr) - 1].isArray():
-                mensaje = self.printArray2(arr[len(arr) - 1].getValue(), mensaje)
-                mensaje = mensaje + "], "
-            else:
-                mensaje += str(arr[len(arr) - 1].getValue())
-                mensaje = mensaje + "] "
-        return mensaje

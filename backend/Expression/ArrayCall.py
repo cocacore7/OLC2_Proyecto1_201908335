@@ -16,11 +16,15 @@ class ArrayCall(Expression):
 
         if tempArray.isArray():
             tempIndex = self.index.execute(environment)
-            tempValue = tempArray.getValue()
-            if len(tempValue) > int(tempIndex.getValue())-1 > -1:
-                return tempValue[int(tempIndex.getValue())-1]
+            if tempIndex.type == typeExpression.INTEGER:
+                tempValue = tempArray.getValue()
+                if len(tempValue) > int(tempIndex.getValue())-1 > -1:
+                    return tempValue[int(tempIndex.getValue())-1]
+                else:
+                    print("Indice De Arreglo Fuera De Rango")
+                    return Symbol('', 'nothing', typeExpression.NULO)
             else:
-                print("Indice De Arreglo Fuera De Rango")
+                print("Indice De Arreglo No Es Int64")
                 return Symbol('', 'nothing', typeExpression.NULO)
         else:
             print("Error: No es posible acceder a un " + str(tempArray.getType()))

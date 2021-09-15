@@ -175,14 +175,14 @@ def t_error(t):
 
 
 # Construyendo el analizador léxico
+from Environment.Environment import Environment
+
 from Enum.arithmeticOperation import arithmeticOperation
 from Enum.relationalOperation import relationalOperation
 from Enum.LogicOperation import logicOperation
 from Enum.OperacionVaria import operacionVaria
 from Enum.typeExpression import typeExpression
 from Enum.TransferSentence import TransferSentence
-
-from Environment.Environment import Environment
 
 from Expression.Primitive import Primitive
 from Expression.Array import Array
@@ -191,14 +191,15 @@ from Expression.Relational import Relational
 from Expression.Logic import Logic
 from Expression.FuncionesVarias import FuncionVaria
 from Expression.FuncionesVarias2 import FuncionVaria2
+from Expression.Push import Push
+from Expression.Pop import Pop
 from Expression.VariableCall import VariableCall
 from Expression.ArrayCall import ArrayCall
 
 from Instruction.Print import Print
 from Instruction.Print import Println
-
 from Instruction.Declaration import Declaration
-from Instruction.DeclarationArray import DeclarationArray
+from Instruction.AssignmentArray import AssignmentArray
 from Instruction.Function import Function
 from Instruction.Parameter import Parameter
 from Instruction.CallFuncSt import CallFuncSt
@@ -206,7 +207,6 @@ from Instruction.If import If
 from Instruction.While import While
 from Instruction.For import For
 from Instruction.Block import Block
-
 from Instruction.Return import Return
 from Instruction.Break import Break
 from Instruction.Continue import Continue
@@ -286,6 +286,7 @@ def p_instruction(t):
     '''instruction  : p_print 
                     | p_println
                     | declaration
+                    | assignmentA
                     | function
                     | callFuncSt
                     | ifSt
@@ -294,6 +295,8 @@ def p_instruction(t):
                     | returnST
                     | breakST
                     | continueST
+                    | push
+                    | pop
     '''
     t[0] = t[1]
 
@@ -302,6 +305,7 @@ def p_instructionf(t):
     '''instructionf : p_print
                     | p_println
                     | declarationf
+                    | assignmentAf
                     | callFuncSt
                     | ifSt
                     | whileSt
@@ -309,6 +313,8 @@ def p_instructionf(t):
                     | returnST
                     | breakST
                     | continueST
+                    | push
+                    | pop
     '''
     t[0] = t[1]
 
@@ -317,6 +323,7 @@ def p_instructionc(t):
     '''instructionc : p_print
                     | p_println
                     | declarationc
+                    | assignmentAc
                     | callFuncSt
                     | ifStc
                     | whileSt
@@ -324,6 +331,8 @@ def p_instructionc(t):
                     | returnST
                     | breakST
                     | continueST
+                    | push
+                    | pop
     '''
     t[0] = t[1]
 
@@ -352,7 +361,7 @@ def p_expresions(t):
         t[0] = [t[1]]
 
 
-# ================================ASIGNACIONES
+# ================================DECLARACIONES Y ASIGNACIONES
 def p_declaration(t):
     '''declaration  : ID IGUAL exp PTCOMA
                     | ID IGUAL exp DOSPT DOSPT typeDef PTCOMA
@@ -373,7 +382,7 @@ def p_declaration(t):
         t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "N", "N")
     elif len(t) == 8:
         if t[4] == "[":
-            t[0] = DeclarationArray(t[2], t[5], typeExpression.ANY, True, "N", "N")
+            t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "N", "N")
         else:
             t[0] = Declaration(t[1], t[3], t[6], False, "N", "N")
     elif len(t) == 9:
@@ -383,11 +392,11 @@ def p_declaration(t):
     elif len(t) == 4:
         t[0] = Declaration(t[2], None, typeExpression.NULO, False, "N", "N")
     elif len(t) == 7:
-        t[0] = DeclarationArray(t[1], t[4], typeExpression.ANY, True, "N", "N")
+        t[0] = Declaration(t[1], t[4], typeExpression.ANY, True, "N", "N")
     elif len(t) == 10:
-        t[0] = DeclarationArray(t[1], t[4], t[8], True, "N", "N")
+        t[0] = Declaration(t[1], t[4], t[8], True, "N", "N")
     elif len(t) == 11:
-        t[0] = DeclarationArray(t[2], t[5], t[9], True, "N", "N")
+        t[0] = Declaration(t[2], t[5], t[9], True, "N", "N")
 
 
 def p_declarationf(t):
@@ -411,7 +420,7 @@ def p_declarationf(t):
     elif len(t) == 8:
         if t[4] == "[":
             if t[1] == "local":
-                t[0] = DeclarationArray(t[2], t[5], typeExpression.ANY, True, "L", "F")
+                t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "L", "F")
             elif t[1] == "global":
                 t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "G", "F")
         else:
@@ -432,14 +441,14 @@ def p_declarationf(t):
         elif t[1] == "global":
             t[0] = Declaration(t[2], None, typeExpression.NULO, False, "G", "F")
     elif len(t) == 7:
-        t[0] = DeclarationArray(t[1], t[4], typeExpression.ANY, True, "L", "F")
+        t[0] = Declaration(t[1], t[4], typeExpression.ANY, True, "L", "F")
     elif len(t) == 10:
-        t[0] = DeclarationArray(t[1], t[4], t[8], True, "L", "F")
+        t[0] = Declaration(t[1], t[4], t[8], True, "L", "F")
     elif len(t) == 11:
         if t[1] == "local":
-            t[0] = DeclarationArray(t[2], t[5], t[9], True, "L", "F")
+            t[0] = Declaration(t[2], t[5], t[9], True, "L", "F")
         elif t[1] == "global":
-            t[0] = DeclarationArray(t[2], t[5], t[9], True, "G", "F")
+            t[0] = Declaration(t[2], t[5], t[9], True, "G", "F")
 
 
 def p_declarationc(t):
@@ -463,7 +472,7 @@ def p_declarationc(t):
     elif len(t) == 8:
         if t[4] == "[":
             if t[1] == "local":
-                t[0] = DeclarationArray(t[2], t[5], typeExpression.ANY, True, "L", "C")
+                t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "L", "C")
             elif t[1] == "global":
                 t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "G", "C")
         else:
@@ -484,14 +493,138 @@ def p_declarationc(t):
         elif t[1] == "global":
             t[0] = Declaration(t[2], None, typeExpression.NULO, False, "G", "C")
     elif len(t) == 7:
-        t[0] = DeclarationArray(t[1], t[4], typeExpression.ANY, True, "G", "C")
+        t[0] = Declaration(t[1], t[4], typeExpression.ANY, True, "G", "C")
     elif len(t) == 10:
-        t[0] = DeclarationArray(t[1], t[4], t[8], True, "G", "C")
+        t[0] = Declaration(t[1], t[4], t[8], True, "G", "C")
     elif len(t) == 11:
         if t[1] == "local":
-            t[0] = DeclarationArray(t[2], t[5], t[9], True, "L", "C")
+            t[0] = Declaration(t[2], t[5], t[9], True, "L", "C")
         elif t[1] == "global":
-            t[0] = DeclarationArray(t[2], t[5], t[9], True, "G", "C")
+            t[0] = Declaration(t[2], t[5], t[9], True, "G", "C")
+
+
+def p_assignment(t):
+    '''assignmentA  : ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+                    | ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+                    | LOCAL ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | LOCAL ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+
+                    | ID listArray2 IGUAL exp PTCOMA
+                    | ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL exp PTCOMA
+                    | LOCAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
+                    | LOCAL ID listArray2 IGUAL exp PTCOMA
+    '''
+    if len(t) == 8:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], typeExpression.ANY, True, "N", "N")
+    elif len(t) == 11:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], t[9], True, "N", "N")
+    elif len(t) == 12:
+        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], t[10], True, "N", "N")
+    elif len(t) == 9:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "N", "N")
+        elif t[1] == "global":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "N", "N")
+        else:
+            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "N", "N")
+    elif len(t) == 6:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "N", "N")
+    elif len(t) == 10:
+        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "N", "N")
+    elif len(t) == 7:
+        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "N", "N")
+
+
+def p_assignmentf(t):
+    '''assignmentAf : ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+                    | ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+                    | LOCAL ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | LOCAL ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+                    | ID listArray2 IGUAL exp PTCOMA
+                    | ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL exp PTCOMA
+                    | LOCAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
+                    | LOCAL ID listArray2 IGUAL exp PTCOMA
+    '''
+    if len(t) == 8:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], typeExpression.ANY, True, "L", "F")
+    elif len(t) == 11:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], t[9], True, "L", "F")
+    elif len(t) == 12:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], t[10], True, "L", "F")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], t[10], True, "G", "F")
+    elif len(t) == 9:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "L", "F")
+        elif t[1] == "global":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "G", "F")
+        else:
+            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "L", "F")
+    elif len(t) == 6:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "L", "F")
+    elif len(t) == 10:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "L", "F")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "G", "F")
+    elif len(t) == 7:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "L", "F")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "G", "F")
+
+
+def p_assignmentc(t):
+    '''assignmentAc : ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+                    | ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+                    | LOCAL ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
+                    | LOCAL ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+                    | ID listArray2 IGUAL exp PTCOMA
+                    | ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
+                    | GLOBAL ID listArray2 IGUAL exp PTCOMA
+                    | LOCAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
+                    | LOCAL ID listArray2 IGUAL exp PTCOMA
+    '''
+    if len(t) == 8:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], typeExpression.ANY, True, "G", "C")
+    elif len(t) == 11:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], t[9], True, "G", "C")
+    elif len(t) == 12:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], t[10], True, "L", "C")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], t[10], True, "G", "C")
+    elif len(t) == 9:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "L", "C")
+        elif t[1] == "global":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "G", "C")
+        else:
+            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "G", "C")
+    elif len(t) == 6:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "G", "C")
+    elif len(t) == 10:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "L", "C")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "G", "C")
+    elif len(t) == 7:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "L", "C")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "G", "C")
 
 
 # ================================FUNCIONES
@@ -755,6 +888,17 @@ def p_list_array(t):
         t[0] = ArrayCall(tempVar, t[2])
 
 
+def p_list_array2(t):
+    '''listArray2   : listArray2  CORIZQ exp CORDER
+                    | CORIZQ exp CORDER
+    '''
+    if len(t) == 5:
+        t[1].append(t[3])
+        t[0] = t[1]
+    elif len(t) == 4:
+        t[0] = [t[2]]
+
+
 # ================================EXPRESIONES ARITMETICAS, LOGICAS Y RELACIONALES
 def p_exp_aritmetica(t):
     '''exp  : exp MAS exp
@@ -895,6 +1039,75 @@ def p_exp_typeof(t):
     t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.TYPEOF)
 
 
+def p_exp_push(t):
+    '''exp  : RPUSH NOTT PARIZQ ID COMA exp PARDER
+            | RPUSH NOTT PARIZQ ID COMA CORIZQ CORDER PARDER
+            | RPUSH NOTT PARIZQ ID COMA CORIZQ exps CORDER PARDER
+            | RPUSH NOTT PARIZQ ID listArray2 COMA exp PARDER
+            | RPUSH NOTT PARIZQ ID listArray2 COMA CORIZQ CORDER PARDER
+            | RPUSH NOTT PARIZQ ID listArray2 COMA CORIZQ exps CORDER PARDER
+    '''
+    if len(t) == 8:
+        t[0] = Push(t[4], VariableCall(t[4]), [], t[6])
+    elif len(t) == 9:
+        if t[5] == ",":
+            t[0] = Push(t[4], VariableCall(t[4]), [], [])
+        else:
+            t[0] = Push(t[4], VariableCall(t[4]), t[5], t[7])
+    elif len(t) == 10:
+        if t[5] == ",":
+            t[0] = Push(t[4], VariableCall(t[4]), [], t[7])
+        else:
+            t[0] = Push(t[4], VariableCall(t[4]), t[5], [])
+    elif len(t) == 11:
+        t[0] = Push(t[4], VariableCall(t[4]), t[5], t[8])
+
+
+def p_exp_pop(t):
+    '''exp  : RPOP NOTT PARIZQ ID PARDER
+            | RPOP NOTT PARIZQ ID listArray2 PARDER
+    '''
+    if len(t) == 6:
+        t[0] = Pop(t[4], VariableCall(t[4]), [])
+    else:
+        t[0] = Pop(t[4], VariableCall(t[4]), t[5])
+
+
+def p_exp_push2(t):
+    '''push : RPUSH NOTT PARIZQ ID COMA exp PARDER PTCOMA
+            | RPUSH NOTT PARIZQ ID COMA CORIZQ CORDER PARDER PTCOMA
+            | RPUSH NOTT PARIZQ ID COMA CORIZQ exps CORDER PARDER PTCOMA
+            | RPUSH NOTT PARIZQ ID listArray2 COMA exp PARDER PTCOMA
+            | RPUSH NOTT PARIZQ ID listArray2 COMA CORIZQ CORDER PARDER PTCOMA
+            | RPUSH NOTT PARIZQ ID listArray2 COMA CORIZQ exps CORDER PARDER PTCOMA
+
+    '''
+    if len(t) == 9:
+        t[0] = Push(t[4], VariableCall(t[4]), [], t[6])
+    elif len(t) == 10:
+        if t[5] == ",":
+            t[0] = Push(t[4], VariableCall(t[4]), [], [])
+        else:
+            t[0] = Push(t[4], VariableCall(t[4]), t[5], t[7])
+    elif len(t) == 11:
+        if t[5] == ",":
+            t[0] = Push(t[4], VariableCall(t[4]), [], t[7])
+        else:
+            t[0] = Push(t[4], VariableCall(t[4]), t[5], [])
+    elif len(t) == 12:
+        t[0] = Push(t[4], VariableCall(t[4]), t[5], t[8])
+
+
+def p_exp_pop2(t):
+    '''pop  : RPOP NOTT PARIZQ ID PARDER PTCOMA
+            | RPOP NOTT PARIZQ ID listArray2 PARDER PTCOMA
+    '''
+    if len(t) == 7:
+        t[0] = Pop(t[4], VariableCall(t[4]), [])
+    else:
+        t[0] = Pop(t[4], VariableCall(t[4]), t[5])
+
+
 def p_exp_length(t):
     'exp : RLENGTH PARIZQ exp PARDER'
     t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.LENGTH)
@@ -971,7 +1184,7 @@ def p_exp_valor_verdadero(t):
     t[0] = Primitive(True, typeExpression.BOOL)
 
 
-def p_exp_valor_falso(t):
+def p_exp_valor_falnso(t):
     '''exp  : FALSO
     '''
     t[0] = Primitive(False, typeExpression.BOOL)

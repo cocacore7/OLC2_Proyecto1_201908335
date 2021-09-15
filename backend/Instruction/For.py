@@ -22,8 +22,8 @@ class For(Instruction):
         newEnvP = Environment(environment)
         if self.parameter.type is not None:
             if self.parameter.type != lefthExp.type:
-                print("Los tipos De Dato Especificados No Son Iguales: " + obtener(lefthExp.type) + " y " + obtener(
-                    rigthExp.type))
+                print("Los tipos De Dato Especificados No Son Iguales: " + obtener(lefthExp.type.value) + " y " + obtener(
+                    rigthExp.type.value))
                 return
         else:
             self.parameter.type = lefthExp.type
@@ -52,12 +52,12 @@ class For(Instruction):
                             rigthExp.value))
                         return
                 else:
-                    print("Los tipos De Dato Especificados No Son Validos: " + obtener(lefthExp.type) + " y " + obtener(
-                        rigthExp.type))
+                    print("Los tipos De Dato Especificados No Son Validos: " + obtener(lefthExp.type.value) + " y " + obtener(
+                        rigthExp.type.value))
                     return
             else:
-                print("Los tipos De Dato Especificados No Son Validos: " + obtener(lefthExp.type) + " y " + obtener(
-                    rigthExp.type))
+                print("Los tipos De Dato Especificados No Son Validos: " + obtener(lefthExp.type.value) + " y " + obtener(
+                    rigthExp.type.value))
                 return
         else:
             if lefthExp.type == typeExpression.STRING:
@@ -78,22 +78,32 @@ class For(Instruction):
                                 break
             # Aqui Va El De Arreglos Tambien
             else:
-                print("El tipo De Dato Especificado No Es Valido: " + obtener(lefthExp.type))
+                print("El tipo De Dato Especificado No Es Valido: " + obtener(lefthExp.type.value))
                 return
 
 
-def obtener(a: typeExpression):
-    if a == typeExpression.INTEGER:
-        return "Int64"
-    elif a == typeExpression.FLOAT:
-        return "Float64"
-    elif a == typeExpression.STRING:
+def obtener(numero):
+    if numero == 0:
         return "String"
-    elif a == typeExpression.CHAR:
-        return "Char"
-    elif a == typeExpression.BOOL:
+    elif numero == 1:
+        return "Int64"
+    elif numero == 2:
+        return "Float64"
+    elif numero == 3:
         return "Bool"
-    elif a == typeExpression.NULO:
+    elif numero == 4:
+        return "Char"
+    elif numero == 5:
         return "Nothing"
-    elif a == typeExpression.ERROR:
-        return "Error"
+    elif numero == 6:
+        return "Array{String}"
+    elif numero == 7:
+        return "Array{Int64}"
+    elif numero == 8:
+        return "Array{Float64}"
+    elif numero == 9:
+        return "Array{Bool}"
+    elif numero == 10:
+        return "Array{Char}"
+    elif numero == 11:
+        return "Array{Any}"

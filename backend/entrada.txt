@@ -1,7 +1,5 @@
-global var1 = [3, ["Hola",["Hola","a"]::Array{String}], 3, [1,2]::Array{Int64}];
-
-println(length(var1[2][2]));
-
-for i in 1:length(var1)
-    println(var1[i]);
-end;
+# Print Hello World
+var1 = [1,1,1,[2,2,[3,3,3,3],2,2]];
+println(var1);
+push!(var1[4][3][1],[500,500]);
+println(var1);
