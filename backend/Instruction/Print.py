@@ -1,6 +1,7 @@
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
+from Instruction.Parameter import Parameter
 from Globales.Salida import contenido
 
 
@@ -12,12 +13,20 @@ class Print(Instruction):
     def execute(self, environment: Environment):
         for ins in self.expression:
             tempExp = ins.execute(environment)
-            if not tempExp.isArray():
-                contenido.append("P," + str(tempExp.getValue()))
-                print(str(tempExp.getValue()))
+            if type(tempExp) is not Parameter:
+                if not tempExp.isArray():
+                    contenido.append("P," + str(tempExp.getValue()))
+                    print(str(tempExp.getValue()))
+                else:
+                    contenido.append("P," + str(self.printArray(tempExp.getValue(), "", False)))
+                    print(str(self.printArray(tempExp.getValue(), "", False)))
             else:
-                contenido.append("P," + str(self.printArray(tempExp.getValue(), "", False)))
-                print(str(self.printArray(tempExp.getValue(), "", False)))
+                if not tempExp.isArray:
+                    contenido.append("P," + str(tempExp.getValue()))
+                    print(str(tempExp.getValue()))
+                else:
+                    contenido.append("P," + str(self.printArray(tempExp.getValue(), "", False)))
+                    print(str(self.printArray(tempExp.getValue(), "", False)))
 
 
 class Println(Instruction):
@@ -28,12 +37,20 @@ class Println(Instruction):
     def execute(self, environment: Environment):
         for ins in self.expression:
             tempExp = ins.execute(environment)
-            if not tempExp.isArray():
-                contenido.append("L," + str(tempExp.getValue()))
-                print(str(tempExp.getValue()))
+            if type(tempExp) is not Parameter:
+                if not tempExp.isArray():
+                    contenido.append("L," + str(tempExp.getValue()))
+                    print(str(tempExp.getValue()))
+                else:
+                    contenido.append("L," + str(self.printArray(tempExp.getValue(), "", False)))
+                    print(str(self.printArray(tempExp.getValue(), "", False)))
             else:
-                contenido.append("L," + str(self.printArray(tempExp.getValue(), "", False)))
-                print(str(self.printArray(tempExp.getValue(), "", False)))
+                if not tempExp.isArray:
+                    contenido.append("L," + str(tempExp.getValue()))
+                    print(str(tempExp.getValue()))
+                else:
+                    contenido.append("L," + str(self.printArray(tempExp.getValue(), "", False)))
+                    print(str(self.printArray(tempExp.getValue(), "", False)))
 
     def printArray(self, arr, mensaje: str, sig: bool):
         mensaje = mensaje + "[ "

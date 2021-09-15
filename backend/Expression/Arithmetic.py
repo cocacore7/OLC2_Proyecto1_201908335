@@ -3,6 +3,7 @@ from Enum.arithmeticOperation import arithmeticOperation
 from Environment.Environment import Environment
 from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
+from Instruction.Parameter import Parameter
 
 
 class Arithmetic(Expression):
@@ -14,7 +15,13 @@ class Arithmetic(Expression):
 
     def execute(self, environment: Environment) -> Symbol:
         leftValue = self.leftExp.execute(environment)
+        if type(leftValue) is Parameter:
+            if type(leftValue.value) is Symbol:
+                leftValue = leftValue.value
         rightValue = self.rightExp.execute(environment)
+        if type(rightValue) is Parameter:
+            if type(rightValue.value) is Symbol:
+                rightValue.value = rightValue.value.getValue()
 
         if self.operation == arithmeticOperation.PLUS:
             if leftValue.getType() == typeExpression.INTEGER:

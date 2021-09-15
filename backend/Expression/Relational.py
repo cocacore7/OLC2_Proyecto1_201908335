@@ -3,6 +3,7 @@ from Enum.typeExpression import typeExpression
 from Environment.Environment import Environment
 from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
+from Instruction.Parameter import Parameter
 
 
 class Relational(Expression):
@@ -15,7 +16,13 @@ class Relational(Expression):
     def execute(self, environment: Environment) -> Symbol:
 
         leftValue = self.leftExp.execute(environment)
+        if type(leftValue) is Parameter:
+            if type(leftValue.value) is Symbol:
+                leftValue = leftValue.value
         rightValue = self.rightExp.execute(environment)
+        if type(rightValue) is Parameter:
+            if type(rightValue.value) is Symbol:
+                rightValue.value = rightValue.value.getValue()
 
         if self.operation == relationalOperation.MAYOR:
             if leftValue.getType() == typeExpression.STRING:

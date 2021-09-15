@@ -77,6 +77,23 @@ class For(Instruction):
                             elif temp.type == TransferSentence.CONTINUE:
                                 break
             # Aqui Va El De Arreglos Tambien
+            elif lefthExp.isArray():
+                for i in lefthExp.value:
+                    self.parameter.setValue(i)
+                    self.parameter.type = i.type
+                    newEnvP.saveParameter(self.parameter.id, self.parameter, self.parameter.type,
+                                          self.parameter.isArray)
+                    newEnv = Environment(newEnvP)
+                    for ins in self.block:
+                        temp = ins.execute(newEnv)
+                        if temp is not None:
+                            if temp.type == TransferSentence.RETURN:
+                                temp.ciclo = True
+                                return temp
+                            elif temp.type == TransferSentence.BREAK:
+                                return
+                            elif temp.type == TransferSentence.CONTINUE:
+                                break
             else:
                 print("El tipo De Dato Especificado No Es Valido: " + obtener(lefthExp.type.value))
                 return

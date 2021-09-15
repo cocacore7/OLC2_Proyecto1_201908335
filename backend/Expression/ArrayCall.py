@@ -16,6 +16,8 @@ class ArrayCall(Expression):
 
         if tempArray.isArray():
             tempIndex = self.index.execute(environment)
+            if type(tempIndex.value) is Symbol:
+                tempIndex.value = tempIndex.value.getValue()
             if tempIndex.type == typeExpression.INTEGER:
                 tempValue = tempArray.getValue()
                 if len(tempValue) > int(tempIndex.getValue())-1 > -1:
