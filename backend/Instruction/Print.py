@@ -17,10 +17,8 @@ class Print(Instruction):
                 if type(tempExp.value) is Symbol:
                     tempExp.value = tempExp.value.getValue()
                 contenido.append("P," + str(tempExp.getValue()))
-                print(str(tempExp.getValue()))
             else:
                 contenido.append("P," + str(self.printArray(tempExp.getValue(), "", False)))
-                print(str(self.printArray(tempExp.getValue(), "", False)))
 
     def printArray(self, arr, mensaje: str, sig: bool):
         mensaje = mensaje + "[ "
@@ -54,10 +52,8 @@ class Println(Instruction):
                 if type(tempExp.value) is Symbol:
                     tempExp.value = tempExp.value.getValue()
                 contenido.append("L," + str(tempExp.getValue()))
-                print(str(tempExp.getValue()))
             else:
                 contenido.append("L," + str(self.printArray(tempExp.getValue(), "", False)))
-                print(str(self.printArray(tempExp.getValue(), "", False)))
 
     def printArray(self, arr, mensaje: str, sig: bool):
         mensaje = mensaje + "[ "
