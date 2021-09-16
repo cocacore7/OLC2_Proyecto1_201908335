@@ -1,3 +1,4 @@
+from re import M
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
@@ -11,14 +12,16 @@ class Print(Instruction):
         self.expression = expression
 
     def execute(self, environment: Environment):
+        mensaje = ""
         for ins in self.expression:
             tempExp = ins.execute(environment)
             if not tempExp.isArray():
                 if type(tempExp.value) is Symbol:
                     tempExp.value = tempExp.value.getValue()
-                contenido.append("P," + str(tempExp.getValue()))
+                mensaje = mensaje + str(tempExp.getValue())
             else:
-                contenido.append("P," + str(self.printArray(tempExp.getValue(), "", False)))
+                mensaje = mensaje + str(self.printArray(tempExp.getValue(), "", False))
+        contenido.append("P," + mensaje)
 
     def printArray(self, arr, mensaje: str, sig: bool):
         mensaje = mensaje + "[ "
@@ -46,14 +49,16 @@ class Println(Instruction):
         self.expression = expression
 
     def execute(self, environment: Environment):
+        mensaje = ""
         for ins in self.expression:
             tempExp = ins.execute(environment)
             if not tempExp.isArray():
                 if type(tempExp.value) is Symbol:
                     tempExp.value = tempExp.value.getValue()
-                contenido.append("L," + str(tempExp.getValue()))
+                mensaje = mensaje + str(tempExp.getValue())
             else:
-                contenido.append("L," + str(self.printArray(tempExp.getValue(), "", False)))
+                mensaje = mensaje + str(self.printArray(tempExp.getValue(), "", False))
+        contenido.append("L," + mensaje)
 
     def printArray(self, arr, mensaje: str, sig: bool):
         mensaje = mensaje + "[ "

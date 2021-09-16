@@ -343,9 +343,9 @@ def p_print(t):
                 | PRINT PARIZQ PARDER PTCOMA
     '''
     if len(t) == 6:
-        t[0] = Println(t[3])
+        t[0] = Print(t[3])
     else:
-        t[0] = Println([Primitive("", typeExpression.STRING)])
+        t[0] = Print([Primitive("", typeExpression.STRING)])
 
 
 def p_println(t):

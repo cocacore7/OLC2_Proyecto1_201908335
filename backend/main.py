@@ -17,7 +17,7 @@ def Analizar():
     parser.parse(request.json['Texto'])
     salida = ""
     for valor in contenido:
-        tmp = valor.split(sep=",",maxsplit=2)
+        tmp = valor.split(sep=",",maxsplit=1)
         if tmp[0] == "P":
             salida = salida + tmp[1]
         else:
@@ -27,9 +27,11 @@ def Analizar():
 
 
 if __name__ == '__main__':
-    app.run(threaded=True, debug=True, port=4000)
+    app.run(threaded=True, debug=True, port="https://backcompi.herokuapp.com")
+    '''app.run(threaded=True, debug=True, port="https://localhost:4000")'''
 
 
 '''f = open("./entrada.txt", "r")
 input = f.read()
-parser.parse(input)'''
+parser.parse(input)
+salida = ""'''
