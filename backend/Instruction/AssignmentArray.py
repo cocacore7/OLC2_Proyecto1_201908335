@@ -1,10 +1,10 @@
-from Expression.Primitive import Primitive
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
 from Environment.Symbol import Symbol
 from Expression.VariableCall import VariableCall
+from Expression.ArrayCall import ArrayCall
 
 
 class AssignmentArray(Instruction):
@@ -32,16 +32,26 @@ class AssignmentArray(Instruction):
                         return
                     tempArray = self.llamada.execute(environment)
                     if tempArray.isArray():
-                        newArray = nuevoArreglo(tempArray, self.indices, tempValue, self.type, environment)
-                        environment.alterArray(self.id, newArray, self.tipoD, self.entorno)
+                        tempInd = self.indices.copy()
+                        newArray = nuevoArreglo(tempArray, tempInd, tempValue, self.type, environment, self)
+                        if type(self.value) == VariableCall:
+                            environment.alterArray(self.value.id, newArray, "", "", self.value.id)
+                        elif type(self.value) == ArrayCall:
+                            environment.alterArray(obtenerID(self.value), newArray, "", "", obtenerID(self.value))
+                        environment.alterArray(self.id, newArray, self.tipoD, self.entorno, "")
                     else:
                         print("La Variable No Es Un Arreglo")
                         return
                 else:
                     tempArray = self.llamada.execute(environment)
                     if tempArray.isArray():
-                        newArray = nuevoArreglo(tempArray, self.indices, tempValue, self.type, environment)
-                        environment.alterArray(self.id, newArray, self.tipoD, self.entorno)
+                        tempInd = self.indices.copy()
+                        newArray = nuevoArreglo(tempArray, tempInd, tempValue, self.type, environment, self)
+                        if type(self.value) == VariableCall:
+                            environment.alterArray(self.id, newArray, self.tipoD, self.entorno, self.value.id)
+                        elif type(self.value) == ArrayCall:
+                            environment.alterArray(obtenerID(self.value), newArray, "", "", obtenerID(self.value))
+                        environment.alterArray(self.id, newArray, self.tipoD, self.entorno, "")
                     else:
                         print("La Variable No Es Un Arreglo")
                         return
@@ -83,18 +93,20 @@ class AssignmentArray(Instruction):
                         return
                 tempArray = self.llamada.execute(environment)
                 if tempArray.isArray():
-                    newArray = nuevoArreglo2(tempArray, self.indices, tempExp, self.type, environment)
+                    tempInd = self.indices.copy()
+                    newArray = nuevoArreglo2(tempArray, tempInd, tempExp, self.type, environment, self)
                     newArray.array = True
-                    environment.alterArray(self.id, newArray, self.tipoD, self.entorno)
+                    environment.alterArray(self.id, newArray, self.tipoD, self.entorno, "")
                 else:
                     print("La Variable No Es Un Arreglo")
                     return
             else:
                 tempArray = self.llamada.execute(environment)
                 if tempArray.isArray():
-                    newArray = nuevoArreglo2(tempArray, self.indices, tempExp, self.type, environment)
+                    tempInd = self.indices.copy()
+                    newArray = nuevoArreglo2(tempArray, tempInd, tempExp, self.type, environment, self)
                     newArray.array = True
-                    environment.alterArray(self.id, newArray, self.tipoD, self.entorno)
+                    environment.alterArray(self.id, newArray, self.tipoD, self.entorno, "")
                 else:
                     print("La Variable No Es Un Arreglo")
                     return
@@ -127,13 +139,13 @@ def obtener(numero):
         return "Array{Any}"
 
 
-def nuevoArreglo(arr, indices, newValue, type, environment):
+def nuevoArreglo(arr, indices, newValue, type, environment, instruc):
     if len(indices) != 0:
         tempindex = indices.pop(0).execute(environment)
         if tempindex.type == typeExpression.INTEGER:
             if len(arr.value) >= tempindex.value > 0:
                 temp = arr.value[tempindex.value - 1]
-                arr.value[tempindex.value - 1] = nuevoArreglo(temp, indices, newValue, type, environment)
+                arr.value[tempindex.value - 1] = nuevoArreglo(temp, indices, newValue, type, environment, instruc)
                 return arr
             else:
                 print("Indice Solicitado Fuera De Rango")
@@ -145,13 +157,13 @@ def nuevoArreglo(arr, indices, newValue, type, environment):
         return newValue
 
 
-def nuevoArreglo2(arr, indices, newValue, type, environment):
+def nuevoArreglo2(arr, indices, newValue, type, environment, instruc):
     if len(indices) != 0:
         tempindex = indices.pop(0).execute(environment)
         if tempindex.type == typeExpression.INTEGER:
             if len(arr.value) >= tempindex.value > 0:
                 temp = arr.value[tempindex.value - 1]
-                arr.value[tempindex.value - 1] = nuevoArreglo2(temp, indices, newValue, type, environment)
+                arr.value[tempindex.value - 1] = nuevoArreglo2(temp, indices, newValue, type, environment, instruc)
                 return arr
             else:
                 print("Indice Solicitado Fuera De Rango")
@@ -163,3 +175,11 @@ def nuevoArreglo2(arr, indices, newValue, type, environment):
         tempSymbol: Symbol = Symbol('', newValue, type)
         tempSymbol.array = True
         return tempSymbol
+
+
+def obtenerID(i):
+    if type(i) == ArrayCall:
+        a = obtenerID(i.array)
+        return a
+    else:
+        return i.id

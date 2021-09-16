@@ -19,7 +19,7 @@ class Environment:
             tempEnv = tempEnv.father
         return tempEnv
 
-    def saveVariable(self, id: str, value, type: typeExpression, isArray: bool, entorno: str, tipoD: str):
+    def saveVariable(self, id: str, value, type: typeExpression, isArray: bool, entorno: str, tipoD: str, ref: str):
         if self.father is not None:
             if tipoD == "F":
                 if entorno == "G":
@@ -29,6 +29,8 @@ class Environment:
                         tempVar.value = value
                         tempVar.type = value.getType()
                         tempVar.array = value.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
                         globalenv.variable[id] = tempVar
                         self.globalAccess[id] = id
                         if self.variable.get(id) is not None:
@@ -36,6 +38,8 @@ class Environment:
                         return
                     tempVar = Symbol(id, value, type)
                     tempVar.array = isArray
+                    if tempVar.ref == "":
+                        tempVar.ref = ref
                     globalenv.variable[id] = tempVar
                     self.globalAccess[id] = id
                     if self.variable.get(id) is not None:
@@ -48,10 +52,23 @@ class Environment:
                             tempVar.value = value
                             tempVar.type = value.getType()
                             tempVar.array = value.isArray()
+                            if tempVar.ref == "":
+                                tempVar.ref = ref
                             self.variable[id] = tempVar
+                            return
+                        elif self.father.variable.get(id) is not None:
+                            tempVar: Symbol = self.father.variable.get(id)
+                            tempVar.value = value
+                            tempVar.type = value.getType()
+                            tempVar.array = value.isArray()
+                            if tempVar.ref == "":
+                                tempVar.ref = ref
+                            self.father.variable[id] = tempVar
                             return
                         tempVar = Symbol(id, value, type)
                         tempVar.array = isArray
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
                         self.variable[id] = tempVar
                         return
                     else:
@@ -60,6 +77,8 @@ class Environment:
                         tempVar.value = value
                         tempVar.type = value.getType()
                         tempVar.array = value.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
                         globalenv.variable[id] = tempVar
                         return
             elif tipoD == "C":
@@ -72,12 +91,16 @@ class Environment:
                                 tempVar.value = value
                                 tempVar.type = value.getType()
                                 tempVar.array = value.isArray()
+                                if tempVar.ref == "":
+                                    tempVar.ref = ref
                                 tempEnv.variable[id] = tempVar
                                 return
                             tempEnv = tempEnv.father
                         globalenv = self.getGlobal()
                         tempVar = Symbol(id, value, type)
                         tempVar.array = isArray
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
                         globalenv.variable[id] = tempVar
                         return
                     else:
@@ -85,6 +108,8 @@ class Environment:
                         tempVar.value = value
                         tempVar.type = value.getType()
                         tempVar.array = value.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
                         self.variable[id] = tempVar
                         return
                 elif entorno == "L":
@@ -93,11 +118,15 @@ class Environment:
                         tempVar.value = value
                         tempVar.type = value.getType()
                         tempVar.array = value.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
                         self.variable[id] = tempVar
                         self.localAccess[id] = id
                         return
                     tempVar = Symbol(id, value, type)
                     tempVar.array = isArray
+                    if tempVar.ref == "":
+                        tempVar.ref = ref
                     self.variable[id] = tempVar
                     self.localAccess[id] = id
                     return
@@ -107,13 +136,17 @@ class Environment:
                 tempVar.value = value
                 tempVar.type = value.getType()
                 tempVar.array = value.isArray()
+                if tempVar.ref == "":
+                    tempVar.ref = ref
                 self.variable[id] = tempVar
                 return
             tempVar = Symbol(id, value, type)
             tempVar.array = isArray
+            if tempVar.ref == "":
+                tempVar.ref = ref
             self.variable[id] = tempVar
 
-    def alterArray(self, id: str, value, entorno: str, tipoD: str):
+    def alterArray(self, id: str, value, entorno: str, tipoD: str, ref: str):
         if self.father is not None:
             if tipoD == "F":
                 if entorno == "G":
@@ -123,6 +156,8 @@ class Environment:
                         tempVar.value = value
                         tempVar.type = value.getType()
                         tempVar.array = value.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
                         globalenv.variable[id] = tempVar
                         self.globalAccess[id] = id
                         if self.variable.get(id) is not None:
@@ -136,7 +171,17 @@ class Environment:
                             tempVar.value = value
                             tempVar.type = value.getType()
                             tempVar.array = value.isArray()
+                            if tempVar.ref == "":
+                                tempVar.ref = ref
                             self.variable[id] = tempVar
+                        elif self.father.variable.get(id) is not None:
+                            tempVar: Symbol = self.father.variable.get(id)
+                            tempVar.value = value
+                            tempVar.type = value.getType()
+                            tempVar.array = value.isArray()
+                            if tempVar.ref == "":
+                                tempVar.ref = ref
+                            self.father.variable[id] = tempVar
                         else:
                             print("Arreglo: " + id + ", No Existe")
                     else:
@@ -145,6 +190,8 @@ class Environment:
                         tempVar.value = value
                         tempVar.type = value.getType()
                         tempVar.array = value.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
                         globalenv.variable[id] = tempVar
             elif tipoD == "C":
                 if entorno == "G":
@@ -156,6 +203,8 @@ class Environment:
                                 tempVar.value = value
                                 tempVar.type = value.getType()
                                 tempVar.array = value.isArray()
+                                if tempVar.ref == "":
+                                    tempVar.ref = ref
                                 tempEnv.variable[id] = tempVar
                                 return
                             tempEnv = tempEnv.father
@@ -165,6 +214,8 @@ class Environment:
                         tempVar.value = value
                         tempVar.type = value.getType()
                         tempVar.array = value.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
                         self.variable[id] = tempVar
                 elif entorno == "L":
                     if self.variable.get(id) is not None:
@@ -172,6 +223,8 @@ class Environment:
                         tempVar.value = value
                         tempVar.type = value.getType()
                         tempVar.array = value.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
                         self.variable[id] = tempVar
                         self.localAccess[id] = id
                     else:
@@ -182,6 +235,8 @@ class Environment:
                 tempVar.value = value
                 tempVar.type = value.getType()
                 tempVar.array = value.isArray()
+                if tempVar.ref == "":
+                    tempVar.ref = ref
                 self.variable[id] = tempVar
             else:
                 print("Arreglo: " + id + ", No Existe")
@@ -191,11 +246,11 @@ class Environment:
         tempEnv = self
         while tempEnv is not None:
             if tempEnv.variable.get(id) is not None:
-                tempVar: Symbol = self.variable.get(id)
+                tempVar: Symbol = tempEnv.variable.get(id)
                 tempVar.value = value
                 tempVar.type = value.getType()
                 tempVar.array = value.isArray()
-                self.variable[id] = tempVar
+                tempEnv.variable[id] = tempVar
                 return
             tempEnv = tempEnv.father
         print("Error: la variable " + id + " no existe")

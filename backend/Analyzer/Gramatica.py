@@ -340,14 +340,22 @@ def p_instructionc(t):
 # ================================INSTRUCCIONES IMPRIMIR
 def p_print(t):
     '''p_print  : PRINT PARIZQ exps PARDER PTCOMA
+                | PRINT PARIZQ PARDER PTCOMA
     '''
-    t[0] = Print(t[3])
+    if len(t) == 6:
+        t[0] = Println(t[3])
+    else:
+        t[0] = Println([Primitive("", typeExpression.STRING)])
 
 
 def p_println(t):
     '''p_println    : PRINTLN PARIZQ exps PARDER PTCOMA
+                    | PRINTLN PARIZQ PARDER PTCOMA
     '''
-    t[0] = Println(t[3])
+    if len(t) == 6:
+        t[0] = Println(t[3])
+    else:
+        t[0] = Println([Primitive("",typeExpression.STRING)])
 
 
 def p_expresions(t):
@@ -546,6 +554,7 @@ def p_assignmentf(t):
                     | GLOBAL ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
                     | LOCAL ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
                     | LOCAL ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+
                     | ID listArray2 IGUAL exp PTCOMA
                     | ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
                     | GLOBAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
@@ -590,6 +599,7 @@ def p_assignmentc(t):
                     | GLOBAL ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
                     | LOCAL ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
                     | LOCAL ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
+
                     | ID listArray2 IGUAL exp PTCOMA
                     | ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
                     | GLOBAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
@@ -660,9 +670,9 @@ def p_parameter(t):
                     | ID
     '''
     if len(t) == 5:
-        t[0] = Parameter(t[1], t[4], False)
+        t[0] = Parameter(t[1], t[4])
     elif len(t) == 2:
-        t[0] = Parameter(t[1], None, False)
+        t[0] = Parameter(t[1], None)
 
 
 # ================================LLAMADA A FUNCIONES

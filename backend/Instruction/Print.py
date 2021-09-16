@@ -1,7 +1,6 @@
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
-from Instruction.Parameter import Parameter
 from Globales.Salida import contenido
 
 
@@ -13,20 +12,31 @@ class Print(Instruction):
     def execute(self, environment: Environment):
         for ins in self.expression:
             tempExp = ins.execute(environment)
-            if type(tempExp) is not Parameter:
-                if not tempExp.isArray():
-                    contenido.append("P," + str(tempExp.getValue()))
-                    print(str(tempExp.getValue()))
-                else:
-                    contenido.append("P," + str(self.printArray(tempExp.getValue(), "", False)))
-                    print(str(self.printArray(tempExp.getValue(), "", False)))
+            if not tempExp.isArray():
+                contenido.append("P," + str(tempExp.getValue()))
+                print(str(tempExp.getValue()))
             else:
-                if not tempExp.isArray:
-                    contenido.append("P," + str(tempExp.getValue()))
-                    print(str(tempExp.getValue()))
+                contenido.append("P," + str(self.printArray(tempExp.getValue(), "", False)))
+                print(str(self.printArray(tempExp.getValue(), "", False)))
+
+    def printArray(self, arr, mensaje: str, sig: bool):
+        mensaje = mensaje + "[ "
+        for i in range(len(arr)):
+            if arr[i].isArray():
+                if (i+1) >= len(arr):
+                    mensaje = self.printArray(arr[i].getValue(), mensaje, False)
                 else:
-                    contenido.append("P," + str(self.printArray(tempExp.getValue(), "", False)))
-                    print(str(self.printArray(tempExp.getValue(), "", False)))
+                    mensaje = self.printArray(arr[i].getValue(), mensaje, True)
+            else:
+                if i == (len(arr)-1):
+                    mensaje += str(arr[i].getValue()) + " "
+                else:
+                    mensaje += str(arr[i].getValue()) + ", "
+        if sig:
+            mensaje = mensaje + "], "
+        else:
+            mensaje = mensaje + "] "
+        return mensaje
 
 
 class Println(Instruction):
@@ -37,20 +47,12 @@ class Println(Instruction):
     def execute(self, environment: Environment):
         for ins in self.expression:
             tempExp = ins.execute(environment)
-            if type(tempExp) is not Parameter:
-                if not tempExp.isArray():
-                    contenido.append("L," + str(tempExp.getValue()))
-                    print(str(tempExp.getValue()))
-                else:
-                    contenido.append("L," + str(self.printArray(tempExp.getValue(), "", False)))
-                    print(str(self.printArray(tempExp.getValue(), "", False)))
+            if not tempExp.isArray():
+                contenido.append("L," + str(tempExp.getValue()))
+                print(str(tempExp.getValue()))
             else:
-                if not tempExp.isArray:
-                    contenido.append("L," + str(tempExp.getValue()))
-                    print(str(tempExp.getValue()))
-                else:
-                    contenido.append("L," + str(self.printArray(tempExp.getValue(), "", False)))
-                    print(str(self.printArray(tempExp.getValue(), "", False)))
+                contenido.append("L," + str(self.printArray(tempExp.getValue(), "", False)))
+                print(str(self.printArray(tempExp.getValue(), "", False)))
 
     def printArray(self, arr, mensaje: str, sig: bool):
         mensaje = mensaje + "[ "

@@ -8,11 +8,11 @@ from Abstract.Instruction import Instruction
 
 class Parameter(Instruction):
 
-    def __init__(self, id: str, type: typeExpression, isArray: bool) -> None:
+    def __init__(self, id: str, type: typeExpression) -> None:
         self.id = id
         self.type = type
         self.value = None
-        self.isArray = isArray
+        self.array = False
 
     def setValue(self, value: Expression):
         self.value = value
@@ -25,9 +25,9 @@ class Parameter(Instruction):
                 environment.saveParameter(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
                                           typeExpression.NULO, False)
                 return
-            environment.saveParameter(self.id, tempValue, self.type, self.isArray)
+            environment.saveParameter(self.id, tempValue, tempValue.type, tempValue.array)
         else:
-            environment.saveParameter(self.id, tempValue, tempValue.getType(), self.isArray)
+            environment.saveParameter(self.id, tempValue, tempValue.type, tempValue.array)
 
     def getId(self):
         return self.id

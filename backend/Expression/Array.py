@@ -14,6 +14,8 @@ class Array(Expression):
         tempExp = []
         cualquiera = typeExpression.NULO
         for exp in self.listExp:
+            if type(exp) != Symbol:
+                exp = exp.execute(environment)
             if self.type == typeExpression.ANY:
                 if cualquiera == typeExpression.NULO:
                     cualquiera = tipoExpR1(exp.type)
@@ -53,7 +55,7 @@ class Array(Expression):
                 else:
                     print("Declaracion Incorrecta: " + obtener(self.type.value) + ", No es Tipo Array")
                     break
-            tempExp.append(exp.execute(environment))
+            tempExp.append(exp)
 
         tempSymbol: Symbol = Symbol('', tempExp, cualquiera)
         tempSymbol.array = True

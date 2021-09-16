@@ -5,6 +5,7 @@ class Symbol:
         self.value = value
         self.type = type
         self.array = False
+        self.ref = ""
 
     def getId(self):
         return self.id

@@ -20,7 +20,7 @@ class ArrayCall(Expression):
                 tempIndex.value = tempIndex.value.getValue()
             if tempIndex.type == typeExpression.INTEGER:
                 tempValue = tempArray.getValue()
-                if len(tempValue) > int(tempIndex.getValue())-1 > -1:
+                if len(tempValue) >= int(tempIndex.getValue()) > 0:
                     return tempValue[int(tempIndex.getValue())-1]
                 else:
                     print("Indice De Arreglo Fuera De Rango")

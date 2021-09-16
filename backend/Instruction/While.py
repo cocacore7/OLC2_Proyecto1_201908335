@@ -15,18 +15,19 @@ class While(Instruction):
 
         tempCondition: Symbol = self.condition.execute(environment)
 
-        while tempCondition.getValue():
-            newEnv = Environment(environment)
+        if tempCondition.getValue() != 'nothing':
+            while tempCondition.getValue():
+                newEnv = Environment(environment)
 
-            for ins in self.block:
-                temp = ins.execute(newEnv)
-                if temp is not None:
-                    if temp.type == TransferSentence.RETURN:
-                        temp.ciclo = True
-                        return temp
-                    elif temp.type == TransferSentence.BREAK:
-                        return
-                    elif temp.type == TransferSentence.CONTINUE:
-                        break
+                for ins in self.block:
+                    temp = ins.execute(newEnv)
+                    if temp is not None:
+                        if temp.type == TransferSentence.RETURN:
+                            temp.ciclo = True
+                            return temp
+                        elif temp.type == TransferSentence.BREAK:
+                            return
+                        elif temp.type == TransferSentence.CONTINUE:
+                            break
 
-            tempCondition = self.condition.execute(environment)
+                tempCondition = self.condition.execute(environment)

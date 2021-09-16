@@ -4,6 +4,9 @@ from Environment.Environment import Environment
 from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
 from Environment.Symbol import Symbol
+from Expression.VariableCall import VariableCall
+from Expression.ArrayCall import ArrayCall
+from Instruction.Parameter import Parameter
 
 
 class Declaration(Instruction):
@@ -26,15 +29,31 @@ class Declaration(Instruction):
                         if self.type.value != tempValue.getType().value:
                             print("Los tipos no coinciden, Se obtuvo un " + obtener(
                                 tempValue.getType().value) + ", Se Esperaba Un " + obtener(self.type.value))
-                            environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment), typeExpression.NULO, False, self.tipoD, self.entorno)
+                            environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment), typeExpression.NULO, False, self.tipoD, self.entorno, "")
                             return
-                        environment.saveVariable(self.id, tempValue, self.type, self.isArray, self.tipoD, self.entorno)
+                        if tempValue.isArray():
+                            if type(self.value) == VariableCall:
+                                environment.saveVariable(self.id, tempValue, self.type, self.isArray, self.tipoD, self.entorno, self.value.id)
+                                environment.saveVariable(self.value.id, tempValue, self.type, self.isArray, "", "", self.value.id)
+                            elif type(self.value) == ArrayCall:
+                                environment.saveVariable(self.id, tempValue, self.type, self.isArray, self.tipoD, self.entorno, obtenerID(self.value))
+                                environment.saveVariable(obtenerID(self.value), tempValue, self.type, self.isArray, "", "", obtenerID(self.value))
+                        else:
+                            environment.saveVariable(self.id, tempValue, self.type, self.isArray, self.tipoD, self.entorno, "")
                     else:
-                        environment.saveVariable(self.id, tempValue, tempValue.getType(), self.isArray, self.tipoD, self.entorno)
+                        if tempValue.isArray():
+                            if type(self.value) == VariableCall:
+                                environment.saveVariable(self.id, tempValue, tempValue.getType(), self.isArray, self.tipoD, self.entorno, self.value.id)
+                                environment.saveVariable(self.value.id, tempValue, tempValue.getType(), self.isArray, "", "", self.value.id)
+                            elif type(self.value) == ArrayCall:
+                                environment.saveVariable(self.id, tempValue, tempValue.getType(), self.isArray, "", "", obtenerID(self.value))
+                                environment.saveVariable(obtenerID(self.value), tempValue, tempValue.getType(), self.isArray, "", "", obtenerID(self.value))
+                        else:
+                            environment.saveVariable(self.id, tempValue, tempValue.getType(), self.isArray, self.tipoD, self.entorno, "")
                 else:
                     print("Tipo De Dato Incorrecto, Se Esperaba: String, Int64, Float64, Bool o Char")
                     environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
-                                             typeExpression.NULO, False, self.tipoD, self.entorno)
+                                             typeExpression.NULO, False, self.tipoD, self.entorno, "")
             else:
                 tempExp = []
                 for i in self.value:
@@ -49,7 +68,7 @@ class Declaration(Instruction):
                                 tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                                 tempSymbol.array = True
                                 environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                         self.entorno)
+                                                         self.entorno, "")
                                 return
                         elif self.type == typeExpression.FLOATA:
                             if i.getType() != typeExpression.FLOAT:
@@ -59,7 +78,7 @@ class Declaration(Instruction):
                                 tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                                 tempSymbol.array = True
                                 environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                         self.entorno)
+                                                         self.entorno, "")
                                 return
                         elif self.type == typeExpression.STRINGA:
                             if i.getType() != typeExpression.STRING:
@@ -69,7 +88,7 @@ class Declaration(Instruction):
                                 tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                                 tempSymbol.array = True
                                 environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                         self.entorno)
+                                                         self.entorno, "")
                                 return
                         elif self.type == typeExpression.BOOLA:
                             if i.getType() != typeExpression.BOOL:
@@ -79,7 +98,7 @@ class Declaration(Instruction):
                                 tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                                 tempSymbol.array = True
                                 environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                         self.entorno)
+                                                         self.entorno, "")
                                 return
                         elif self.type == typeExpression.CHARA:
                             if i.getType() != typeExpression.CHAR:
@@ -89,7 +108,7 @@ class Declaration(Instruction):
                                 tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                                 tempSymbol.array = True
                                 environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                         self.entorno)
+                                                         self.entorno, "")
                                 return
                         else:
                             print("Declaracion Incorrecta: " + obtener(self.type.value) + ", No es Tipo Array")
@@ -97,20 +116,20 @@ class Declaration(Instruction):
                             tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                             tempSymbol.array = True
                             environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                     self.entorno)
+                                                     self.entorno, "")
                             return
+
                     tempSymbol: Symbol = Symbol('', tempExp, self.type)
                     tempSymbol.array = True
-                    environment.saveVariable(self.id, tempSymbol, self.type, self.isArray, self.tipoD, self.entorno)
+                    environment.saveVariable(self.id, tempSymbol, self.type, self.isArray, self.tipoD, self.entorno, "")
                 else:
                     tempSymbol: Symbol = Symbol('', tempExp, self.type)
                     tempSymbol.array = True
-                    environment.saveVariable(self.id, tempSymbol, self.type, self.isArray, self.tipoD,
-                                             self.entorno)
+                    environment.saveVariable(self.id, tempSymbol, self.type, self.isArray, self.tipoD, self.entorno, "")
         else:
 
             environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
-                                     typeExpression.NULO, False, self.tipoD, self.entorno)
+                                     typeExpression.NULO, False, self.tipoD, self.entorno, "")
 
 
 def obtener(numero):
@@ -138,3 +157,11 @@ def obtener(numero):
         return "Array{Char}"
     elif numero == 11:
         return "Array{Any}"
+
+
+def obtenerID(i):
+    if type(i) == ArrayCall:
+        a = obtenerID(i.array)
+        return a
+    else:
+        return i.id
