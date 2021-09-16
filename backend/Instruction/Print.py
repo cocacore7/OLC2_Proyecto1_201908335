@@ -1,6 +1,7 @@
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
+from Environment.Symbol import Symbol
 from Globales.Salida import contenido
 
 
@@ -13,6 +14,8 @@ class Print(Instruction):
         for ins in self.expression:
             tempExp = ins.execute(environment)
             if not tempExp.isArray():
+                if type(tempExp.value) is Symbol:
+                    tempExp.value = tempExp.value.getValue()
                 contenido.append("P," + str(tempExp.getValue()))
                 print(str(tempExp.getValue()))
             else:
@@ -48,6 +51,8 @@ class Println(Instruction):
         for ins in self.expression:
             tempExp = ins.execute(environment)
             if not tempExp.isArray():
+                if type(tempExp.value) is Symbol:
+                    tempExp.value = tempExp.value.getValue()
                 contenido.append("L," + str(tempExp.getValue()))
                 print(str(tempExp.getValue()))
             else:

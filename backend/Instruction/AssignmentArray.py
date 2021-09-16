@@ -33,7 +33,7 @@ class AssignmentArray(Instruction):
                     tempArray = self.llamada.execute(environment)
                     if tempArray.isArray():
                         tempInd = self.indices.copy()
-                        newArray = nuevoArreglo(tempArray, tempInd, tempValue, self.type, environment, self)
+                        newArray = nuevoArreglo(tempArray, tempInd, tempValue, self.type, environment)
                         if type(self.value) == VariableCall:
                             environment.alterArray(self.value.id, newArray, "", "", self.value.id)
                         elif type(self.value) == ArrayCall:
@@ -46,7 +46,7 @@ class AssignmentArray(Instruction):
                     tempArray = self.llamada.execute(environment)
                     if tempArray.isArray():
                         tempInd = self.indices.copy()
-                        newArray = nuevoArreglo(tempArray, tempInd, tempValue, self.type, environment, self)
+                        newArray = nuevoArreglo(tempArray, tempInd, tempValue, self.type, environment)
                         if type(self.value) == VariableCall:
                             environment.alterArray(self.id, newArray, self.tipoD, self.entorno, self.value.id)
                         elif type(self.value) == ArrayCall:
@@ -94,7 +94,7 @@ class AssignmentArray(Instruction):
                 tempArray = self.llamada.execute(environment)
                 if tempArray.isArray():
                     tempInd = self.indices.copy()
-                    newArray = nuevoArreglo2(tempArray, tempInd, tempExp, self.type, environment, self)
+                    newArray = nuevoArreglo2(tempArray, tempInd, tempExp, self.type, environment)
                     newArray.array = True
                     environment.alterArray(self.id, newArray, self.tipoD, self.entorno, "")
                 else:
@@ -104,7 +104,7 @@ class AssignmentArray(Instruction):
                 tempArray = self.llamada.execute(environment)
                 if tempArray.isArray():
                     tempInd = self.indices.copy()
-                    newArray = nuevoArreglo2(tempArray, tempInd, tempExp, self.type, environment, self)
+                    newArray = nuevoArreglo2(tempArray, tempInd, tempExp, self.type, environment)
                     newArray.array = True
                     environment.alterArray(self.id, newArray, self.tipoD, self.entorno, "")
                 else:
@@ -139,13 +139,13 @@ def obtener(numero):
         return "Array{Any}"
 
 
-def nuevoArreglo(arr, indices, newValue, type, environment, instruc):
+def nuevoArreglo(arr, indices, newValue, type, environment):
     if len(indices) != 0:
         tempindex = indices.pop(0).execute(environment)
         if tempindex.type == typeExpression.INTEGER:
             if len(arr.value) >= tempindex.value > 0:
                 temp = arr.value[tempindex.value - 1]
-                arr.value[tempindex.value - 1] = nuevoArreglo(temp, indices, newValue, type, environment, instruc)
+                arr.value[tempindex.value - 1] = nuevoArreglo(temp, indices, newValue, type, environment)
                 return arr
             else:
                 print("Indice Solicitado Fuera De Rango")
@@ -157,13 +157,13 @@ def nuevoArreglo(arr, indices, newValue, type, environment, instruc):
         return newValue
 
 
-def nuevoArreglo2(arr, indices, newValue, type, environment, instruc):
+def nuevoArreglo2(arr, indices, newValue, type, environment):
     if len(indices) != 0:
         tempindex = indices.pop(0).execute(environment)
         if tempindex.type == typeExpression.INTEGER:
             if len(arr.value) >= tempindex.value > 0:
                 temp = arr.value[tempindex.value - 1]
-                arr.value[tempindex.value - 1] = nuevoArreglo2(temp, indices, newValue, type, environment, instruc)
+                arr.value[tempindex.value - 1] = nuevoArreglo2(temp, indices, newValue, type, environment)
                 return arr
             else:
                 print("Indice Solicitado Fuera De Rango")

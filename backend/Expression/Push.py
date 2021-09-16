@@ -4,6 +4,7 @@ from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
 from Environment.Symbol import Symbol
 from Expression.VariableCall import VariableCall
+from Expression.ArrayCall import ArrayCall
 
 
 class Push(Instruction):
@@ -20,8 +21,13 @@ class Push(Instruction):
             tempValue = self.value.execute(environment)
             tempArray = self.llamada.execute(environment)
             if tempArray.isArray():
-                newArray = nuevoArreglo(tempArray, self.indices, tempValue, tempValue.type, environment)
-                environment.PopPushArray(self.id, newArray)
+                tempInd = self.indices.copy()
+                newArray = nuevoArreglo(tempArray, tempInd, tempValue, self.type, environment)
+                if type(self.value) == VariableCall:
+                    environment.PopPushArray(self.value.id, newArray, self.value.id)
+                elif type(self.value) == ArrayCall:
+                    environment.PopPushArray(obtenerID(self.value), newArray, obtenerID(self.value))
+                environment.PopPushArray(self.id, newArray, "")
                 return newArray
             else:
                 print("La Variable No Es Un Arreglo")
@@ -31,9 +37,14 @@ class Push(Instruction):
                 tempExp.append(i.execute(environment))
             tempArray = self.llamada.execute(environment)
             if tempArray.isArray():
-                newArray = nuevoArreglo2(tempArray, self.indices, tempExp, typeExpression.ANY, environment)
+                tempInd = self.indices.copy()
+                newArray = nuevoArreglo2(tempArray, tempInd, tempExp, typeExpression.ANY, environment)
                 newArray.array = True
-                environment.PopPushArray(self.id, newArray)
+                if type(self.value) == VariableCall:
+                    environment.PopPushArray(self.value.id, newArray, self.value.id)
+                elif type(self.value) == ArrayCall:
+                    environment.PopPushArray(obtenerID(self.value), newArray, obtenerID(self.value))
+                environment.PopPushArray(self.id, newArray, "")
                 return newArray
             else:
                 print("La Variable No Es Un Arreglo")
@@ -90,3 +101,11 @@ def nuevoArreglo2(arr, indices, newValue, type, environment):
         else:
             print("El Objeto De Arreglo En Indice Solicitado No Es Un Arreglo, No Se Puede Usar Push")
         return arr
+
+
+def obtenerID(i):
+    if type(i) == ArrayCall:
+        a = obtenerID(i.array)
+        return a
+    else:
+        return i.id

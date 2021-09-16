@@ -74,6 +74,16 @@ def tipoExpR1(type: typeExpression):
         return typeExpression.CHARA
     elif type == typeExpression.BOOL:
         return typeExpression.BOOLA
+    elif type == typeExpression.INTEGERA:
+        return typeExpression.INTEGERA
+    elif type == typeExpression.FLOATA:
+        return typeExpression.FLOATA
+    elif type == typeExpression.STRINGA:
+        return typeExpression.STRINGA
+    elif type == typeExpression.CHARA:
+        return typeExpression.CHARA
+    elif type == typeExpression.BOOLA:
+        return typeExpression.BOOLA
     else:
         return typeExpression.NULO
 

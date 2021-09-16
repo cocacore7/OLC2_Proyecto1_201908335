@@ -16,8 +16,11 @@ class Pop(Instruction):
 
         tempArray = self.llamada.execute(environment)
         if tempArray.isArray():
-            newArray = nuevoArreglo(tempArray, self.indices, environment)
-            environment.PopPushArray(self.id, newArray)
+            tempInd = self.indices.copy()
+            newArray = nuevoArreglo(tempArray, tempInd, environment)
+            environment.PopPushArray(self.id, newArray, "")
+            environment.getGlobal().PopPushArray(self.id, newArray, "")
+
             return newArray
         else:
             print("La Variable No Es Un Arreglo")

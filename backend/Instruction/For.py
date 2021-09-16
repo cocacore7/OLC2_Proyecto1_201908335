@@ -20,13 +20,9 @@ class For(Instruction):
         rigthExp: Symbol = self.rigthExp.execute(environment)
 
         newEnvP = Environment(environment)
-        if self.parameter.type is not None:
-            if self.parameter.type != lefthExp.type:
-                print("Los tipos De Dato Especificados No Son Iguales: " + obtener(lefthExp.type.value) + " y " + obtener(
-                    rigthExp.type.value))
-                return
-        else:
+        if self.parameter.type is None:
             self.parameter.type = lefthExp.type
+            self.parameter.array = lefthExp.isArray()
 
         if rigthExp.type != typeExpression.NULO:
             if lefthExp.type == typeExpression.INTEGER:
@@ -35,7 +31,7 @@ class For(Instruction):
                         for i in range(lefthExp.value, rigthExp.value + 1):
                             self.parameter.setValue(i)
                             newEnvP.saveParameter(self.parameter.id, self.parameter, self.parameter.type,
-                                                  self.parameter.isArray)
+                                                  self.parameter.isArray, "")
                             newEnv = Environment(newEnvP)
                             for ins in self.block:
                                 temp = ins.execute(newEnv)
@@ -64,7 +60,7 @@ class For(Instruction):
                 for i in lefthExp.value:
                     self.parameter.setValue(i)
                     newEnvP.saveParameter(self.parameter.id, self.parameter, self.parameter.type,
-                                          self.parameter.isArray)
+                                          self.parameter.isArray, "")
                     newEnv = Environment(newEnvP)
                     for ins in self.block:
                         temp = ins.execute(newEnv)
@@ -78,11 +74,13 @@ class For(Instruction):
                                 break
             # Aqui Va El De Arreglos Tambien
             elif lefthExp.isArray():
+                if not isinstance(lefthExp.value, list):
+                    lefthExp.value = lefthExp.value.getValue()
                 for i in lefthExp.value:
                     self.parameter.setValue(i)
                     self.parameter.type = i.type
-                    newEnvP.saveParameter(self.parameter.id, self.parameter, self.parameter.type,
-                                          self.parameter.isArray)
+                    self.parameter.array = i.array
+                    newEnvP.saveParameter(self.parameter.id, self.parameter, self.parameter.type, self.parameter.array, i.ref)
                     newEnv = Environment(newEnvP)
                     for ins in self.block:
                         temp = ins.execute(newEnv)

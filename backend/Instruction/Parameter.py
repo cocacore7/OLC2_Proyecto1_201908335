@@ -1,9 +1,9 @@
-from math import fabs
 from Expression.Primitive import Primitive
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
 from Abstract.Instruction import Instruction
+from Expression.VariableCall import VariableCall
 
 
 class Parameter(Instruction):
@@ -23,11 +23,17 @@ class Parameter(Instruction):
             if self.type.value != tempValue.getType().value:
                 print("Los tipos no coinciden")
                 environment.saveParameter(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
-                                          typeExpression.NULO, False)
+                                          typeExpression.NULO, False, "")
                 return
-            environment.saveParameter(self.id, tempValue, tempValue.type, tempValue.array)
+            if type(self.value) == VariableCall:
+                environment.saveParameter(self.id, tempValue, tempValue.type, tempValue.array, self.value.id)
+            else:
+                environment.saveParameter(self.id, tempValue, tempValue.type, tempValue.array, "")
         else:
-            environment.saveParameter(self.id, tempValue, tempValue.type, tempValue.array)
+            if type(self.value) == VariableCall:
+                environment.saveParameter(self.id, tempValue, tempValue.type, tempValue.array, self.value.id)
+            else:
+                environment.saveParameter(self.id, tempValue, tempValue.type, tempValue.array, "")
 
     def getId(self):
         return self.id

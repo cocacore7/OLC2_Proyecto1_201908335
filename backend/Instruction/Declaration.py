@@ -127,9 +127,9 @@ class Declaration(Instruction):
                     tempSymbol.array = True
                     environment.saveVariable(self.id, tempSymbol, self.type, self.isArray, self.tipoD, self.entorno, "")
         else:
-
-            environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
-                                     typeExpression.NULO, False, self.tipoD, self.entorno, "")
+            tmp = environment.getVariable(self.id)
+            if tmp is None:
+                environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment), typeExpression.NULO, False, self.tipoD, self.entorno, "")
 
 
 def obtener(numero):

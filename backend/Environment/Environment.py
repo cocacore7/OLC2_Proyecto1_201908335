@@ -242,7 +242,7 @@ class Environment:
                 print("Arreglo: " + id + ", No Existe")
         return
 
-    def PopPushArray(self, id: str, value):
+    def PopPushArray(self, id: str, value, ref: str):
         tempEnv = self
         while tempEnv is not None:
             if tempEnv.variable.get(id) is not None:
@@ -250,15 +250,19 @@ class Environment:
                 tempVar.value = value
                 tempVar.type = value.getType()
                 tempVar.array = value.isArray()
+                if tempVar.ref == "":
+                    tempVar.ref = ref
                 tempEnv.variable[id] = tempVar
                 return
             tempEnv = tempEnv.father
         print("Error: la variable " + id + " no existe")
         return
 
-    def saveParameter(self, id: str, value, type: typeExpression, isArray: bool):
+    def saveParameter(self, id: str, value, type: typeExpression, isArray: bool, ref: str):
         tempVar = Symbol(id, value, type)
         tempVar.array = isArray
+        if tempVar.ref == "":
+            tempVar.ref = ref
         self.variable[id] = tempVar
 
     def getVariable(self, id: str) -> Symbol:
