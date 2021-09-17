@@ -3,6 +3,7 @@ from Arbol.GramaticaArbol import parser2
 from flask import Flask, request
 from flask_cors import CORS
 from Globales.Salida import contenido
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -25,7 +26,9 @@ def Analizar():
             salida = salida + tmp[1] + "\n"
     contenido.clear()
     parser2.parse(request.json['Texto'])
-    return salida
+    f = open("./salida.txt", "r")
+    data = {'Salida': salida, 'Dot': f.read()}
+    return data
 
 
 if __name__ == '__main__':
@@ -35,5 +38,8 @@ if __name__ == '__main__':
 
 '''f = open("./entrada.txt", "r")
 input = f.read()
-print(parser2.parse(input))
+parser2.parse(input)
+f = open("./salida.txt", "r")
+data = {'Dot': f.read()}
+print(data)
 salida = ""'''

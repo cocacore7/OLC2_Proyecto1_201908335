@@ -122,21 +122,11 @@ t_COMA = r'\,'
 
 def t_DECIMAL(t):
     r'\d+\.\d+'
-    try:
-        t.value = t.value
-    except ValueError:
-        print("Floaat value too large %d", t.value)
-        t.value = 0
     return t
 
 
 def t_ENTERO(t):
     r'\d+'
-    try:
-        t.value = t.value
-    except ValueError:
-        print("Integer value too large %d", t.value)
-        t.value = 0
     return t
 
 
@@ -203,7 +193,6 @@ def p_initial(t):
     f = open("./salida.txt", "w")
     f.write(nodeInitial.getGraphAST())
     
-
 
 # ================================LISTA DE INSTRUCCIONES
 def p_instructions(t):
