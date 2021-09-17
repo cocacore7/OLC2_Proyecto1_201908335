@@ -1,4 +1,5 @@
 from Analyzer.Gramatica import parser
+from Arbol.GramaticaArbol import parser2
 from flask import Flask, request
 from flask_cors import CORS
 from Globales.Salida import contenido
@@ -23,15 +24,16 @@ def Analizar():
         else:
             salida = salida + tmp[1] + "\n"
     contenido.clear()
+    parser2.parse(request.json['Texto'])
     return salida
 
 
 if __name__ == '__main__':
-    app.run(threaded=True, debug=True, port="https://backcompi.herokuapp.com")
-    '''app.run(threaded=True, debug=True, port="https://localhost:4000")'''
+    app.run(threaded=True, debug=True, port=4000)
+    '''app.run(threaded=True, debug=True, port="https://backcompi.herokuapp.com")'''
 
 
 '''f = open("./entrada.txt", "r")
 input = f.read()
-parser.parse(input)
+print(parser2.parse(input))
 salida = ""'''
