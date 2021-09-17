@@ -32,8 +32,8 @@ def Analizar():
 
 
 if __name__ == '__main__':
-    app.run(threaded=True, debug=True, port=4000)
-    '''app.run(threaded=True, debug=True, port="https://backcompi.herokuapp.com")'''
+    '''app.run(threaded=True, debug=True, port=4000)'''
+    app.run(threaded=True, debug=True, port="https://backcompi.herokuapp.com")
 
 
 '''f = open("./entrada.txt", "r")
