@@ -4,6 +4,8 @@ from Environment.Environment import Environment
 from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
 from Instruction.Parameter import Parameter
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Logic(Expression):
@@ -33,10 +35,9 @@ class Logic(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print("No Se Permite Evaluar And De " + str(rightValue.getValue()) + " y " + str(
-                        leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar And De " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No Se Permite Evaluar And De " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Permite Evaluar And De " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == logicOperation.OR:
             if leftValue.getType() == typeExpression.BOOL:
@@ -47,10 +48,9 @@ class Logic(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Or De " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Or De " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No Se Permite Evaluar Or De " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Permite Evaluar Or De " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == logicOperation.NOT:
             if leftValue.getType() == typeExpression.BOOL:
@@ -60,6 +60,6 @@ class Logic(Expression):
                     typeExpression.BOOL
                 )
             else:
-                print("No Se Permite Evaluar Not De " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Permite Evaluar Not De " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         return Symbol("", 'nothing', typeExpression.NULO)

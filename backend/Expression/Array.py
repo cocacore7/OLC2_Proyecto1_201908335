@@ -2,6 +2,8 @@ from Environment.Environment import Environment
 from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Array(Expression):
@@ -24,36 +26,37 @@ class Array(Expression):
             else:
                 if self.type == typeExpression.INTEGERA:
                     if exp.type != typeExpression.INTEGER:
-                        print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Int64")
+                        Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Int64", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                         break
                     else:
                         cualquiera = typeExpression.INTEGERA
                 elif self.type == typeExpression.FLOATA:
                     if exp.type != typeExpression.FLOAT:
-                        print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Float64")
+                        
+                        Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Float64", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                         break
                     else:
                         cualquiera = typeExpression.FLOATA
                 elif self.type == typeExpression.STRINGA:
                     if exp.type != typeExpression.STRING:
-                        print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un String")
+                        Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un String", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                         break
                     else:
                         cualquiera = typeExpression.STRINGA
                 elif self.type == typeExpression.CHARA:
                     if exp.type != typeExpression.CHAR:
-                        print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Char")
+                        Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Char", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                         break
                     else:
                         cualquiera = typeExpression.CHARA
                 elif self.type == typeExpression.BOOLA:
                     if exp.type != typeExpression.BOOL:
-                        print("Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Bool")
+                        Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(exp.type.value) + ", Se Esperaba Un Bool", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                         break
                     else:
                         cualquiera = typeExpression.BOOLA
                 else:
-                    print("Declaracion Incorrecta: " + obtener(self.type.value) + ", No es Tipo Array")
+                    Errores.append({'Descripcion': "Declaracion Incorrecta: " + obtener(self.type.value) + ", No es Tipo Array", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                     break
             tempExp.append(exp)
 

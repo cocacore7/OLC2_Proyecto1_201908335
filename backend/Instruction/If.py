@@ -4,6 +4,8 @@ from Abstract.Instruction import Instruction
 from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
 from Enum.TransferSentence import TransferSentence
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class If(Instruction):
@@ -64,4 +66,4 @@ class If(Instruction):
                         elif temp.type == TransferSentence.CONTINUE:
                             return temp
         else:
-            print("Condicion Incorrecta, No es Booleana")
+            Errores.append({'Descripcion': "Condicion If Incorrecta, No es Booleana", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})

@@ -166,15 +166,25 @@ t_ignore_COMMENTM = r'\#=(.|\n)*?=\#'
 
 def t_newline(t):
     r'\n+'
-    t.lexer.lineno += t.value.count("\n")
+    t.lexer.lineno += len(t.value)
+
+
+def find_column(input, token):
+    line_start = input.rfind('\n', 0, token.lexpos) + 1
+    return (token.lexpos - line_start) + 1
 
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
+    Errores.append(
+        {'Descripcion': "Error Lexico '%s'" % t.value[0], 'Linea': t.lineno, 'Columna': "",
+         'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
     t.lexer.skip(1)
 
 
 # Construyendo el analizador léxico
+from Globales.Tablas import Errores
+from datetime import datetime
+
 from Environment.Environment import Environment
 
 from Enum.arithmeticOperation import arithmeticOperation
@@ -355,7 +365,7 @@ def p_println(t):
     if len(t) == 6:
         t[0] = Println(t[3])
     else:
-        t[0] = Println([Primitive("",typeExpression.STRING)])
+        t[0] = Println([Primitive("", typeExpression.STRING)])
 
 
 def p_expresions(t):
@@ -1231,7 +1241,9 @@ def p_exp_array(t):
 
 # ====================================================
 def p_error(t):
-    print("Error sintáctico en '%s'" % t.value)
+    Errores.append(
+        {'Descripcion': "Error sintáctico en '%s'" % t.value, 'Linea': t.lineno, 'Columna': "",
+         'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
 
 import Analyzer.ply.yacc as yacc

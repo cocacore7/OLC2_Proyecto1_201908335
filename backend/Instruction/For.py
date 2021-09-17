@@ -4,6 +4,8 @@ from Abstract.Instruction import Instruction
 from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
 from Enum.TransferSentence import TransferSentence
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class For(Instruction):
@@ -44,16 +46,13 @@ class For(Instruction):
                                     elif temp.type == TransferSentence.CONTINUE:
                                         break
                     else:
-                        print("El Valor Izquierdo Es Menor Al Derecho: " + str(lefthExp.value) + " y " + str(
-                            rigthExp.value))
+                        Errores.append({'Descripcion': "El Valor Izquierdo Es Menor Al Derecho: " + str(lefthExp.value) + " y " + str(rigthExp.value), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                         return
                 else:
-                    print("Los tipos De Dato Especificados No Son Validos: " + obtener(lefthExp.type.value) + " y " + obtener(
-                        rigthExp.type.value))
+                    Errores.append({'Descripcion': "Los tipos De Dato Especificados No Son Validos: " + obtener(lefthExp.type.value) + " y " + obtener(rigthExp.type.value), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                     return
             else:
-                print("Los tipos De Dato Especificados No Son Validos: " + obtener(lefthExp.type.value) + " y " + obtener(
-                    rigthExp.type.value))
+                Errores.append({'Descripcion': "Los tipos De Dato Especificados No Son Validos: " + obtener(lefthExp.type.value) + " y " + obtener(rigthExp.type.value), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return
         else:
             if lefthExp.type == typeExpression.STRING:
@@ -93,7 +92,7 @@ class For(Instruction):
                             elif temp.type == TransferSentence.CONTINUE:
                                 break
             else:
-                print("El tipo De Dato Especificado No Es Valido: " + obtener(lefthExp.type.value))
+                Errores.append({'Descripcion': "El tipo De Dato Especificado No Es Valido: " + obtener(lefthExp.type.value), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return
 
 

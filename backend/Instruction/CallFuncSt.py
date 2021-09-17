@@ -3,6 +3,8 @@ from Instruction.Function import Function
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Enum.TransferSentence import TransferSentence
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class CallFuncSt(Instruction):
@@ -24,12 +26,12 @@ class CallFuncSt(Instruction):
                 if temp.type == TransferSentence.RETURN:
                     return temp.exp
                 elif temp.type == TransferSentence.BREAK:
-                    print("Sentencias Break Incorrecta, No Se Permite En Funciones")
+                    Errores.append({'Descripcion': "Sentencias Break Incorrecta, No Se Permite En Funciones", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                     return
                 elif temp.type == TransferSentence.CONTINUE:
-                    print("Sentencias Continue Incorrecta, No Se Permite En Funciones")
+                    Errores.append({'Descripcion': "Sentencias Continue Incorrecta, No Se Permite En Funciones", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                     return
         else:
-            print("Cantidad De Parametros Y Valores Enviados No Es Igual")
+            Errores.append({'Descripcion': "Cantidad De Parametros Y Valores Enviados No Es Igual", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return
 

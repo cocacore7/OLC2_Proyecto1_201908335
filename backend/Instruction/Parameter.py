@@ -4,6 +4,8 @@ from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
 from Abstract.Instruction import Instruction
 from Expression.VariableCall import VariableCall
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Parameter(Instruction):
@@ -21,9 +23,8 @@ class Parameter(Instruction):
         tempValue = self.value.execute(environment)
         if self.type is not None:
             if self.type.value != tempValue.getType().value:
-                print("Los tipos no coinciden")
-                environment.saveParameter(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
-                                          typeExpression.NULO, False, "")
+                Errores.append({'Descripcion': "Los tipos no coinciden", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                environment.saveParameter(self.id, Primitive('nothing', typeExpression.NULO).execute(environment), typeExpression.NULO, False, "")
                 return
             if type(self.value) == VariableCall:
                 environment.saveParameter(self.id, tempValue, tempValue.type, tempValue.array, self.value.id)

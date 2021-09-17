@@ -3,6 +3,8 @@ from Environment.Environment import Environment
 from Enum.typeExpression import typeExpression
 from Environment.Symbol import Symbol
 from Expression.VariableCall import VariableCall
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Pop(Instruction):
@@ -23,7 +25,7 @@ class Pop(Instruction):
 
             return newArray
         else:
-            print("La Variable No Es Un Arreglo")
+            Errores.append({'Descripcion': "La Variable No Es Un Arreglo", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         return Symbol("", 'nothing', typeExpression.NULO)
 
@@ -38,20 +40,20 @@ def nuevoArreglo(arr, indices, environment):
                         arr.value[tempindex.value - 1] = nuevoArreglo(temp, indices, environment)
                         return arr
                 else:
-                    print("Indice Solicitado Fuera De Rango")
+                    Errores.append({'Descripcion': "Indice Solicitado Fuera De Rango", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                     return arr
             else:
-                print("No Se Puede Acceder, No Es Arreglo")
+                Errores.append({'Descripcion': "No Se Puede Acceder, No Es Arreglo", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return arr
         else:
-            print("Indice No Es Tipo Int64")
+            Errores.append({'Descripcion': "Indice No Es Tipo Int64", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return arr
     else:
         if arr.isArray():
             if len(arr.value) > 0:
                 arr.value.pop()
             else:
-                print("El Arreglo No Tiene Valores")
+                Errores.append({'Descripcion': "El Arreglo No Tiene Valores", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         else:
-            print("El Objeto De Arreglo En Indice Solicitado No Es Un Arreglo, No Se Puede Usar Pop")
+            Errores.append({'Descripcion': "El Objeto De Arreglo En Indice Solicitado No Es Un Arreglo, No Se Puede Usar Pop", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return arr

@@ -2,6 +2,8 @@ from Environment.Symbol import Symbol
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
 from Enum.typeExpression import typeExpression
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class ArrayCall(Expression):
@@ -23,11 +25,12 @@ class ArrayCall(Expression):
                 if len(tempValue) >= int(tempIndex.getValue()) > 0:
                     return tempValue[int(tempIndex.getValue())-1]
                 else:
-                    print("Indice De Arreglo Fuera De Rango")
+                    Errores.append({'Descripcion': "Indice De Arreglo Fuera De Rango", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                    print()
                     return Symbol('', 'nothing', typeExpression.NULO)
             else:
-                print("Indice De Arreglo No Es Int64")
+                Errores.append({'Descripcion': "Indice De Arreglo No Es Int64o", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Symbol('', 'nothing', typeExpression.NULO)
         else:
-            print("Error: No es posible acceder a un " + str(tempArray.getType()))
+            Errores.append({'Descripcion': "Error: No es posible acceder a un " + str(tempArray.getType()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Symbol('', 'nothing', typeExpression.NULO)

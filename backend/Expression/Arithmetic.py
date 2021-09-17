@@ -4,6 +4,8 @@ from Environment.Environment import Environment
 from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
 from Instruction.Parameter import Parameter
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Arithmetic(Expression):
@@ -38,7 +40,7 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible sumar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible sumar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.INTEGER:
                     return Symbol(
@@ -53,9 +55,9 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible sumar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible sumar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No es posible sumar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                Errores.append({'Descripcion': "No es posible sumar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == arithmeticOperation.MINUS:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -72,7 +74,7 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible restar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible restar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.INTEGER:
                     return Symbol(
@@ -87,9 +89,9 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible restar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible restar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No es posible restar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible restar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == arithmeticOperation.MULTIPLY:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -106,7 +108,7 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible multiplicar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible multiplicar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.INTEGER:
                     return Symbol(
@@ -121,7 +123,7 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible multiplicar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible multiplicar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.STRING:
                 if rightValue.getType() == typeExpression.STRING:
                     return Symbol(
@@ -130,9 +132,10 @@ class Arithmetic(Expression):
                         typeExpression.STRING
                     )
                 else:
-                    print("No es posible Concatenar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue())+", Se esperaban Strings")
+                    
+                    Errores.append({'Descripcion': "No es posible Concatenar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue())+", Se esperaban Strings", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No es posible multiplicar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                Errores.append({'Descripcion': "No es posible multiplicar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == arithmeticOperation.DIV:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -144,7 +147,7 @@ class Arithmetic(Expression):
                             typeExpression.FLOAT
                         )
                     else:
-                        print("No es posible dividir " + str(leftValue.getValue()) + " Entre 0")
+                        Errores.append({'Descripcion': "No es posible dividir " + str(leftValue.getValue()) + " Entre 0", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 elif rightValue.getType() == typeExpression.FLOAT:
                     if float(rightValue.getValue()) != 0:
                         return Symbol(
@@ -153,9 +156,9 @@ class Arithmetic(Expression):
                             typeExpression.FLOAT
                         )
                     else:
-                        print("No es posible dividir " + str(leftValue.getValue()) + " Entre 0")
+                        Errores.append({'Descripcion': "No es posible dividir " + str(leftValue.getValue()) + " Entre 0", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 else:
-                    print("No es posible dividir " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible dividir " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.INTEGER:
                     if int(rightValue.getValue()) != 0:
@@ -165,7 +168,7 @@ class Arithmetic(Expression):
                             typeExpression.FLOAT
                         )
                     else:
-                        print("No es posible dividir " + str(leftValue.getValue()) + " Entre 0")
+                        Errores.append({'Descripcion': "No es posible dividir " + str(leftValue.getValue()) + " Entre 0", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 elif rightValue.getType() == typeExpression.FLOAT:
                     if float(rightValue.getValue()) != 0:
                         return Symbol(
@@ -174,11 +177,12 @@ class Arithmetic(Expression):
                             typeExpression.FLOAT
                         )
                     else:
-                        print("No es posible dividir " + str(leftValue.getValue()) + " Entre 0")
+                        Errores.append({'Descripcion': "No es posible dividir " + str(leftValue.getValue()) + " Entre 0", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                        print()
                 else:
-                    print("No es posible dividir " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible multiplicar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No es posible dividir " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible multiplicar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == arithmeticOperation.POT:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -195,7 +199,7 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible elevar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible elevar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.INTEGER:
                     return Symbol(
@@ -210,7 +214,7 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible elevar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible elevar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.STRING:
                 if rightValue.getType() == typeExpression.INTEGER:
                     tmp = ""
@@ -222,9 +226,9 @@ class Arithmetic(Expression):
                         typeExpression.STRING
                     )
                 else:
-                    print("No es posible elevar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible elevar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No es posible elevar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                Errores.append({'Descripcion': "No es posible elevar " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == arithmeticOperation.MOD:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -241,7 +245,7 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible Obtener El Modulo De " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible Obtener El Modulo De " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.INTEGER:
                     return Symbol(
@@ -256,9 +260,9 @@ class Arithmetic(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No es posible Obtener El Modulo De " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                    Errores.append({'Descripcion': "No es posible Obtener El Modulo De " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No es posible Obtener El Modulo De " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()))
+                Errores.append({'Descripcion': "No es posible Obtener El Modulo De " + str(leftValue.getValue()) + " y " + str(rightValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == arithmeticOperation.NEG:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -274,6 +278,6 @@ class Arithmetic(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No es posible negativo De: " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No es posible negativo De: " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         return Symbol("", 'nothing', typeExpression.NULO)

@@ -1,5 +1,7 @@
 from Enum.typeExpression import typeExpression
 from Environment.Symbol import Symbol
+from Globales.Tablas import Errores, Simbolos
+from datetime import datetime
 
 
 class Environment:
@@ -44,6 +46,7 @@ class Environment:
                     self.globalAccess[id] = id
                     if self.variable.get(id) is not None:
                         del self.variable[id]
+                    Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "", 'Columna': ""})
                     return
                 elif entorno == "L":
                     if self.globalAccess.get(id) is None:
@@ -70,6 +73,8 @@ class Environment:
                         if tempVar.ref == "":
                             tempVar.ref = ref
                         self.variable[id] = tempVar
+                        if ComprobarParam(id):
+                            Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Local", 'Linea': "", 'Columna': ""})
                         return
                     else:
                         globalenv = self.getGlobal()
@@ -102,6 +107,7 @@ class Environment:
                         if tempVar.ref == "":
                             tempVar.ref = ref
                         globalenv.variable[id] = tempVar
+                        Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "", 'Columna': ""})
                         return
                     else:
                         tempVar: Symbol = self.variable.get(id)
@@ -129,6 +135,8 @@ class Environment:
                         tempVar.ref = ref
                     self.variable[id] = tempVar
                     self.localAccess[id] = id
+                    if ComprobarParam(id):
+                        Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Local", 'Linea': "", 'Columna': ""})
                     return
         else:
             if self.variable.get(id) is not None:
@@ -145,6 +153,7 @@ class Environment:
             if tempVar.ref == "":
                 tempVar.ref = ref
             self.variable[id] = tempVar
+            Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "", 'Columna': ""})
 
     def alterArray(self, id: str, value, entorno: str, tipoD: str, ref: str):
         if self.father is not None:
@@ -163,7 +172,7 @@ class Environment:
                         if self.variable.get(id) is not None:
                             del self.variable[id]
                     else:
-                        print("Arreglo: " + id + ", No Existe")
+                        Errores.append({'Descripcion': "Arreglo: " + id + ", No Existe", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 elif entorno == "L":
                     if self.globalAccess.get(id) is None:
                         if self.variable.get(id) is not None:
@@ -183,7 +192,7 @@ class Environment:
                                 tempVar.ref = ref
                             self.father.variable[id] = tempVar
                         else:
-                            print("Arreglo: " + id + ", No Existe")
+                            Errores.append({'Descripcion': "Arreglo: " + id + ", No Existe", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                     else:
                         globalenv = self.getGlobal()
                         tempVar: Symbol = globalenv.variable.get(id)
@@ -208,7 +217,7 @@ class Environment:
                                 tempEnv.variable[id] = tempVar
                                 return
                             tempEnv = tempEnv.father
-                        print("Arreglo: " + id + ", No Existe")
+                        Errores.append({'Descripcion': "Arreglo: " + id + ", No Existe", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                     else:
                         tempVar: Symbol = self.variable.get(id)
                         tempVar.value = value
@@ -228,7 +237,7 @@ class Environment:
                         self.variable[id] = tempVar
                         self.localAccess[id] = id
                     else:
-                        print("Arreglo: " + id + ", No Existe")
+                        Errores.append({'Descripcion': "Arreglo: " + id + ", No Existe", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         else:
             if self.variable.get(id) is not None:
                 tempVar: Symbol = self.variable.get(id)
@@ -239,7 +248,7 @@ class Environment:
                     tempVar.ref = ref
                 self.variable[id] = tempVar
             else:
-                print("Arreglo: " + id + ", No Existe")
+                Errores.append({'Descripcion': "Arreglo: " + id + ", No Existe", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return
 
     def PopPushArray(self, id: str, value, ref: str):
@@ -255,7 +264,7 @@ class Environment:
                 tempEnv.variable[id] = tempVar
                 return
             tempEnv = tempEnv.father
-        print("Error: la variable " + id + " no existe")
+        Errores.append({'Descripcion': "Arreglo: " + id + ", No Existe", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return
 
     def saveParameter(self, id: str, value, type: typeExpression, isArray: bool, ref: str):
@@ -263,6 +272,8 @@ class Environment:
         tempVar.array = isArray
         if tempVar.ref == "":
             tempVar.ref = ref
+        if ComprobarParam(id):
+            Simbolos.append({'Nombre': id, 'Tipo': "Parametro", 'Ambito': "Local", 'Linea': "", 'Columna': ""})
         self.variable[id] = tempVar
 
     def getVariable(self, id: str) -> Symbol:
@@ -271,13 +282,14 @@ class Environment:
             if tempEnv.variable.get(id) is not None:
                 return tempEnv.variable.get(id).getValue()
             tempEnv = tempEnv.father
-        print("Error: la variable " + id + " no existe")
+        Errores.append({'Descripcion': "Arreglo: " + id + ", No Existe", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return None
 
     def saveFunction(self, id: str, function):
         if self.function.get(id) is not None:
-            print("La función " + id + " ya existe")
+            Errores.append({'Descripcion': "La función " + id + " ya existe", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return
+        Simbolos.append({'Nombre': id, 'Tipo': "Funcion", 'Ambito': "Global", 'Linea': "", 'Columna': ""})
         self.function[id] = function
 
     def getFunction(self, id: str):
@@ -286,5 +298,39 @@ class Environment:
             if tempEnv.function.get(id) is not None:
                 return tempEnv.function.get(id)
             tempEnv = tempEnv.father
-        print("Error: la función " + id + " no existe")
+            
+        Errores.append({'Descripcion': "Error: la función " + id + " no existe", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return None
+
+
+def ComprobarParam(id):
+    for i in Simbolos:
+        if i["Nombre"] == id:
+            return False
+    return True
+
+def obtener(numero):
+    if numero == 0:
+        return "String"
+    elif numero == 1:
+        return "Int64"
+    elif numero == 2:
+        return "Float64"
+    elif numero == 3:
+        return "Bool"
+    elif numero == 4:
+        return "Char"
+    elif numero == 5:
+        return "Nothing"
+    elif numero == 6:
+        return "Array{String}"
+    elif numero == 7:
+        return "Array{Int64}"
+    elif numero == 8:
+        return "Array{Float64}"
+    elif numero == 9:
+        return "Array{Bool}"
+    elif numero == 10:
+        return "Array{Char}"
+    elif numero == 11:
+        return "Array{Any}"

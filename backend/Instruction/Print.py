@@ -1,9 +1,8 @@
-from re import M
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Abstract.Expression import Expression
 from Environment.Symbol import Symbol
-from Globales.Salida import contenido
+from Globales.Arbol import contenido
 
 
 class Print(Instruction):

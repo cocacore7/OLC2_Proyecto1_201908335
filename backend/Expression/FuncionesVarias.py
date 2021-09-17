@@ -3,6 +3,8 @@ from Enum.typeExpression import typeExpression
 from Environment.Environment import Environment
 from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
+from Globales.Tablas import Errores
+from datetime import datetime
 import math
 
 
@@ -26,7 +28,7 @@ class FuncionVaria(Expression):
                     typeExpression.STRING
                 )
             else:
-                print("No Se Puede Realizar LowerCase De " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Puede Realizar LowerCase De " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.UPPER:
             if leftValue.getType() == typeExpression.STRING:
@@ -36,7 +38,7 @@ class FuncionVaria(Expression):
                     typeExpression.STRING
                 )
             else:
-                print("No Se Puede Realizar UpperCase De " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Puede Realizar UpperCase De " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.LOG10:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -52,7 +54,7 @@ class FuncionVaria(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No Se Puede Realizar LOG10 De " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Puede Realizar LOG10 De " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.LOG:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -69,7 +71,7 @@ class FuncionVaria(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No Se Puede Realizar LOG De " + str(leftValue.getValue()) + " Con base " + str(rigthValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Puede Realizar LOG De " + str(leftValue.getValue()) + " Con base " + str(rigthValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rigthValue.getType() == typeExpression.INTEGER:
                     return Symbol(
@@ -84,9 +86,9 @@ class FuncionVaria(Expression):
                         typeExpression.FLOAT
                     )
                 else:
-                    print("No Se Puede Realizar LOG De " + str(leftValue.getValue()) + " Con base " + str(rigthValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Puede Realizar LOG De " + str(leftValue.getValue()) + " Con base " + str(rigthValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No Se Puede Realizar LOG De " + str(leftValue.getValue()) + " Con base " + str(rigthValue.getValue()))
+                Errores.append({'Descripcion': "No Se Puede Realizar LOG De " + str(leftValue.getValue()) + " Con base " + str(rigthValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.SIN:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -102,7 +104,7 @@ class FuncionVaria(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No Se Puede Realizar Seno De " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Puede Realizar Seno De " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.COS:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -118,7 +120,7 @@ class FuncionVaria(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No Se Puede Realizar Coseno De " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Puede Realizar Coseno De " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.TAN:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -134,7 +136,7 @@ class FuncionVaria(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No Se Puede Realizar Tangente De " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Puede Realizar Tangente De " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.SQRT:
             if leftValue.getType() == typeExpression.INTEGER:
@@ -150,6 +152,6 @@ class FuncionVaria(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("No Se Puede Realizar Raiz Cuadrada De " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Puede Realizar Raiz Cuadrada De " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         return Symbol("", 'nothing', typeExpression.NULO)

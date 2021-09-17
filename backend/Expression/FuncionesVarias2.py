@@ -3,6 +3,8 @@ from Enum.typeExpression import typeExpression
 from Environment.Environment import Environment
 from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
+from Globales.Tablas import Errores
+from datetime import datetime
 import math
 
 
@@ -55,9 +57,9 @@ class FuncionVaria2(Expression):
                             typeExpression.INTEGER
                         )
                     except ValueError:
-                        print("String Incorrecto, No Es Un Numero Int64: " + rigthValue.getValue())
+                        Errores.append({'Descripcion': "String Incorrecto, No Es Un Numero Int64: " + rigthValue.getValue(), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 else:
-                    print("Dato a Parsear Incorrecto " + str(rigthValue.getValue()) + ", Se Esperaba String")
+                    Errores.append({'Descripcion': "Dato a Parsear Incorrecto " + str(rigthValue.getValue()) + ", Se Esperaba String", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif Tipo == typeExpression.FLOAT:
                 if rigthValue.getType() == typeExpression.STRING:
                     try:
@@ -67,11 +69,11 @@ class FuncionVaria2(Expression):
                             typeExpression.FLOAT
                         )
                     except ValueError:
-                        print("String Incorrecto, No Es Un Numero Float64: " + rigthValue.getValue())
+                        Errores.append({'Descripcion': "String Incorrecto, No Es Un Numero Float64: " + rigthValue.getValue(), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 else:
-                    print("Dato a Parsear Incorrecto " + str(rigthValue.getValue()) + ", Se Esperaba String")
+                    Errores.append({'Descripcion': "Dato a Parsear Incorrecto " + str(rigthValue.getValue()) + ", Se Esperaba String", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("Tipo De Dato A Parsear Incorrecto: " + obtener(Tipo.value) + ", Se Esperaba Int64 o Float64")
+                Errores.append({'Descripcion': "Tipo De Dato A Parsear Incorrecto: " + obtener(Tipo.value) + ", Se Esperaba Int64 o Float64", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.TRUNC:
             if Tipo == typeExpression.INTEGER:
@@ -82,9 +84,9 @@ class FuncionVaria2(Expression):
                         typeExpression.INTEGER
                     )
                 else:
-                    print("Dato a Parsear Incorrecto " + str(rigthValue.getValue()) + ", Se Esperaba Float64")
+                    Errores.append({'Descripcion': "Dato a Parsear Incorrecto " + str(rigthValue.getValue()) + ", Se Esperaba Float64", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("Tipo De Dato A Truncar Incorrecto: " + obtener(Tipo.value) + ", Se Esperaba Int64")
+                Errores.append({'Descripcion': "Tipo De Dato A Truncar Incorrecto: " + obtener(Tipo.value) + ", Se Esperaba Int64", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.FLOAT:
             if rigthValue.getType() == typeExpression.INTEGER:
@@ -94,7 +96,7 @@ class FuncionVaria2(Expression):
                     typeExpression.FLOAT
                 )
             else:
-                print("Dato A Convertir Float Incorrecto: " + str(rigthValue.getValue()) + ", Se Esperaba Int64")
+                Errores.append({'Descripcion': "Dato A Convertir Float Incorrecto: " + str(rigthValue.getValue()) + ", Se Esperaba Int64", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.STRING:
             if rigthValue.getType() == typeExpression.STRING:
@@ -128,7 +130,7 @@ class FuncionVaria2(Expression):
                     typeExpression.STRING
                 )
             else:
-                print("Dato A Convertir String Incorrecto: " + str(rigthValue.getValue()))
+                Errores.append({'Descripcion': "Dato A Convertir String Incorrecto: " + str(rigthValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.TYPEOF:
             if rigthValue.getType() == typeExpression.STRING:
@@ -162,7 +164,7 @@ class FuncionVaria2(Expression):
                     typeExpression.STRING
                 )
             else:
-                print("Dato A Convertir String Incorrecto: " + str(rigthValue.getValue()))
+                Errores.append({'Descripcion': "Dato A Convertir String Incorrecto: " + str(rigthValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == operacionVaria.LENGTH:
             if rigthValue.getType() == typeExpression.ANY:
@@ -202,6 +204,6 @@ class FuncionVaria2(Expression):
                     typeExpression.INTEGER
                 )
             else:
-                print("Funcion Length Invalida Para: " + str(rigthValue.getValue()))
+                Errores.append({'Descripcion': "Funcion Length Invalida Para: " + str(rigthValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         return Symbol("", 'nothing', typeExpression.NULO)

@@ -156,16 +156,22 @@ t_ignore_COMMENTM = r'\#=(.|\n)*?=\#'
 
 def t_newline(t):
     r'\n+'
-    t.lexer.lineno += t.value.count("\n")
+    t.lexer.lineno += len(t.value)
+
+
+def find_column(input, token):
+    line_start = input.rfind('\n', 0, token.lexpos) + 1
+    return (token.lexpos - line_start) + 1
 
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
 
 # Construyendo el analizador léxico
 from Node.Node import Node
+from Globales.Tablas import Errores
+from datetime import datetime
 import Analyzer.ply.lex as lex
 
 lexer = lex.lex()
@@ -186,13 +192,13 @@ precedence = (
 # ================================Definición de la gramática
 def p_initial(t):
     '''initial : instructions'''
-    
+
     nodeInitial = Node("initial")
     nodeInitial.insertChild(t[1])
 
     f = open("./salida.txt", "w")
     f.write(nodeInitial.getGraphAST())
-    
+
 
 # ================================LISTA DE INSTRUCCIONES
 def p_instructions(t):
@@ -866,6 +872,7 @@ def p_assignment(t):
             nodeDec.insertChild(Node(";"))
     t[0] = nodeDec
 
+
 def p_assignmentf(t):
     '''assignmentAf : ID listArray2 IGUAL CORIZQ exps CORDER PTCOMA
                     | ID listArray2 IGUAL CORIZQ exps CORDER DOSPT DOSPT typeDef PTCOMA
@@ -1185,7 +1192,7 @@ def p_parameter(t):
 def p_callFuncSt(t):
     '''callFuncSt   : ID parametersCallFunc PTCOMA
     '''
-    nodeCallFunc = Node("CallFunc")    
+    nodeCallFunc = Node("CallFunc")
     nodeCallFunc.insertChild(t[1])
     nodeCallFunc.insertChild(t[2])
     nodeCallFunc.insertChild(Node(";"))

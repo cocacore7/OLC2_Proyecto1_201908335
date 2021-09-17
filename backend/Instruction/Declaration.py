@@ -6,7 +6,8 @@ from Enum.typeExpression import typeExpression
 from Environment.Symbol import Symbol
 from Expression.VariableCall import VariableCall
 from Expression.ArrayCall import ArrayCall
-from Instruction.Parameter import Parameter
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Declaration(Instruction):
@@ -27,8 +28,7 @@ class Declaration(Instruction):
                 if self.type is not None:
                     if self.type != typeExpression.NULO:
                         if self.type.value != tempValue.getType().value:
-                            print("Los tipos no coinciden, Se obtuvo un " + obtener(
-                                tempValue.getType().value) + ", Se Esperaba Un " + obtener(self.type.value))
+                            Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(tempValue.getType().value) + ", Se Esperaba Un " + obtener(self.type.value), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                             environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment), typeExpression.NULO, False, self.tipoD, self.entorno, "")
                             return
                         if tempValue.isArray():
@@ -51,7 +51,7 @@ class Declaration(Instruction):
                         else:
                             environment.saveVariable(self.id, tempValue, tempValue.getType(), self.isArray, self.tipoD, self.entorno, "")
                 else:
-                    print("Tipo De Dato Incorrecto, Se Esperaba: String, Int64, Float64, Bool o Char")
+                    Errores.append({'Descripcion': "Tipo De Dato Incorrecto, Se Esperaba: String, Int64, Float64, Bool o Char", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                     environment.saveVariable(self.id, Primitive('nothing', typeExpression.NULO).execute(environment),
                                              typeExpression.NULO, False, self.tipoD, self.entorno, "")
             else:
@@ -62,9 +62,7 @@ class Declaration(Instruction):
                     for i in tempExp:
                         if self.type == typeExpression.INTEGERA:
                             if i.getType() != typeExpression.INTEGER:
-                                print("Los tipos no coinciden, Se obtuvo un " + obtener(
-                                    i.getType().value) + ", Se Esperaba Un Int64")
-
+                                Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(i.getType().value) + ", Se Esperaba Un Int64", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                                 tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                                 tempSymbol.array = True
                                 environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
@@ -72,51 +70,37 @@ class Declaration(Instruction):
                                 return
                         elif self.type == typeExpression.FLOATA:
                             if i.getType() != typeExpression.FLOAT:
-                                print("Los tipos no coinciden, Se obtuvo un " + obtener(
-                                    i.getType().value) + ", Se Esperaba Un Float64")
-
+                                Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(i.getType().value) + ", Se Esperaba Un Float64", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                                 tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                                 tempSymbol.array = True
-                                environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                         self.entorno, "")
+                                environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD, self.entorno, "")
                                 return
                         elif self.type == typeExpression.STRINGA:
                             if i.getType() != typeExpression.STRING:
-                                print("Los tipos no coinciden, Se obtuvo un " + obtener(
-                                    i.getType().value) + ", Se Esperaba Un String")
-
+                                Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(i.getType().value) + ", Se Esperaba Un String", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                                 tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                                 tempSymbol.array = True
-                                environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                         self.entorno, "")
+                                environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD, self.entorno, "")
                                 return
                         elif self.type == typeExpression.BOOLA:
                             if i.getType() != typeExpression.BOOL:
-                                print("Los tipos no coinciden, Se obtuvo un " + obtener(
-                                    i.getType().value) + ", Se Esperaba Un Bool")
-
+                                Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(i.getType().value) + ", Se Esperaba Un Bool", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                                 tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                                 tempSymbol.array = True
-                                environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                         self.entorno, "")
+                                environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD, self.entorno, "")
                                 return
                         elif self.type == typeExpression.CHARA:
                             if i.getType() != typeExpression.CHAR:
-                                print("Los tipos no coinciden, Se obtuvo un " + obtener(
-                                    i.getType().value) + ", Se Esperaba Un Char")
-
+                                Errores.append({'Descripcion': "Los tipos no coinciden, Se obtuvo un " + obtener(i.getType().value) + ", Se Esperaba Un Char", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                                 tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                                 tempSymbol.array = True
-                                environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                         self.entorno, "")
+                                environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD, self.entorno, "")
                                 return
                         else:
-                            print("Declaracion Incorrecta: " + obtener(self.type.value) + ", No es Tipo Array")
-
+                            Errores.append({'Descripcion': "Declaracion Incorrecta: " + obtener(self.type.value) + ", No es Tipo Array", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                             tempSymbol: Symbol = Symbol('', [], typeExpression.ANY)
                             tempSymbol.array = True
-                            environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD,
-                                                     self.entorno, "")
+                            environment.saveVariable(self.id, tempSymbol, typeExpression.ANY, True, self.tipoD, self.entorno, "")
                             return
 
                     tempSymbol: Symbol = Symbol('', tempExp, self.type)

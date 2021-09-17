@@ -4,6 +4,8 @@ from Environment.Environment import Environment
 from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
 from Instruction.Parameter import Parameter
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Relational(Expression):
@@ -33,8 +35,7 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.INTEGER:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -49,8 +50,7 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -65,10 +65,9 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Mayor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == relationalOperation.MENOR:
             if leftValue.getType() == typeExpression.STRING:
@@ -79,8 +78,7 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.INTEGER:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -95,8 +93,7 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -111,10 +108,9 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print("No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Menor Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == relationalOperation.MAYORIGUAL:
             if leftValue.getType() == typeExpression.STRING:
@@ -125,8 +121,7 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Mayor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Mayor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.INTEGER:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -141,8 +136,7 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Mayor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Mayor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -157,11 +151,9 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Mayor Igual Con " + rightValue.getValue() + " y " + leftValue.getValue())
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Mayor Igual Con " + rightValue.getValue() + " y " + leftValue.getValue(), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print(
-                    "No Se Permite Evaluar Operacion Mayor Con Igual " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Mayor Con Igual " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == relationalOperation.MENORIGUAL:
             if leftValue.getType() == typeExpression.STRING:
@@ -172,8 +164,7 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.INTEGER:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -188,8 +179,7 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             elif leftValue.getType() == typeExpression.FLOAT:
                 if rightValue.getType() == typeExpression.FLOAT:
                     return Symbol(
@@ -204,11 +194,9 @@ class Relational(Expression):
                         typeExpression.BOOL
                     )
                 else:
-                    print(
-                        "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                    Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             else:
-                print(
-                    "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()))
+                Errores.append({'Descripcion': "No Se Permite Evaluar Operacion Menor Igual Con " + str(rightValue.getValue()) + " y " + str(leftValue.getValue()), 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif self.operation == relationalOperation.IGUAL:
             return Symbol(

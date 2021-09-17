@@ -3,6 +3,8 @@ from Environment.Environment import Environment
 from Abstract.Instruction import Instruction
 from Abstract.Expression import Expression
 from Enum.TransferSentence import TransferSentence
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class While(Instruction):
@@ -31,3 +33,5 @@ class While(Instruction):
                             break
 
                 tempCondition = self.condition.execute(environment)
+        else:
+            Errores.append({'Descripcion': "Condicion While Invalida", 'Linea': "", 'Columna': "", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
