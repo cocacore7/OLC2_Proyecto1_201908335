@@ -1,4 +1,5 @@
 from Analyzer.Gramatica import parser
+'''from Analyzer.Gramatica import parser
 from Arbol.GramaticaArbol import parser2
 from flask import Flask, request
 from flask_cors import CORS
@@ -38,12 +39,11 @@ def Analizar():
 
 if __name__ == '__main__':
     app.run(threaded=True, debug=True, port=4000)
-    '''app.run(threaded=True, debug=True, port="https://backcompi.herokuapp.com")'''
+    app.run(threaded=True, debug=True, port="https://backcompi.herokuapp.com")'''
 
+f = open("./entrada.txt", "r")
+entrada = f.read()
+C3D = parser.parse(entrada)
 
-'''f = open("./entrada.txt", "r")
-input = f.read()
-parser2.parse(input)
-TS = GraficaTS(Simbolos)
-TE = GraficaError(Errores)
-salida = ""'''
+f2 = open("./salida.txt", "w")
+f2.write(C3D)

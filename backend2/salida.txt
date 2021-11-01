@@ -1,0 +1,55 @@
+package main;
+import ( "fmt" ); 
+var stack [10000]float64;
+var heap [10000]float64;
+var P, H float64;
+var t0,t1,t2,t3 float64;
+
+func print_true_proc(){
+fmt.Printf("%c", int(116));
+fmt.Printf("%c", int(114));
+fmt.Printf("%c", int(117));
+fmt.Printf("%c", int(101));
+}
+
+func print_false_proc(){
+fmt.Printf("%c", int(102));
+fmt.Printf("%c", int(97));
+fmt.Printf("%c", int(108));
+fmt.Printf("%c", int(115));
+fmt.Printf("%c", int(101));
+}
+
+func print_nothing_proc(){
+fmt.Printf("%c", int(78));
+fmt.Printf("%c", int(111));
+fmt.Printf("%c", int(116));
+fmt.Printf("%c", int(104));
+fmt.Printf("%c", int(105));
+fmt.Printf("%c", int(110));
+fmt.Printf("%c", int(103));
+}
+
+func print_String_proc(){
+t0=P+1;
+t1=stack[int(t0)];
+L1:
+t2=heap[int(t1)];
+if t2 == -1 {goto L0;}
+fmt.Printf("%c", int(t2));
+t1=t1+1;
+goto L1;
+L0:
+return;
+}
+
+func main(){
+if 1 == 1 {goto L0;}
+goto L1;
+L0:
+print_true_proc();
+goto L2;
+L1:
+print_false_proc();
+L2:
+}

@@ -19,8 +19,8 @@ function Analisis() {
         let Contenido = {
             Texto: texto
         }
-        let contenido = await axios.post("https://backcompi.herokuapp.com/Analizador",Contenido)
-        //let contenido = await axios.post("http://localhost:4000/Analizador",Contenido)
+        //let contenido = await axios.post("https://backcompi.herokuapp.com/Analizador",Contenido)
+        let contenido = await axios.post("http://localhost:4000/Analizador",Contenido)
         localStorage.setItem('Dot',contenido.data["Dot"])
         localStorage.setItem('TS',contenido.data["TS"])
         localStorage.setItem('TE',contenido.data["TE"])
