@@ -33,6 +33,19 @@ class Generator:
 
         tempCode = tempCode + " float64;\n"
 
+        tempCode = tempCode + '\nfunc math_error_proc(){\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 77);\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 97);\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 116);\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 104);\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 69); \n'
+        tempCode = tempCode + 'fmt.Printf("%c", 114);\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 114);\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 111);\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 114);\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 10);\n'
+        tempCode = tempCode + '}\n'
+
         tempCode = tempCode + '\nfunc print_true_proc(){\n'
         tempCode = tempCode + 'fmt.Printf("%c", int(116));\n'
         tempCode = tempCode + 'fmt.Printf("%c", int(114));\n'

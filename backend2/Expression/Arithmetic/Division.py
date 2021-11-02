@@ -23,8 +23,27 @@ class Division(Expression):
 
         if leftValue.type == typeExpression.INTEGER or leftValue.type == typeExpression.FLOAT:
             if rightValue.type == typeExpression.INTEGER or rightValue.type == typeExpression.FLOAT:
-                self.generator.addExpression(newTemp, "float64("+leftValue.getValue()+")", "float64("+rightValue.getValue()+")", "/")
-                return Value(newTemp, True, typeExpression.FLOAT)
+                if self.falseLabel == "":
+                    self.falseLabel = self.generator.newLabel()
+                if rightValue.getValue() == "0":
+                    self.zero = True
+
+                TempRigth = self.generator.newTemp()
+                self.generator.addExpression(TempRigth, "float64("+rightValue.getValue()+")", "", "")
+                self.generator.addIf(TempRigth, "0", "==", self.falseLabel)
+                # Division entre 0
+                newLabel = self.generator.newLabel()
+                self.generator.addExpression(newTemp, "float64("+leftValue.getValue()+")", TempRigth, "/")
+                self.generator.addGoto(newLabel)
+                self.generator.addLabel(self.falseLabel)
+                self.generator.addCallFunc("math_error_proc")
+                self.generator.addLabel(newLabel)
+
+                retorno = Value(newTemp, True, typeExpression.FLOAT)
+                retorno.trueLabel = self.trueLabel
+                retorno.falseLabel = self.falseLabel
+                retorno.zero = self.zero
+                return retorno
             else:
                 print("Error en division")
                 return Value("0", False, typeExpression.INTEGER)

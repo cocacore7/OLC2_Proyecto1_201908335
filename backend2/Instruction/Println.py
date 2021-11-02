@@ -21,7 +21,8 @@ class Println(Instruction):
                 self.generator.addPrintf("d", "int(" + str(tempValue.getValue())+")")
 
             elif tempValue.type == typeExpression.FLOAT:
-                self.generator.addPrintf("f", "float64(" + str(tempValue.getValue())+")")
+                if tempValue.falseLabel is not True:
+                    self.generator.addPrintf("f", "float64(" + str(tempValue.getValue())+")")
 
             elif tempValue.type == typeExpression.CHAR:
                 self.generator.addPrintf("c", "int(" + str(ord(tempValue.getValue())) + ")")

@@ -200,11 +200,20 @@ from Expression.Primitive.NumberVal import NumberVal
 from Expression.Primitive.VariableCall import VariableCall
 from Expression.Arithmetic.Plus import Plus
 from Expression.Arithmetic.Minus import Minus
+from Expression.Arithmetic.Negative import Negative
 from Expression.Arithmetic.Multiply import Multiply
 from Expression.Arithmetic.Division import Division
+from Expression.Arithmetic.Exponential import Exponential
 from Expression.Arithmetic.Mod import Mod
 from Expression.Relational.Equal import Equal
+from Expression.Relational.NotEqual import NotEqual
 from Expression.Relational.Menor import Menor
+from Expression.Relational.Mayor import Mayor
+from Expression.Relational.MenorEqual import MenorEqual
+from Expression.Relational.MayorEqual import MayorEqual
+from Expression.Logic.And import And
+from Expression.Logic.Or import Or
+from Expression.Logic.Not import Not
 
 from Instruction.Print import Print
 from Instruction.Println import Println
@@ -919,13 +928,13 @@ def p_exp_aritmetica(t):
         t[0] = Multiply(t[1], t[3])
     elif t[2] == '/':
         t[0] = Division(t[1], t[3])
-    # elif t[2] == '^':
-    #    t[0] = Arithmetic(t[1], t[3], arithmeticOperation.POT)
+    elif t[2] == '^':
+        t[0] = t[0] = Exponential(t[1], t[3])
     elif t[2] == '%':
         Modulo.append(0)
         t[0] = Mod(t[1], t[3])
-    # elif t[1] == '-':
-    #    t[0] = Arithmetic(t[2], t[2], arithmeticOperation.NEG)
+    elif t[1] == '-':
+        t[0] = Negative(t[2])
 
 
 def p_exp_relacional(t):
@@ -936,18 +945,18 @@ def p_exp_relacional(t):
             | exp MAYORIGUAL exp
             | exp MENORIGUAL exp
     '''
-    # if t[2] == '==':
-    #    t[0] = Relational(t[1], t[3], relationalOperation.IGUAL)
-    # elif t[2] == '!=':
-    #    t[0] = Relational(t[1], t[3], relationalOperation.DISTINTO)
-    # elif t[2] == '>':
-    #    t[0] = Relational(t[1], t[3], relationalOperation.MAYOR)
-    # elif t[2] == '<':
-    #    t[0] = Relational(t[1], t[3], relationalOperation.MENOR)
-    # elif t[2] == '>=':
-    #    t[0] = Relational(t[1], t[3], relationalOperation.MAYORIGUAL)
-    # elif t[2] == '<=':
-    #    t[0] = Relational(t[1], t[3], relationalOperation.MENORIGUAL)
+    if t[2] == '==':
+        t[0] = Equal(t[1], t[3])
+    elif t[2] == '!=':
+        t[0] = NotEqual(t[1], t[3])
+    elif t[2] == '>':
+        t[0] = Mayor(t[1], t[3])
+    elif t[2] == '<':
+        t[0] = Menor(t[1], t[3])
+    elif t[2] == '>=':
+        t[0] = MayorEqual(t[1], t[3])
+    elif t[2] == '<=':
+        t[0] = MenorEqual(t[1], t[3])
 
 
 def p_exp_logica(t):
@@ -955,12 +964,12 @@ def p_exp_logica(t):
             | exp ORR exp
             | NOTT exp %prec UNOT
     '''
-    # if t[2] == '&&':
-    #    t[0] = Logic(t[1], t[3], logicOperation.AND)
-    # elif t[2] == '||':
-    #    t[0] = Logic(t[1], t[3], logicOperation.OR)
-    # elif t[1] == '!':
-    #    t[0] = Logic(t[2], t[2], logicOperation.NOT)
+    if t[2] == '&&':
+        t[0] = And(t[1], t[3])
+    elif t[2] == '||':
+        t[0] = Or(t[1], t[3])
+    elif t[1] == '!':
+        t[0] = Not(t[2])
 
 
 # ================================EXPRESION RETURN FUNCIONES

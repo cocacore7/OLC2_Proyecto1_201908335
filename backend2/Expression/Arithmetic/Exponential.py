@@ -21,22 +21,78 @@ class Exponential(Expression):
 
         newTemp = self.generator.newTemp()
 
-        if leftValue.type == typeExpression.INTEGER:
+        if leftValue.type == typeExpression.INTEGER or leftValue.type == typeExpression.FLOAT:
             if rightValue.type == typeExpression.INTEGER or rightValue.type == typeExpression.FLOAT:
-                self.generator.addExpression(newTemp, leftValue.getValue(), rightValue.getValue(), "-")
-                return Value(newTemp, True, rightValue.type)
+                if int(rightValue.getValue()) == 0:
+                    self.generator.addExpression(newTemp, leftValue.getValue(), "1", "*")
+                    return Value(newTemp, True, leftValue.type)
+                elif int(rightValue.getValue()) == 1:
+                    self.generator.addExpression(newTemp, leftValue.getValue(), "1", "*")
+                    return Value(newTemp, True, leftValue.type)
+                elif int(rightValue.getValue()) == 2:
+                    self.generator.addExpression(newTemp, leftValue.getValue(), leftValue.getValue(), "*")
+                    return Value(newTemp, True, leftValue.type)
+                elif int(rightValue.getValue()) > 2:
+                    self.generator.addExpression(newTemp, leftValue.getValue(), leftValue.getValue(), "*")
+                    ant = None
+                    for x in range(int(rightValue.getValue())-2):
+                        tmp2 = self.generator.newTemp()
+                        if x == 0:
+                            self.generator.addExpression(tmp2, newTemp, leftValue.getValue(), "*")
+                            ant = tmp2
+                        else:
+                            self.generator.addExpression(tmp2, ant, leftValue.getValue(), "*")
+                            ant = tmp2
+                    return Value(ant, True, leftValue.type)
+                else:
+                    print("Error en exponencial")
+                    return Value("0", False, typeExpression.INTEGER)
             else:
-                print("Error en resta")
+                print("Error en exponencial")
                 return Value("0", False, typeExpression.INTEGER)
 
-        elif leftValue.type == typeExpression.FLOAT:
-            if rightValue.type == typeExpression.INTEGER or rightValue.type == typeExpression.FLOAT:
-                self.generator.addExpression(newTemp, leftValue.getValue(), rightValue.getValue(), "-")
-                return Value(newTemp, True, typeExpression.FLOAT)
-            else:
-                print("Error en resta")
-                return Value("0", False, typeExpression.INTEGER)
+        elif leftValue.type == typeExpression.STRING:
+            if rightValue.type == typeExpression.INTEGER:
+                if int(rightValue.getValue()) == 1:
+                    return Value(leftValue.value, False, leftValue.type)
+                elif int(rightValue.getValue()) == 2:
+                    tmp = self.generator.newTemp()
+                    self.generator.addActHeap(tmp)
+
+                    for x in leftValue.value:
+                        self.generator.addSetHeap("H", str(ord(x)))
+                        self.generator.addNextHeap()
+                    self.generator.addSetHeap("H", str(-1))
+                    self.generator.addNextHeap()
+
+                    tmp2 = self.generator.newTemp()
+                    self.generator.addActHeap(tmp2)
+
+                    for x in leftValue.value:
+                        self.generator.addSetHeap("H", str(ord(x)))
+                        self.generator.addNextHeap()
+                    self.generator.addSetHeap("H", str(-1))
+                    self.generator.addNextHeap()
+
+                    return Value(leftValue.value+leftValue.value, False, leftValue.type)
+                elif int(rightValue.getValue()) > 2:
+                    retorno = ""
+                    for y in range(int(rightValue.getValue())):
+                        retorno = retorno + leftValue.value
+                        tmp = self.generator.newTemp()
+                        self.generator.addActHeap(tmp)
+
+                        for x in leftValue.value:
+                            self.generator.addSetHeap("H", str(ord(x)))
+                            self.generator.addNextHeap()
+                        self.generator.addSetHeap("H", str(-1))
+                        self.generator.addNextHeap()
+
+                    return Value(retorno, True, leftValue.type)
+                else:
+                    print("Error en Concatenacion")
+                    return Value("0", False, typeExpression.INTEGER)
 
         else:
-            print("Error en resta")
+            print("Error en exponencial")
             return Value("0", False, typeExpression.INTEGER)

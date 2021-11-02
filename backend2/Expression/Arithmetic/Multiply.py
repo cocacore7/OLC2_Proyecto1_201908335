@@ -37,6 +37,34 @@ class Multiply(Expression):
                 print("Error en multiplicacion")
                 return Value("0", False, typeExpression.INTEGER)
 
+        elif leftValue.type == typeExpression.STRING:
+            if rightValue.type == typeExpression.STRING:
+                # String Izquierda Procesado = lefth
+                tmp = self.generator.newTemp()
+                self.generator.addActHeap(tmp)
+
+                for x in leftValue.value:
+                    self.generator.addSetHeap("H", str(ord(x)))
+                    self.generator.addNextHeap()
+                self.generator.addSetHeap("H", str(-1))
+                self.generator.addNextHeap()
+
+                # String Derecha Procesado = right
+                tmp2 = self.generator.newTemp()
+                self.generator.addActHeap(tmp2)
+
+                for x in rightValue.value:
+                    self.generator.addSetHeap("H", str(ord(x)))
+                    self.generator.addNextHeap()
+                self.generator.addSetHeap("H", str(-1))
+                self.generator.addNextHeap()
+
+                return Value(leftValue.value+rightValue.value, False, typeExpression.STRING)
+
+            else:
+                print("Error en Concatenacion")
+                return Value("0", False, typeExpression.INTEGER)
+
         else:
             print("Error en multiplicacion")
             return Value("0", False, typeExpression.INTEGER)

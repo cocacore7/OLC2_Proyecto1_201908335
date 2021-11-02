@@ -8,6 +8,7 @@ class Value:
         self.type = type
         self.trueLabel = ''
         self.falseLabel = ''
+        self.zero = False
 
     def getValue(self) -> str:
         return self.value

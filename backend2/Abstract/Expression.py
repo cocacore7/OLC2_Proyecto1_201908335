@@ -10,6 +10,7 @@ class Expression(ABC):
         self.generator: Generator = None
         self.trueLabel = ""
         self.falseLabel = ""
+        self.zero = False
 
     @abstractclassmethod
     def compile(self, environment: Environment) -> Value:
