@@ -19,17 +19,22 @@ class Not(Expression):
         if leftValue.type == typeExpression.BOOL:
             newValue = Value("", False, typeExpression.BOOL)
 
-            if self.trueLabel == "":
-                self.trueLabel = self.generator.newLabel()
+            newLabelTrue = self.generator.newLabel()
+            newLabelFalse = self.generator.newLabel()
 
-            if self.falseLabel == "":
-                self.falseLabel = self.generator.newLabel()
+            self.generator.addIf(leftValue.value, "1", "==", newLabelFalse)
+            self.generator.addGoto(newLabelTrue)
 
-            self.generator.addIf(leftValue.value, leftValue.value, "!", self.trueLabel)
-            self.generator.addGoto(self.falseLabel)
+            self.generator.addLabel(newLabelFalse)
+            tmp = self.generator.newTemp()
+            self.generator.addExpression(tmp, "0", "", "")
+            newLabel = self.generator.newLabel()
+            self.generator.addGoto(newLabel)
+            self.generator.addLabel(newLabelTrue)
+            self.generator.addExpression(tmp, "1", "", "")
+            self.generator.addLabel(newLabel)
 
-            newValue.trueLabel = self.trueLabel
-            newValue.falseLabel = self.falseLabel
+            newValue.value = tmp
             return newValue
         else:
             print("Error en not")

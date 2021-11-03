@@ -24,17 +24,23 @@ class Or(Expression):
 
                 newValue = Value("", False, typeExpression.BOOL)
 
-                if self.trueLabel == "":
-                    self.trueLabel = self.generator.newLabel()
+                newLabelTrue = self.generator.newLabel()
+                newLabelFalse = self.generator.newLabel()
 
-                if self.falseLabel == "":
-                    self.falseLabel = self.generator.newLabel()
+                self.generator.addIf(leftValue.value, "1", "==", newLabelTrue)
+                self.generator.addIf(rightValue.value, "1", "==", newLabelTrue)
+                self.generator.addGoto(newLabelFalse)
 
-                self.generator.addIf(leftValue.value, rightValue.value, "||", self.trueLabel)
-                self.generator.addGoto(self.falseLabel)
+                self.generator.addLabel(newLabelFalse)
+                tmp = self.generator.newTemp()
+                self.generator.addExpression(tmp, "0", "", "")
+                newLabel = self.generator.newLabel()
+                self.generator.addGoto(newLabel)
+                self.generator.addLabel(newLabelTrue)
+                self.generator.addExpression(tmp, "1", "", "")
+                self.generator.addLabel(newLabel)
 
-                newValue.trueLabel = self.trueLabel
-                newValue.falseLabel = self.falseLabel
+                newValue.value = tmp
                 return newValue
             else:
                 print("Error en or")

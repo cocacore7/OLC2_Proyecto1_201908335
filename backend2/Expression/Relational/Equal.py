@@ -33,8 +33,16 @@ class Equal(Expression):
                 self.generator.addIf(leftValue.value, rightValue.value, "==", self.trueLabel)
                 self.generator.addGoto(self.falseLabel)
 
-                newValue.trueLabel = self.trueLabel
-                newValue.falseLabel = self.falseLabel
+                self.generator.addLabel(self.trueLabel)
+                tmp = self.generator.newTemp()
+                self.generator.addExpression(tmp, "1", "", "")
+                newLabel = self.generator.newLabel()
+                self.generator.addGoto(newLabel)
+                self.generator.addLabel(self.falseLabel)
+                self.generator.addExpression(tmp, "0", "", "")
+                self.generator.addLabel(newLabel)
+
+                newValue.value = tmp
                 return newValue
             else:
                 print("Error en igualdad")

@@ -28,6 +28,17 @@ class NumberVal(Expression):
 
             self.generator.addIf(str(tmp.value), "1", "==", tmp.trueLabel)
             self.generator.addGoto(tmp.falseLabel)
+
+            self.generator.addLabel(tmp.trueLabel)
+            tmp2 = self.generator.newTemp()
+            self.generator.addExpression(tmp2, "1", "", "")
+            newLabel = self.generator.newLabel()
+            self.generator.addGoto(newLabel)
+            self.generator.addLabel(tmp.falseLabel)
+            self.generator.addExpression(tmp2, "0", "", "")
+            self.generator.addLabel(newLabel)
+
+            tmp.value = tmp2
             return tmp
 
         elif self.type == typeExpression.STRING:

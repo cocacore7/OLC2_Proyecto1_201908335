@@ -29,11 +29,15 @@ class Print(Instruction):
 
             elif tempValue.type == typeExpression.BOOL:
                 newLabel = self.generator.newLabel()
-                self.generator.addLabel(tempValue.trueLabel)
+                newLabelTrue = self.generator.newLabel()
+                newLabelFalse = self.generator.newLabel()
+                self.generator.addIf(tempValue.value, "1", "==", newLabelTrue)
+                self.generator.addGoto(newLabelFalse)
+                self.generator.addLabel(newLabelTrue)
                 self.generator.addCallFunc("print_true_proc")
 
                 self.generator.addGoto(newLabel)
-                self.generator.addLabel(tempValue.falseLabel)
+                self.generator.addLabel(newLabelFalse)
                 self.generator.addCallFunc("print_false_proc")
 
                 self.generator.addLabel(newLabel)
