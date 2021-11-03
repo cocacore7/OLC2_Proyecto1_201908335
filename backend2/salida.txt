@@ -3,7 +3,7 @@ import ( "fmt" );
 var stack [10000]float64;
 var heap [10000]float64;
 var P, H float64;
-var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9 float64;
+var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11 float64;
 
 func math_error_proc(){
 fmt.Printf("%c", 77);
@@ -57,56 +57,51 @@ return;
 }
 
 func main(){
-t3 = 5 + 5;
-t4 = t3 + 5;
-if t4 < 45 {goto L0;}
+t3 = 3 * 5;
+stack[int(0)] = t3;
+stack[int(1)] = 45;
+if 3 < 5 {goto L0;}
 goto L1;
 L0:
-t5 = 1  ;
+t4 = 1  ;
 goto L2;
 L1:
-t5 = 0  ;
+t4 = 0  ;
 L2:
-if t5 == 1 {goto L4;}
-goto L3;
-L4:
-t6 = 0  ;
-goto L5;
+if 7 > 5 {goto L3;}
+goto L4;
 L3:
-t6 = 1  ;
+t5 = 1  ;
+goto L5;
+L4:
+t5 = 0  ;
 L5:
-if 5 >= 2 {goto L6;}
+if t4 == 1 {goto L6;}
+if t5 == 1 {goto L6;}
 goto L7;
-L6:
-t7 = 1  ;
-goto L8;
 L7:
-t7 = 0  ;
+t6 = 0  ;
+goto L8;
+L6:
+t6 = 1  ;
 L8:
-if t7 == 1 {goto L10;}
-goto L9;
-L10:
-t8 = 0  ;
+stack[int(2)] = t6;
+t7 = stack[int(0)];
+fmt.Printf("%d",int(t7));
+fmt.Printf("%c",10);
+t8 = stack[int(0)];
+t9 = stack[int(1)];
+t10 = t8 + t9;
+fmt.Printf("%d",int(t10));
+fmt.Printf("%c",10);
+t11 = stack[int(2)];
+if t11 == 1 {goto L10;}
 goto L11;
-L9:
-t8 = 1  ;
-L11:
-if t6 == 1 {goto L12;}
-if t8 == 1 {goto L12;}
-goto L13;
-L13:
-t9 = 0  ;
-goto L14;
-L12:
-t9 = 1  ;
-L14:
-if t9 == 1 {goto L16;}
-goto L17;
-L16:
+L10:
 print_true_proc();
-goto L15;
-L17:
+goto L9;
+L11:
 print_false_proc();
-L15:
+L9:
 fmt.Printf("%c",10);
 }

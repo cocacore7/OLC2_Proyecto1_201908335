@@ -1,1 +1,6 @@
-println(!5+5+5<45 || !(5 >= 2));
+x = (3*5)::Int64;
+y = (45)::Int64;
+z = (3<5 || 7>5)::Bool;
+println(x);
+println(x+y);
+println(z);
