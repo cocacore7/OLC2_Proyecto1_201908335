@@ -16,7 +16,7 @@ class NumberVal(Expression):
             return Value(str(self.value), False, self.type)
 
         elif self.type == typeExpression.CHAR:
-            return Value(self.value, False, self.type)
+            return Value(str(ord(self.value)), False, self.type)
 
         elif self.type == typeExpression.BOOL:
             tmp = Value(str(self.value), False, self.type)
@@ -42,7 +42,15 @@ class NumberVal(Expression):
             return tmp
 
         elif self.type == typeExpression.STRING:
-            return Value(self.value, False, self.type)
+            tmp = self.generator.newTemp()
+            self.generator.addActHeap(tmp)
+
+            for x in self.value:
+                self.generator.addSetHeap("H", str(ord(x)))
+                self.generator.addNextHeap()
+            self.generator.addSetHeap("H", str(-1))
+            self.generator.addNextHeap()
+            return Value(tmp, False, self.type)
 
         elif self.type == typeExpression.NULO:
             return Value(str(self.value), False, self.type)

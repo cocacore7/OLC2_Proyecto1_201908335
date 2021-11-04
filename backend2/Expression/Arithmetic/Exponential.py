@@ -59,36 +59,35 @@ class Exponential(Expression):
                     tmp = self.generator.newTemp()
                     self.generator.addActHeap(tmp)
 
-                    for x in leftValue.value:
-                        self.generator.addSetHeap("H", str(ord(x)))
-                        self.generator.addNextHeap()
+                    # String 1
+                    tmp2 = self.generator.newTemp()
+                    self.generator.getPointerP(tmp2)
+                    self.generator.setPointerP(leftValue.getValue())
+                    self.generator.addCallFunc("concatenate_strings_proc")
+
+                    # String 2
+                    self.generator.setPointerP(leftValue.getValue())
+                    self.generator.addCallFunc("concatenate_strings_proc")
                     self.generator.addSetHeap("H", str(-1))
                     self.generator.addNextHeap()
+                    self.generator.setPointerP(tmp2)
+
+                    return Value(tmp, False, leftValue.type)
+                elif int(rightValue.getValue()) > 2:
+                    tmp = self.generator.newTemp()
+                    self.generator.addActHeap(tmp)
 
                     tmp2 = self.generator.newTemp()
-                    self.generator.addActHeap(tmp2)
+                    for y in range(int(rightValue.getValue())):
+                        self.generator.getPointerP(tmp2)
+                        self.generator.setPointerP(leftValue.getValue())
+                        self.generator.addCallFunc("concatenate_strings_proc")
 
-                    for x in leftValue.value:
-                        self.generator.addSetHeap("H", str(ord(x)))
-                        self.generator.addNextHeap()
                     self.generator.addSetHeap("H", str(-1))
                     self.generator.addNextHeap()
+                    self.generator.setPointerP(tmp2)
 
-                    return Value(leftValue.value+leftValue.value, False, leftValue.type)
-                elif int(rightValue.getValue()) > 2:
-                    retorno = ""
-                    for y in range(int(rightValue.getValue())):
-                        retorno = retorno + leftValue.value
-                        tmp = self.generator.newTemp()
-                        self.generator.addActHeap(tmp)
-
-                        for x in leftValue.value:
-                            self.generator.addSetHeap("H", str(ord(x)))
-                            self.generator.addNextHeap()
-                        self.generator.addSetHeap("H", str(-1))
-                        self.generator.addNextHeap()
-
-                    return Value(retorno, True, leftValue.type)
+                    return Value(tmp, True, leftValue.type)
                 else:
                     print("Error en Concatenacion")
                     return Value("0", False, typeExpression.INTEGER)

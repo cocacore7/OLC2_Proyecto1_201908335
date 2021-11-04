@@ -39,27 +39,24 @@ class Multiply(Expression):
 
         elif leftValue.type == typeExpression.STRING:
             if rightValue.type == typeExpression.STRING:
-                # String Izquierda Procesado = lefth
+                # String Derecha Izquierda Procesado = right + lefth
                 tmp = self.generator.newTemp()
                 self.generator.addActHeap(tmp)
 
-                for x in leftValue.value:
-                    self.generator.addSetHeap("H", str(ord(x)))
-                    self.generator.addNextHeap()
-                self.generator.addSetHeap("H", str(-1))
-                self.generator.addNextHeap()
-
-                # String Derecha Procesado = right
+                # String 1
                 tmp2 = self.generator.newTemp()
-                self.generator.addActHeap(tmp2)
+                self.generator.getPointerP(tmp2)
+                self.generator.setPointerP(leftValue.getValue())
+                self.generator.addCallFunc("concatenate_strings_proc")
 
-                for x in rightValue.value:
-                    self.generator.addSetHeap("H", str(ord(x)))
-                    self.generator.addNextHeap()
+                # String 2
+                self.generator.setPointerP(rightValue.getValue())
+                self.generator.addCallFunc("concatenate_strings_proc")
                 self.generator.addSetHeap("H", str(-1))
                 self.generator.addNextHeap()
+                self.generator.setPointerP(tmp2)
 
-                return Value(leftValue.value+rightValue.value, False, typeExpression.STRING)
+                return Value(tmp, False, typeExpression.STRING)
 
             else:
                 print("Error en Concatenacion")

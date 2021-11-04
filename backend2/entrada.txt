@@ -1,6 +1,12 @@
-x = (3*5)::Int64;
-y = (45)::Int64;
-z = (3<5 || 7>5)::Bool;
+x = ("Hola "^7)::String;
+z = (true)::Bool;
+y = (45*5)::Int64;
+w = ('A')::Char;
+a = (3.1416)::Float64;
 println(x);
-println(x+y);
 println(z);
+println(y);
+println(w);
+println('w');
+println(a);
+println(12.2522);

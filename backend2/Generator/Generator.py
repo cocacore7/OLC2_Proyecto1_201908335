@@ -5,7 +5,7 @@ class Generator:
 
     def __init__(self) -> None:
         self.generator = None
-        self.temporal = 3
+        self.temporal = 6
         self.label = 0
         self.code = []
         self.tempList = []
@@ -24,12 +24,12 @@ class Generator:
         tempCode = tempCode + "var stack [10000]float64;\n"
         tempCode = tempCode + "var heap [10000]float64;\n"
         tempCode = tempCode + "var P, H float64;\n"
-        tempCode = tempCode + "var t0,t1,t2,"
+        tempCode = tempCode + "var t0,t1,t2,t3,t4,t5,"
 
         if len(self.tempList) > 0:
             tempCode = tempCode + self.getUsedTemps()
         else:
-            tempCode = tempCode + "t3"
+            tempCode = tempCode + "t6"
 
         tempCode = tempCode + " float64;\n"
 
@@ -72,15 +72,29 @@ class Generator:
         tempCode = tempCode + '}\n'
 
         tempCode = tempCode + '\nfunc print_String_proc(){\n'
-        tempCode = tempCode + 't0=P+1;\n'
-        tempCode = tempCode + 't1=stack[int(t0)];\n'
-        tempCode = tempCode + 'L1:\n'
-        tempCode = tempCode + 't2=heap[int(t1)];\n'
-        tempCode = tempCode + 'if t2 == -1 {goto L0;}\n'
+        tempCode = tempCode + 't0=P;\n'
+        tempCode = tempCode + 't1 =t0;\n'
+        tempCode = tempCode + 'L0:\n'
+        tempCode = tempCode + 't2= heap[int(t1)];\n'
+        tempCode = tempCode + 'if t2==-1{ goto L1;}\n'
         tempCode = tempCode + 'fmt.Printf("%c", int(t2));\n'
         tempCode = tempCode + 't1=t1+1;\n'
-        tempCode = tempCode + 'goto L1;\n'
-        tempCode = tempCode + 'L0:\n'
+        tempCode = tempCode + 'goto L0;\n'
+        tempCode = tempCode + 'L1:\n'
+        tempCode = tempCode + 'return;\n'
+        tempCode = tempCode + '}\n'
+
+        tempCode = tempCode + '\nfunc concatenate_strings_proc(){\n'
+        tempCode = tempCode + 't3=P;\n'
+        tempCode = tempCode + 't4 =t3;\n'
+        tempCode = tempCode + 'L2:\n'
+        tempCode = tempCode + 't5= heap[int(t4)];\n'
+        tempCode = tempCode + 'if t5==-1{ goto L3;}\n'
+        tempCode = tempCode + 'heap[int(H)] = t5;\n'
+        tempCode = tempCode + 'H = H +1;\n'
+        tempCode = tempCode + 't4=t4+1;\n'
+        tempCode = tempCode + 'goto L2;\n'
+        tempCode = tempCode + 'L3:\n'
         tempCode = tempCode + 'return;\n'
         tempCode = tempCode + '}\n'
 
@@ -116,6 +130,14 @@ class Generator:
     # Obtener Posicion Actual Stack
     def addActStack(self, temp: str, index: str):
         self.code.append(temp + "= P+" + index + ";")
+
+    # Obtener Posicion anterior Pointer
+    def setPointerP(self, temp: str):
+        self.code.append("P = " + temp + ";")
+
+    # Obtener Posicion Actual Pointer
+    def getPointerP(self, temp: str):
+        self.code.append(temp+" = P;")
 
     # Obtener Siguiente Temporal String
     def addNextTmp(self, temp: str):
