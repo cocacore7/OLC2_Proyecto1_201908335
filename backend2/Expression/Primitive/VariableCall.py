@@ -14,8 +14,10 @@ class VariableCall(Expression):
     def compile(self, environment: Environment) -> Value:
 
         retSym: Symbol = environment.getVariable(self.id)
-        newTemp = self.generator.newTemp()
+        if retSym.type != typeExpression.NULO:
+            newTemp = self.generator.newTemp()
 
-        self.generator.addGetStack(newTemp, str(retSym.position))
+            self.generator.addGetStack(newTemp, str(retSym.position))
 
-        return Value(newTemp, True, retSym.type)
+            return Value(newTemp, True, retSym.type)
+        return Value("", False, typeExpression.NULO)

@@ -3,7 +3,7 @@ import ( "fmt" );
 var stack [10000]float64;
 var heap [10000]float64;
 var P, H float64;
-var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16,t17 float64;
+var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14 float64;
 
 func math_error_proc(){
 fmt.Printf("%c", 77);
@@ -80,17 +80,9 @@ heap[int(H)] = 108;
 H = H + 1;
 heap[int(H)] = 97;
 H = H + 1;
-heap[int(H)] = 32;
-H = H + 1;
 heap[int(H)] = -1;
 H = H + 1;
 t8= H;
-t9 = P;
-P = t6;
-concatenate_strings_proc();
-t9 = P;
-P = t6;
-concatenate_strings_proc();
 t9 = P;
 P = t6;
 concatenate_strings_proc();
@@ -110,46 +102,24 @@ heap[int(H)] = -1;
 H = H + 1;
 P = t9;
 stack[int(0)] = t8;
-if 1 == 1 {goto L0;}
-goto L1;
-L0:
-t10 = 1  ;
-goto L2;
-L1:
-t10 = 0  ;
-L2:
-stack[int(1)] = t10;
-t11 = 45 * 5;
-stack[int(2)] = t11;
-stack[int(3)] = 65;
-stack[int(4)] = 3.1416;
-t12 = stack[int(0)];
-t13 = P;
-P = t12;
+stack[int(2)] = 3;
+stack[int(3)] = 3.141516;
+stack[int(4)] = 65;
+t10 = stack[int(0)];
+t11 = P;
+P = t10;
 print_String_proc();
-P = t13;
+P = t11;
 fmt.Printf("%c",10);
-t14 = stack[int(1)];
-if t14 == 1 {goto L4;}
-goto L5;
-L4:
-print_true_proc();
-goto L3;
-L5:
-print_false_proc();
-L3:
+print_nothing_proc();
 fmt.Printf("%c",10);
-t15 = stack[int(2)];
-fmt.Printf("%d",int(t15));
+t12 = stack[int(2)];
+fmt.Printf("%d",int(t12));
 fmt.Printf("%c",10);
-t16 = stack[int(3)];
-fmt.Printf("%c",int(t16));
+t13 = stack[int(3)];
+fmt.Printf("%f",float64(t13));
 fmt.Printf("%c",10);
-fmt.Printf("%c",int(119));
-fmt.Printf("%c",10);
-t17 = stack[int(4)];
-fmt.Printf("%f",float64(t17));
-fmt.Printf("%c",10);
-fmt.Printf("%f",float64(12.2522));
+t14 = stack[int(4)];
+fmt.Printf("%c",int(t14));
 fmt.Printf("%c",10);
 }
