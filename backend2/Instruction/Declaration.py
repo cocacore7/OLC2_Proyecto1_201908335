@@ -23,7 +23,7 @@ class Declaration(Instruction):
 
         newValue: Value = self.exp.compile(environment)
 
-        tempVar: Symbol = environment.saveVariable(self.id, newValue.type)
+        tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD, self.entorno, "")
 
         if newValue.type != typeExpression.NULO:
             self.generator.addSetStack(str(tempVar.position), newValue.getValue())

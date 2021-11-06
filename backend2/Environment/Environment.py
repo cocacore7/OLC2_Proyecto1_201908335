@@ -1,5 +1,6 @@
 from Enum.typeExpression import typeExpression
 from Environment.Symbol import Symbol
+from Globales.Tablas import Errores, Simbolos
 
 
 class Environment:
@@ -8,17 +9,166 @@ class Environment:
         self.father = father
         self.variable = {}
         self.size = 0
+        self.function = {}
+        self.globalAccess = {}
+        self.localAccess = {}
 
         if father is not None:
             self.size = father.size
 
-    def saveVariable(self, id: str, type: typeExpression):
-        if self.variable.get(id) is not None:
-            print("La variable " + id + " ya existe")
-            return
+    def getGlobal(self):
+        tempEnv: Environment = self
+        while tempEnv.father is not None:
+            tempEnv = tempEnv.father
+        return tempEnv
 
+    def saveVariable(self, id: str, type: typeExpression, isArray: bool, entorno: str, tipoD: str, ref: str):
+        if self.father is not None:
+            if tipoD == "F":
+                if entorno == "G":
+                    globalenv = self.getGlobal()
+                    if globalenv.variable.get(id) is not None:
+                        tempVar: Symbol = self.getGlobal().variable.get(id)
+                        tempVar.type = tempVar.getType()
+                        tempVar.array = tempVar.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
+
+                        tempVar = Symbol(id, type, globalenv.size)
+                        globalenv.size = globalenv.size + 1
+                        globalenv.variable[id] = tempVar
+                        self.globalAccess[id] = id
+                        if self.variable.get(id) is not None:
+                            del self.variable[id]
+                        return tempVar
+                    tempVar = Symbol(id, type, globalenv.size)
+                    globalenv.size = globalenv.size + 1
+                    tempVar.array = isArray
+                    if tempVar.ref == "":
+                        tempVar.ref = ref
+                    globalenv.variable[id] = tempVar
+                    self.globalAccess[id] = id
+                    if self.variable.get(id) is not None:
+                        del self.variable[id]
+                    Simbolos.append(
+                        {'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "", 'Columna': ""})
+                    return tempVar
+                elif entorno == "L":
+                    if self.globalAccess.get(id) is None:
+                        if self.variable.get(id) is not None:
+                            tempVar: Symbol = self.variable.get(id)
+                            tempVar.type = tempVar.getType()
+                            tempVar.array = tempVar.isArray()
+                            if tempVar.ref == "":
+                                tempVar.ref = ref
+                            self.variable[id] = tempVar
+                            return tempVar
+                        elif self.father.variable.get(id) is not None:
+                            tempVar: Symbol = self.father.variable.get(id)
+                            tempVar.type = tempVar.getType()
+                            tempVar.array = tempVar.isArray()
+                            if tempVar.ref == "":
+                                tempVar.ref = ref
+                            self.father.variable[id] = tempVar
+                            return tempVar
+                        tempVar = Symbol(id, type, self.size)
+                        self.size = self.size + 1
+                        tempVar.array = isArray
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
+                        self.variable[id] = tempVar
+                        if ComprobarParam(id):
+                            Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Local", 'Linea': "",
+                                             'Columna': ""})
+                        return tempVar
+                    else:
+                        globalenv = self.getGlobal()
+                        tempVar: Symbol = globalenv.variable.get(id)
+                        tempVar.type = tempVar.getType()
+                        tempVar.array = tempVar.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
+                        globalenv.variable[id] = tempVar
+                        return tempVar
+            elif tipoD == "C":
+                if entorno == "G":
+                    if self.localAccess.get(id) is None:
+                        tempEnv = self.father
+                        while tempEnv is not None:
+                            if tempEnv.variable.get(id) is not None:
+                                tempVar: Symbol = tempEnv.variable.get(id)
+                                tempVar.type = tempVar.getType()
+                                tempVar.array = tempVar.isArray()
+                                if tempVar.ref == "":
+                                    tempVar.ref = ref
+                                tempEnv.variable[id] = tempVar
+                                return tempVar
+                            tempEnv = tempEnv.father
+                        globalenv = self.getGlobal()
+                        tempVar = Symbol(id, type, globalenv.size)
+                        globalenv.size = globalenv.size + 1
+                        tempVar.array = isArray
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
+                        globalenv.variable[id] = tempVar
+                        Simbolos.append(
+                            {'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "", 'Columna': ""})
+                        return tempVar
+                    else:
+                        tempVar: Symbol = self.variable.get(id)
+                        tempVar.type = tempVar.getType()
+                        tempVar.array = tempVar.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
+                        self.variable[id] = tempVar
+                        return tempVar
+                elif entorno == "L":
+                    if self.variable.get(id) is not None:
+                        tempVar: Symbol = self.variable.get(id)
+                        tempVar.type = tempVar.getType()
+                        tempVar.array = tempVar.isArray()
+                        if tempVar.ref == "":
+                            tempVar.ref = ref
+                        self.variable[id] = tempVar
+                        self.localAccess[id] = id
+                        return tempVar
+                    tempVar = Symbol(id, type, self.size)
+                    self.size = self.size + 1
+                    tempVar.array = isArray
+                    if tempVar.ref == "":
+                        tempVar.ref = ref
+                    self.variable[id] = tempVar
+                    self.localAccess[id] = id
+                    if ComprobarParam(id):
+                        Simbolos.append(
+                            {'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Local", 'Linea': "", 'Columna': ""})
+                    return tempVar
+        else:
+            if self.variable.get(id) is not None:
+                tempVar: Symbol = self.variable.get(id)
+                tempVar.type = tempVar.getType()
+                tempVar.array = tempVar.isArray()
+                if tempVar.ref == "":
+                    tempVar.ref = ref
+                self.variable[id] = tempVar
+                return tempVar
+            tempVar = Symbol(id, type, self.size)
+            self.size = self.size + 1
+            tempVar.array = isArray
+            if tempVar.ref == "":
+                tempVar.ref = ref
+            self.variable[id] = tempVar
+            Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "", 'Columna': ""})
+            return tempVar
+
+    def saveParameter(self, id: str, type: typeExpression, isArray: bool, ref: str):
         tempVar = Symbol(id, type, self.size)
         self.size = self.size + 1
+        tempVar.array = isArray
+        if tempVar.ref == "":
+            tempVar.ref = ref
+        if ComprobarParam(id):
+            Simbolos.append({'Nombre': id, 'Tipo': "Parametro", 'Ambito': "Local", 'Linea': "", 'Columna': ""})
         self.variable[id] = tempVar
         return tempVar
 
@@ -30,3 +180,37 @@ class Environment:
             tempEnv = tempEnv.father
         print("Error: la variable " + id + " no existe")
         return None
+
+
+def ComprobarParam(id):
+    for i in Simbolos:
+        if i["Nombre"] == id:
+            return False
+    return True
+
+
+def obtener(numero):
+    if numero == 0:
+        return "String"
+    elif numero == 1:
+        return "Int64"
+    elif numero == 2:
+        return "Float64"
+    elif numero == 3:
+        return "Bool"
+    elif numero == 4:
+        return "Char"
+    elif numero == 5:
+        return "Nothing"
+    elif numero == 6:
+        return "Array{String}"
+    elif numero == 7:
+        return "Array{Int64}"
+    elif numero == 8:
+        return "Array{Float64}"
+    elif numero == 9:
+        return "Array{Bool}"
+    elif numero == 10:
+        return "Array{Char}"
+    elif numero == 11:
+        return "Array{Any}"

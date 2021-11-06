@@ -25,7 +25,7 @@ class Print(Instruction):
                     self.generator.addPrintf("f", "float64(" + str(tempValue.getValue())+")")
 
             elif tempValue.type == typeExpression.CHAR:
-                self.generator.addPrintf("c", "int(" + str(ord(tempValue.getValue())) + ")")
+                self.generator.addPrintf("c", "int(" + str(tempValue.getValue()) + ")")
 
             elif tempValue.type == typeExpression.BOOL:
                 newLabel = self.generator.newLabel()

@@ -4,12 +4,14 @@ class Symbol:
         self.id = id
         self.type = type
         self.position = position
+        self.array = False
+        self.ref = ""
 
     def getId(self):
         return self.id
 
-    def getValue(self):
-        return self.value
-
     def getType(self):
         return self.type
+
+    def isArray(self):
+        return self.array

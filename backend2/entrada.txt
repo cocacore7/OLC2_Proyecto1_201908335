@@ -1,10 +1,11 @@
-a = "Hola" ^ 5;
-b = nothing;
-c = 3;
-d = 3.141516;
-e = 'A';
-println(a);
-println(b);
-println(c);
-println(d);
-println(e);
+x = 10;
+
+for i in 1:5
+    print(i);
+
+    local i = 5;
+    println(i);
+end;
+
+print();
+print(x);

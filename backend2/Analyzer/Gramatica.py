@@ -218,6 +218,11 @@ from Expression.Logic.Not import Not
 from Instruction.Print import Print
 from Instruction.Println import Println
 from Instruction.Declaration import Declaration
+from Instruction.While import While
+from Instruction.For import For
+from Instruction.Parameter import Parameter
+from Instruction.If import If
+from Instruction.Block import Block
 
 import Analyzer.ply.lex as lex
 
@@ -670,10 +675,10 @@ def p_parameter(t):
     '''parameter    : ID DOSPT DOSPT typeDef
                     | ID
     '''
-    # if len(t) == 5:
-    #    t[0] = Parameter(t[1], t[4])
-    # elif len(t) == 2:
-    #    t[0] = Parameter(t[1], None)
+    if len(t) == 5:
+        t[0] = Parameter(t[1], t[4])
+    elif len(t) == 2:
+        t[0] = Parameter(t[1], None)
 
 
 # ================================LLAMADA A FUNCIONES
@@ -714,22 +719,22 @@ def p_ifSt(t):
                 | RIF exp blockiff elseifSt RELSE blockiff END PTCOMA
                 | RIF exp blockiff elseifSt RELSE END PTCOMA
     '''
-    # if len(t) == 5:
-    #    t[0] = If(t[2], Block([]), [], Block([]))
-    # elif len(t) == 6:
-    #    t[0] = If(t[2], Block(t[3]), [], Block([]))
-    # elif len(t) == 8:
-    #    if t[4] == 'else':
-    #        t[0] = If(t[2], Block(t[3]), [], Block(t[5]))
-    #    elif t[5] == 'else':
-    #        t[0] = If(t[2], Block(t[3]), t[4], Block([]))
-    # elif len(t) == 7:
-    #    if t[4] == 'else':
-    #        t[0] = If(t[2], Block(t[3]), [], Block([]))
-    #    elif t[5] == 'end':
-    #        t[0] = If(t[2], Block(t[3]), t[4], Block([]))
-    # elif len(t) == 9:
-    #    t[0] = If(t[2], Block(t[3]), t[4], Block(t[6]))
+    if len(t) == 5:
+        t[0] = If(t[2], Block([]), [], Block([]))
+    elif len(t) == 6:
+        t[0] = If(t[2], Block(t[3]), [], Block([]))
+    elif len(t) == 8:
+        if t[4] == 'else':
+            t[0] = If(t[2], Block(t[3]), [], Block(t[5]))
+        elif t[5] == 'else':
+            t[0] = If(t[2], Block(t[3]), t[4], Block([]))
+    elif len(t) == 7:
+        if t[4] == 'else':
+            t[0] = If(t[2], Block(t[3]), [], Block([]))
+        elif t[5] == 'end':
+            t[0] = If(t[2], Block(t[3]), t[4], Block([]))
+    elif len(t) == 9:
+        t[0] = If(t[2], Block(t[3]), t[4], Block(t[6]))
 
 
 def p_elseifSt(t):
@@ -753,10 +758,10 @@ def p_conelseift(t):
     '''conelseif    : RELSEIF exp blockiff
                     | RELSEIF exp
     '''
-    # if len(t) == 3:
-    #    t[0] = If(t[2], Block([]), Block([]), Block([]))
-    # elif len(t) == 4:
-    #    t[0] = If(t[2], Block(t[3]), Block([]), Block([]))
+    if len(t) == 3:
+        t[0] = If(t[2], Block([]), Block([]), Block([]))
+    elif len(t) == 4:
+        t[0] = If(t[2], Block(t[3]), Block([]), Block([]))
 
 
 def p_ifStc(t):
@@ -768,22 +773,22 @@ def p_ifStc(t):
                 | RIF exp blockifc elseifStc RELSE blockifc END PTCOMA
                 | RIF exp blockifc elseifStc RELSE END PTCOMA
     '''
-    # if len(t) == 5:
-    #    t[0] = If(t[2], Block([]), [], Block([]))
-    # elif len(t) == 6:
-    #    t[0] = If(t[2], Block(t[3]), [], Block([]))
-    # elif len(t) == 8:
-    #    if t[4] == 'else':
-    #        t[0] = If(t[2], Block(t[3]), [], Block(t[5]))
-    #    elif t[5] == 'else':
-    #        t[0] = If(t[2], Block(t[3]), t[4], Block([]))
-    # elif len(t) == 7:
-    #    if t[4] == 'else':
-    #        t[0] = If(t[2], Block(t[3]), [], Block([]))
-    #    elif t[5] == 'end':
-    #        t[0] = If(t[2], Block(t[3]), t[4], Block([]))
-    # elif len(t) == 9:
-    #    t[0] = If(t[2], Block(t[3]), t[4], Block(t[6]))
+    if len(t) == 5:
+        t[0] = If(t[2], Block([]), [], Block([]))
+    elif len(t) == 6:
+        t[0] = If(t[2], Block(t[3]), [], Block([]))
+    elif len(t) == 8:
+        if t[4] == 'else':
+            t[0] = If(t[2], Block(t[3]), [], Block(t[5]))
+        elif t[5] == 'else':
+            t[0] = If(t[2], Block(t[3]), t[4], Block([]))
+    elif len(t) == 7:
+        if t[4] == 'else':
+            t[0] = If(t[2], Block(t[3]), [], Block([]))
+        elif t[5] == 'end':
+            t[0] = If(t[2], Block(t[3]), t[4], Block([]))
+    elif len(t) == 9:
+        t[0] = If(t[2], Block(t[3]), t[4], Block(t[6]))
 
 
 def p_elseifStc(t):
@@ -807,17 +812,17 @@ def p_conelseiftc(t):
     '''conelseifc    : RELSEIF exp blockifc
                      | RELSEIF exp
     '''
-    # if len(t) == 3:
-    #    t[0] = If(t[2], Block([]), Block([]), Block([]))
-    # elif len(t) == 4:
-    #    t[0] = If(t[2], Block(t[3]), Block([]), Block([]))
+    if len(t) == 3:
+        t[0] = If(t[2], Block([]), Block([]), Block([]))
+    elif len(t) == 4:
+        t[0] = If(t[2], Block(t[3]), Block([]), Block([]))
 
 
 # ================================CICLO WHILE
 def p_whileSt(t):
     '''whileSt  : RWHILE exp blockc
     '''
-    # t[0] = While(t[2], t[3])
+    t[0] = While(t[2], t[3])
 
 
 # ================================CICLO FOR
@@ -825,10 +830,10 @@ def p_forSt(t):
     '''forSt    : RFOR parameter RIN exp DOSPT exp blockc
                 | RFOR parameter RIN exp blockc
     '''
-    # if len(t) == 8:
-    #    t[0] = For(t[2], t[4], t[6], t[7])
-    # elif len(t) == 6:
-    #    t[0] = For(t[2], t[4], Primitive('nothing', typeExpression.NULO), t[5])
+    if len(t) == 8:
+        t[0] = For(t[2], t[4], t[6], t[7])
+    elif len(t) == 6:
+        t[0] = For(t[2], t[4], NumberVal(typeExpression.NULO, 'nothing'), t[5])
 
 
 # ================================BLOQUES DE CODIGO
