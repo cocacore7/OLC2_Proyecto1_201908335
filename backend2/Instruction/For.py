@@ -4,6 +4,8 @@ from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
 from Instruction.If import If
+from Instruction.Break import Break
+from Instruction.Continue import Continue
 
 
 class For(Instruction):
@@ -45,14 +47,20 @@ class For(Instruction):
                 self.generator.addLabel(leftValue.trueLabel)
                 newEnv = Environment(EnvParam)
                 newLabelFalse = self.generator.newLabel()
+                ContinueSentence = False
                 for ins in self.block:
                     ins.generator = self.generator
                     if type(ins) == If:
                         ins.truelabel = newLabelFalse
                         ins.falselabel = leftValue.falseLabel
+                    elif type(ins) == Break:
+                        ins.labelFalse = leftValue.falseLabel
+                    elif type(ins) == Continue:
+                        ins.labelFalse = newLabelFalse
+                        ContinueSentence = True
                     ins.compile(newEnv)
-
-                self.generator.addGoto(newLabelFalse)
+                if not ContinueSentence:
+                    self.generator.addGoto(newLabelFalse)
                 self.generator.addLabel(newLabelFalse)
                 self.generator.addExpression(newTemp, newTemp, "1", "+")
                 self.generator.addGoto(newLabel)

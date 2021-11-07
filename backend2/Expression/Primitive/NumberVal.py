@@ -20,21 +20,18 @@ class NumberVal(Expression):
 
         elif self.type == typeExpression.BOOL:
             tmp = Value(str(self.value), False, self.type)
-            if tmp.trueLabel == "":
-                tmp.trueLabel = self.generator.newLabel()
+            falseLabel = self.generator.newLabel()
+            trueLabel = self.generator.newLabel()
 
-            if tmp.falseLabel == "":
-                tmp.falseLabel = self.generator.newLabel()
+            self.generator.addIf(str(tmp.value), "1", "==", trueLabel)
+            self.generator.addGoto(falseLabel)
 
-            self.generator.addIf(str(tmp.value), "1", "==", tmp.trueLabel)
-            self.generator.addGoto(tmp.falseLabel)
-
-            self.generator.addLabel(tmp.trueLabel)
+            self.generator.addLabel(trueLabel)
             tmp2 = self.generator.newTemp()
             self.generator.addExpression(tmp2, "1", "", "")
             newLabel = self.generator.newLabel()
             self.generator.addGoto(newLabel)
-            self.generator.addLabel(tmp.falseLabel)
+            self.generator.addLabel(falseLabel)
             self.generator.addExpression(tmp2, "0", "", "")
             self.generator.addLabel(newLabel)
 

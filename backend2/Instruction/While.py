@@ -4,6 +4,8 @@ from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
 from Instruction.If import If
+from Instruction.Break import Break
+from Instruction.Continue import Continue
 
 
 class While(Instruction):
@@ -30,14 +32,20 @@ class While(Instruction):
             self.generator.addLabel(valueCondition.trueLabel)
 
             newEnv = Environment(environment)
+            ContinueSentence = False
             for ins in self.block:
                 ins.generator = self.generator
                 if type(ins) == If:
                     ins.truelabel = newLabel
                     ins.falselabel = valueCondition.falseLabel
+                elif type(ins) == Break:
+                    ins.labelFalse = valueCondition.falseLabel
+                elif type(ins) == Continue:
+                    ins.labelFalse = newLabel
+                    ContinueSentence = True
                 ins.compile(newEnv)
-
-            self.generator.addGoto(newLabel)
+            if not ContinueSentence:
+                self.generator.addGoto(newLabel)
             self.generator.addLabel(valueCondition.falseLabel)
         else:
             print("ERROR EN WHILE")

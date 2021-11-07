@@ -1,9 +1,8 @@
-x = 0;
-
-while x<3
-    x = x+1;
-    if x==2
-        continue;
-    end;
-    print(x);
+num = 0;
+while num < 10
+num = num + 1;
+if num == 5
+continue;
+end;
+print(num); # Imprime 1234678910
 end;
