@@ -3,6 +3,7 @@ from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Instruction.If import If
 
 
 class For(Instruction):
@@ -43,9 +44,16 @@ class For(Instruction):
 
                 self.generator.addLabel(leftValue.trueLabel)
                 newEnv = Environment(EnvParam)
+                newLabelFalse = self.generator.newLabel()
                 for ins in self.block:
                     ins.generator = self.generator
+                    if type(ins) == If:
+                        ins.truelabel = newLabelFalse
+                        ins.falselabel = leftValue.falseLabel
                     ins.compile(newEnv)
+
+                self.generator.addGoto(newLabelFalse)
+                self.generator.addLabel(newLabelFalse)
                 self.generator.addExpression(newTemp, newTemp, "1", "+")
                 self.generator.addGoto(newLabel)
 

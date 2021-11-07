@@ -1,11 +1,9 @@
-x = 10;
+x = 0;
 
-for i in 1:5
-    print(i);
-
-    local i = 5;
-    println(i);
+while x<3
+    x = x+1;
+    if x==2
+        continue;
+    end;
+    print(x);
 end;
-
-print();
-print(x);

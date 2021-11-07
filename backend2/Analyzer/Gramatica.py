@@ -189,10 +189,6 @@ from Generator.Generator import Generator
 
 from Environment.Environment import Environment
 
-from Enum.arithmeticOperation import arithmeticOperation
-from Enum.relationalOperation import relationalOperation
-from Enum.LogicOperation import logicOperation
-from Enum.OperacionVaria import operacionVaria
 from Enum.typeExpression import typeExpression
 from Enum.TransferSentence import TransferSentence
 
@@ -223,6 +219,9 @@ from Instruction.For import For
 from Instruction.Parameter import Parameter
 from Instruction.If import If
 from Instruction.Block import Block
+
+from Instruction.Break import Break
+from Instruction.Continue import Continue
 
 import Analyzer.ply.lex as lex
 
@@ -883,13 +882,13 @@ def p_return(t):
 def p_break(t):
     '''breakST  : RBREAK PTCOMA
     '''
-    # t[0] = Break(TransferSentence.BREAK)
+    t[0] = Break(TransferSentence.BREAK)
 
 
 def p_continue(t):
     '''continueST  : RCONTINUE PTCOMA
     '''
-    # t[0] = Continue(TransferSentence.CONTINUE)
+    t[0] = Continue(TransferSentence.CONTINUE)
 
 
 # ================================ARREGLOS

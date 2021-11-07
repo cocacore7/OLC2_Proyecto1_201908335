@@ -3,6 +3,7 @@ from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Enum.TransferSentence import TransferSentence
 
 
 class If(Instruction):
@@ -12,6 +13,8 @@ class If(Instruction):
         self.blockif = blockif
         self.blockelif = blockelif
         self.blockelse = blockelse
+        self.truelabel = ""
+        self.falselabel = ""
 
     def compile(self, environment: Environment) -> Value:
         self.condition.generator = self.generator
@@ -27,10 +30,18 @@ class If(Instruction):
             self.generator.addGoto(valueCondition.falseLabel)
 
             self.generator.addLabel(valueCondition.trueLabel)
+            breakSentence = False
             for ins in self.blockif.block:
                 ins.generator = self.generator
+                if ins.type == TransferSentence.CONTINUE:
+                    ins.labelTrue = self.truelabel
+                    breakSentence = True
+                elif ins.type == TransferSentence.BREAK:
+                    ins.labelFalse = self.falselabel
+                    breakSentence = True
                 ins.compile(environment)
-            self.generator.addGoto(newLabel)
+            if not breakSentence:
+                self.generator.addGoto(newLabel)
 
             self.generator.addLabel(valueCondition.falseLabel)
             if len(self.blockelif) > 0:
@@ -49,6 +60,12 @@ class If(Instruction):
                         self.generator.addLabel(newValueCondition.trueLabel)
                         for ins in i.blockif.block:
                             ins.generator = self.generator
+                            if ins.type == TransferSentence.CONTINUE:
+                                ins.labelTrue = self.truelabel
+                                breakSentence = True
+                            elif ins.type == TransferSentence.BREAK:
+                                ins.labelFalse = self.falselabel
+                                breakSentence = True
                             ins.compile(environment)
                         self.generator.addGoto(newLabel)
 
@@ -59,8 +76,14 @@ class If(Instruction):
             if len(self.blockelse.block) > 0:
                 for ins in self.blockelse.block:
                     ins.generator = self.generator
+                    if ins.type == TransferSentence.CONTINUE:
+                        ins.labelTrue = self.truelabel
+                        breakSentence = True
+                    elif ins.type == TransferSentence.BREAK:
+                        ins.labelFalse = self.falselabel
+                        breakSentence = True
                     ins.compile(environment)
-
-            self.generator.addLabel(newLabel)
+            if not breakSentence:
+                self.generator.addLabel(newLabel)
         else:
             print("ERROR EN IF")

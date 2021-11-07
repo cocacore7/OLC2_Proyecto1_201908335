@@ -21,8 +21,8 @@ class Generator:
         tempCode = tempCode + 'import ( "fmt" ); \n'
         if len(Modulo) > 0:
             tempCode = tempCode + 'import ( "math" ); \n'
-        tempCode = tempCode + "var stack [10000]float64;\n"
-        tempCode = tempCode + "var heap [10000]float64;\n"
+        tempCode = tempCode + "var stack [30101999]float64;\n"
+        tempCode = tempCode + "var heap [30101999]float64;\n"
         tempCode = tempCode + "var P, H float64;\n"
         tempCode = tempCode + "var t0,t1,t2,t3,t4,t5,"
 

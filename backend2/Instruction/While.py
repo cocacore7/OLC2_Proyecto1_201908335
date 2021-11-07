@@ -3,6 +3,7 @@ from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Instruction.If import If
 
 
 class While(Instruction):
@@ -31,6 +32,9 @@ class While(Instruction):
             newEnv = Environment(environment)
             for ins in self.block:
                 ins.generator = self.generator
+                if type(ins) == If:
+                    ins.truelabel = newLabel
+                    ins.falselabel = valueCondition.falseLabel
                 ins.compile(newEnv)
 
             self.generator.addGoto(newLabel)
