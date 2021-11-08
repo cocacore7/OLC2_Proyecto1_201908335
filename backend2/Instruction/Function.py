@@ -25,7 +25,7 @@ class Function(Instruction):
         newEnv.localSize = newEnv.localSize + 1
 
         # Pasar Parametros
-        cont = 1
+        cont = environment.size + 1
         for param in self.parameters:
             newtmp = generator.newTemp()
             generator.addActStack(newtmp, str(cont))
@@ -35,7 +35,9 @@ class Function(Instruction):
         # Instrucciones De Funcion En  Nuevo Generador
         for ins in self.block:
             ins.generator = generator
-            ins.compile(newEnv)
+            value = ins.compile(newEnv)
+            if value is not None:
+                environment.saveFunction(self.id, value.value, value.type)
         generator.addCloseFunction()
 
         # Regresando Valores Nuevos De Generador Funcion a Global + Codigo De Funcion

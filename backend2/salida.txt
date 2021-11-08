@@ -3,7 +3,7 @@ import ( "fmt" );
 var stack [30101999]float64;
 var heap [30101999]float64;
 var P, H float64;
-var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16,t17,t18,t19,t20,t21,t22,t23,t24,t25,t26,t27,t28,t29,t30,t31,t32,t33,t34,t35,t36,t37,t38,t39,t40,t41,t42,t43,t44,t45,t46,t47,t48,t49,t50,t51 float64;
+var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16,t17,t18,t19,t20,t21,t22,t23,t24,t25,t26,t27,t28,t29,t30,t31,t32,t33,t34,t35,t36,t37,t38,t39,t40,t41 float64;
 
 func math_error_proc(){
 fmt.Printf("%c", 77);
@@ -70,8 +70,8 @@ L3:
 return;
 }
 func JOLC_a(){
-t6= P+1;
-t7= P+2;
+t6= P+2;
+t7= P+3;
 t8 = stack[int(2)];
 t9 = stack[int(3)];
 t10 = t8 + t9;
@@ -80,44 +80,13 @@ fmt.Printf("%c",10);
 }
 
 func JOLC_b(){
-t11= P+1;
-t12= P+2;
-t13 = stack[int(3)];
+t11= P+3;
+t12= P+4;
 t14 = stack[int(3)];
-t16= H;
-t17 = P;
-P = t13;
-concatenate_strings_proc();
-P = t14;
-concatenate_strings_proc();
-heap[int(H)] = -1;
-H = H + 1;
-P = t17;
-t18 = stack[int(3)];
-t20= H;
-t21 = P;
-P = t16;
-concatenate_strings_proc();
-P = t18;
-concatenate_strings_proc();
-heap[int(H)] = -1;
-H = H + 1;
-P = t21;
-t22 = stack[int(3)];
-t24= H;
-t25 = P;
-P = t20;
-concatenate_strings_proc();
-P = t22;
-concatenate_strings_proc();
-heap[int(H)] = -1;
-H = H + 1;
-P = t25;
-t26 = P;
-P = t24;
-print_String_proc();
-P = t26;
-fmt.Printf("%c",10);
+t15 = stack[int(4)];
+t16 = t14 + t15;
+t13 = t16  ;
+stack[int(2)] = t13;
 }
 
 
@@ -132,39 +101,29 @@ fmt.Printf("%c",int(32));
 fmt.Printf("%c",10);
 stack[int(1)] = 3;
 P = P + 2;
-t27= H;
-heap[int(H)] = 72;
-H = H + 1;
-heap[int(H)] = 111;
-H = H + 1;
-heap[int(H)] = 108;
-H = H + 1;
-heap[int(H)] = 97;
-H = H + 1;
-heap[int(H)] = 32;
-H = H + 1;
-heap[int(H)] = -1;
-H = H + 1;
-stack[int(3)] = t27;
-t28 = stack[int(1)];
-stack[int(4)] = t28;
+t17 = stack[int(0)];
+stack[int(3)] = t17;
+t18 = stack[int(1)];
+stack[int(4)] = t18;
 JOLC_b();
 P = P - 2;
+fmt.Printf("%d",int(t16));
+fmt.Printf("%c",10);
 fmt.Printf("%c",int(32));
 fmt.Printf("%c",10);
 stack[int(2)] = 100;
-t29 = stack[int(0)];
-fmt.Printf("%d",int(t29));
+t19 = stack[int(0)];
+fmt.Printf("%d",int(t19));
 fmt.Printf("%c",10);
-t30 = stack[int(1)];
-fmt.Printf("%d",int(t30));
+t20 = stack[int(1)];
+fmt.Printf("%d",int(t20));
 fmt.Printf("%c",10);
-t31 = stack[int(2)];
-fmt.Printf("%d",int(t31));
+t21 = stack[int(2)];
+fmt.Printf("%d",int(t21));
 fmt.Printf("%c",10);
 fmt.Printf("%c",int(32));
 fmt.Printf("%c",10);
-t32= H;
+t22= H;
 heap[int(H)] = 65;
 H = H + 1;
 heap[int(H)] = 100;
@@ -179,27 +138,27 @@ heap[int(H)] = 32;
 H = H + 1;
 heap[int(H)] = -1;
 H = H + 1;
-t35 = 3  ;
-t34= H;
+t25 = 3  ;
+t24= H;
 L0:
-t35 = t35 - 1;
-t36 = P;
-P = t32;
+t25 = t25 - 1;
+t26 = P;
+P = t22;
 concatenate_strings_proc();
-P = t36;
-if t35 == 0 {goto L1;}
+P = t26;
+if t25 == 0 {goto L1;}
 goto L0;
 L1:
 heap[int(H)] = -1;
 H = H + 1;
-t37 = P;
-P = t34;
+t27 = P;
+P = t24;
 print_String_proc();
-P = t37;
+P = t27;
 fmt.Printf("%c",10);
 fmt.Printf("%c",int(32));
 fmt.Printf("%c",10);
-t38= H;
+t28= H;
 heap[int(H)] = 77;
 H = H + 1;
 heap[int(H)] = 97;
@@ -222,29 +181,29 @@ heap[int(H)] = 32;
 H = H + 1;
 heap[int(H)] = -1;
 H = H + 1;
-stack[int(3)] = t38;
-t39 = stack[int(3)];
-t42 = 3  ;
-t41= H;
+stack[int(3)] = t28;
+t29 = stack[int(3)];
+t32 = 3  ;
+t31= H;
 L2:
-t42 = t42 - 1;
-t43 = P;
-P = t39;
+t32 = t32 - 1;
+t33 = P;
+P = t29;
 concatenate_strings_proc();
-P = t43;
-if t42 == 0 {goto L3;}
+P = t33;
+if t32 == 0 {goto L3;}
 goto L2;
 L3:
 heap[int(H)] = -1;
 H = H + 1;
-t44 = P;
-P = t41;
+t34 = P;
+P = t31;
 print_String_proc();
-P = t44;
+P = t34;
 fmt.Printf("%c",10);
 fmt.Printf("%c",int(32));
 fmt.Printf("%c",10);
-t45= H;
+t35= H;
 heap[int(H)] = 77;
 H = H + 1;
 heap[int(H)] = 105;
@@ -259,23 +218,23 @@ heap[int(H)] = 32;
 H = H + 1;
 heap[int(H)] = -1;
 H = H + 1;
-t46 = stack[int(1)];
-t49 = t46  ;
-t48= H;
+t36 = stack[int(1)];
+t39 = t36  ;
+t38= H;
 L4:
-t49 = t49 - 1;
-t50 = P;
-P = t45;
+t39 = t39 - 1;
+t40 = P;
+P = t35;
 concatenate_strings_proc();
-P = t50;
-if t49 == 0 {goto L5;}
+P = t40;
+if t39 == 0 {goto L5;}
 goto L4;
 L5:
 heap[int(H)] = -1;
 H = H + 1;
-t51 = P;
-P = t48;
+t41 = P;
+P = t38;
 print_String_proc();
-P = t51;
+P = t41;
 fmt.Printf("%c",10);
 }

@@ -225,6 +225,7 @@ from Instruction.Block import Block
 
 from Instruction.Break import Break
 from Instruction.Continue import Continue
+from Instruction.Return import Return
 
 import Analyzer.ply.lex as lex
 
@@ -694,6 +695,12 @@ def p_callFuncSt(t):
     t[0] = FunctionCall(t[1], t[2])
 
 
+def p_callFuncSt2(t):
+    '''exp   : ID parametersCallFunc
+    '''
+    t[0] = FunctionCall(t[1], t[2])
+
+
 def p_parametersCallFunc(t):
     '''parametersCallFunc   : PARIZQ listValues PARDER
                             | PARIZQ PARDER
@@ -851,6 +858,7 @@ def p_parameterFor(t):
     elif len(t) == 2:
         t[0] = ParameterFor(t[1], None)
 
+
 # ================================BLOQUES DE CODIGO
 def p_blockf(t):
     '''blockf   : instructionsf END PTCOMA
@@ -889,10 +897,10 @@ def p_return(t):
     '''returnST : RRETURN exp PTCOMA
                 | RRETURN PTCOMA
     '''
-    # if len(t) == 4:
-    #    t[0] = Return(TransferSentence.RETURN, t[2])
-    # else:
-    #    t[0] = Return(TransferSentence.RETURN, Primitive('nothing', typeExpression.NULO))
+    if len(t) == 4:
+        t[0] = Return(TransferSentence.RETURN, t[2])
+    else:
+        t[0] = Return(TransferSentence.RETURN, NumberVal(typeExpression.NULO, 'nothing'))
 
 
 def p_break(t):
@@ -990,13 +998,6 @@ def p_exp_logica(t):
         t[0] = Or(t[1], t[3])
     elif t[1] == '!':
         t[0] = Not(t[2])
-
-
-# ================================EXPRESION RETURN FUNCIONES
-def p_callFuncSt2(t):
-    '''exp   : ID parametersCallFunc
-    '''
-    # t[0] = CallFuncSt(t[1], t[2])
 
 
 # ================================FUNCIONES VARIAS

@@ -1,5 +1,6 @@
 from Enum.typeExpression import typeExpression
 from Environment.Symbol import Symbol
+from Environment.Value import Value
 from Globales.Tablas import Errores, Simbolos
 
 
@@ -10,6 +11,7 @@ class Environment:
         self.variable = {}
         self.size = 0
         self.localSize = 0
+        self.function = {}
         self.globalAccess = {}
         self.localAccess = {}
 
@@ -178,6 +180,13 @@ class Environment:
         self.variable[id] = tempVar
         return tempVar
 
+    def saveFunction(self, id: str, value, type: typeExpression):
+        tempVar = Value(value, True, type)
+        if ComprobarParam(id):
+            Simbolos.append({'Nombre': id, 'Tipo': "Funcion", 'Ambito': "Global", 'Linea': "", 'Columna': ""})
+        self.getGlobal().function[id] = tempVar
+        return tempVar
+
     def getVariable(self, id: str) -> Symbol:
         tempEnv = self
         while tempEnv is not None:
@@ -185,6 +194,12 @@ class Environment:
                 return tempEnv.variable.get(id)
             tempEnv = tempEnv.father
         print("Error: la variable " + id + " no existe")
+        return None
+
+    def getFunction(self, id: str) -> Symbol:
+        if self.getGlobal().function.get(id) is not None:
+            return self.getGlobal().function.get(id)
+        print("Error: la Funcion " + id + " no existe")
         return None
 
 

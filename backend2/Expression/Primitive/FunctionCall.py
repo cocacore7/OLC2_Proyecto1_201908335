@@ -1,7 +1,6 @@
 from Abstract.Expression import Expression
 from Environment.Environment import Environment
 from Environment.Value import Value
-from Enum.typeExpression import typeExpression
 
 
 class FunctionCall(Expression):
@@ -19,6 +18,7 @@ class FunctionCall(Expression):
             val = ins.compile(environment)
             self.generator.addSetStack(str(cont), val.value)
             cont = cont + 1
-        # Faltan Calcular Parametros
+        returnValue = environment.getFunction(self.id)
         self.generator.addFunctionCall(self.id, self.parameters)
         self.generator.addBackStack(str(environment.size))
+        return returnValue
