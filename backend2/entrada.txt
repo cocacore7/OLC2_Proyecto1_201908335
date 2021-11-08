@@ -1,5 +1,11 @@
-a = 1;
-b = 5;
-for i in "Hola Mundo"
-    println(i);
+function sumar(a::Int64, b::Int64, msg::String)::Int64
+    println(msg);
+    return a+b;
 end;
+
+function restar(a::Int64, b::Int64)::Int64
+    return a - b;
+end;
+
+println(sumar(5, 10, "Hola"));
+println(restar(5, 10));

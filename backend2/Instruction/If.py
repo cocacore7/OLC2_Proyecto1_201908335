@@ -4,6 +4,8 @@ from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
 from Enum.TransferSentence import TransferSentence
+from Instruction.Break import Break
+from Instruction.Continue import Continue
 
 
 class If(Instruction):
@@ -33,10 +35,10 @@ class If(Instruction):
             breakSentence = False
             for ins in self.blockif.block:
                 ins.generator = self.generator
-                if ins.type == TransferSentence.CONTINUE:
+                if type(ins) == Continue:
                     ins.labelTrue = self.truelabel
                     breakSentence = True
-                elif ins.type == TransferSentence.BREAK:
+                elif type(ins) == Break:
                     ins.labelFalse = self.falselabel
                     breakSentence = True
                 ins.compile(environment)
@@ -60,10 +62,10 @@ class If(Instruction):
                         self.generator.addLabel(newValueCondition.trueLabel)
                         for ins in i.blockif.block:
                             ins.generator = self.generator
-                            if ins.type == TransferSentence.CONTINUE:
+                            if type(ins) == Continue:
                                 ins.labelTrue = self.truelabel
                                 breakSentence = True
-                            elif ins.type == TransferSentence.BREAK:
+                            elif type(ins) == Break:
                                 ins.labelFalse = self.falselabel
                                 breakSentence = True
                             ins.compile(environment)
@@ -76,10 +78,10 @@ class If(Instruction):
             if len(self.blockelse.block) > 0:
                 for ins in self.blockelse.block:
                     ins.generator = self.generator
-                    if ins.type == TransferSentence.CONTINUE:
+                    if type(ins) == Continue:
                         ins.labelTrue = self.truelabel
                         breakSentence = True
-                    elif ins.type == TransferSentence.BREAK:
+                    elif type(ins) == Break:
                         ins.labelFalse = self.falselabel
                         breakSentence = True
                     ins.compile(environment)
