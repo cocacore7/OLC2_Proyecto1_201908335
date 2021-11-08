@@ -1,13 +1,20 @@
-a = 15;
-function a()::Int64
-    d = 25;
-    println(a);
-    println(d);
+a = 50;
+
+function a(num1::Int64, num2::Int64)::Int64
+    println(num1+num2);
 end;
+a(3,5);
+println();
+
+b = 150;
+
+function b(num1::Int64, num2::Int64)::Int64
+    println(num1+num2);
+end;
+b(a,b);
+println();
+
+c = 100;
 println(a);
-a();
-b = 10;
-c = 5;
 println(b);
 println(c);
-

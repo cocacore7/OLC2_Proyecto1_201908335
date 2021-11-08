@@ -1,4 +1,3 @@
-from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
 from Environment.Environment import Environment
 from Environment.Value import Value
@@ -13,5 +12,13 @@ class FunctionCall(Expression):
         self.parameters = parameters
 
     def compile(self, environment: Environment) -> Value:
+        self.generator.addNextStack(str(environment.size))
+        cont = environment.size + 1
+        for ins in self.parameters:
+            ins.generator = self.generator
+            val = ins.compile(environment)
+            self.generator.addSetStack(str(cont), val.value)
+            cont = cont + 1
         # Faltan Calcular Parametros
         self.generator.addFunctionCall(self.id, self.parameters)
+        self.generator.addBackStack(str(environment.size))

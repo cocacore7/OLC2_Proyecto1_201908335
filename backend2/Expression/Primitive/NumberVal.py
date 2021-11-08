@@ -16,7 +16,10 @@ class NumberVal(Expression):
             return Value(str(self.value), False, self.type)
 
         elif self.type == typeExpression.CHAR:
-            return Value(str(ord(self.value)), False, self.type)
+            if len(self.value) > 0:
+                return Value(str(ord(self.value)), False, self.type)
+            else:
+                return Value(str(32), False, self.type)
 
         elif self.type == typeExpression.BOOL:
             tmp = Value(str(self.value), False, self.type)

@@ -132,14 +132,11 @@ class Generator:
 
     # Añade una Funcion
     def addCloseFunction(self):
-        self.code.append("}")
+        self.code.append("}\n\n")
 
     # Añade una Funcion
     def addFunctionCall(self, id: str, params):
-        if len(params) > 0:
-            self.code.append("JOLC_" + id + "(" + ",".join(params) + ");")
-        else:
-            self.code.append("JOLC_" + id + "();")
+        self.code.append("JOLC_" + id + "();")
 
     # Obtener Posicion Actual Heap
     def addActHeap(self, temp: str):

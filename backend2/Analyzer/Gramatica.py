@@ -363,7 +363,7 @@ def p_println(t):
     if len(t) == 6:
         t[0] = Println(t[3])
     else:
-        t[0] = Println([NumberVal(typeExpression.CHAR, '\n')])
+        t[0] = Println([NumberVal(typeExpression.CHAR, '')])
 
 
 def p_expresions(t):

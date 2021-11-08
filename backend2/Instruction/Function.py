@@ -14,6 +14,7 @@ class Function(Instruction):
         self.type = type
 
     def compile(self, environment: Environment) -> Value:
+        # Generador Nuevo Para La Funcion, Copiando Valores Del Global
         generator: Generator = Generator()
         generator.addFunction(self.id)
         generator.temporal = self.generator.temporal
@@ -22,11 +23,22 @@ class Function(Instruction):
         newEnv = Environment(environment)
         newEnv.size = newEnv.size + 1
         newEnv.localSize = newEnv.localSize + 1
+
+        # Pasar Parametros
+        cont = 1
+        for param in self.parameters:
+            newtmp = generator.newTemp()
+            generator.addActStack(newtmp, str(cont))
+            cont = cont + 1
+            newEnv.saveParameter(param.id, param.type, param.array, "")
+
+        # Instrucciones De Funcion En  Nuevo Generador
         for ins in self.block:
             ins.generator = generator
             ins.compile(newEnv)
         generator.addCloseFunction()
 
+        # Regresando Valores Nuevos De Generador Funcion a Global + Codigo De Funcion
         self.generator.temporal = generator.temporal
         self.generator.label = generator.label
         self.generator.tempList = generator.tempList
