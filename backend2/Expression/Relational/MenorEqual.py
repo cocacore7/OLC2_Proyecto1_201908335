@@ -20,14 +20,9 @@ class MenorEqual(Expression):
         rightValue: Value = self.rightExpression.compile(environment)
 
         if leftValue.type == typeExpression.INTEGER or leftValue.type == typeExpression.FLOAT:
-
             if rightValue.type == typeExpression.INTEGER or rightValue.type == typeExpression.FLOAT:
-
-                newValue = Value("", False, typeExpression.BOOL)
-
                 if self.trueLabel == "":
                     self.trueLabel = self.generator.newLabel()
-
                 if self.falseLabel == "":
                     self.falseLabel = self.generator.newLabel()
 
@@ -43,13 +38,11 @@ class MenorEqual(Expression):
                 self.generator.addExpression(tmp, "0", "", "")
                 self.generator.addLabel(newLabel)
 
-                newValue.value = tmp
-                return newValue
-
+                return Value(tmp, True, typeExpression.BOOL)
             else:
                 print("Error en menor igual")
-                return Value("0", False, typeExpression.INTEGER)
+                return Value("0", False, typeExpression.BOOL)
 
         else:
             print("Error en menor igual")
-            return Value("0", False, typeExpression.INTEGER)
+            return Value("0", False, typeExpression.BOOL)

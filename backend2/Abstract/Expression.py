@@ -3,6 +3,7 @@ from Environment.Value import Value
 from abc import ABC, abstractclassmethod
 from Environment.Environment import Environment
 
+
 class Expression(ABC):
 
     def __init__(self) -> None:
