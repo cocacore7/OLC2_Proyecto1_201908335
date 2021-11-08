@@ -16,7 +16,10 @@ class ParameterFor(Instruction):
 
     def compile(self, environment: Environment) -> Value:
         tempVar: Symbol = environment.saveParameter(self.id, self.type, self.array, "")
-        self.generator.addSetStack(str(tempVar.position), self.value)
+        if self.type == typeExpression.CHAR:
+            self.generator.addSetStack(str(tempVar.position), "heap[int("+self.value+")]")
+        else:
+            self.generator.addSetStack(str(tempVar.position), self.value)
 
     def getId(self):
         return self.id

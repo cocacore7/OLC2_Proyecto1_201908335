@@ -1,28 +1,5 @@
-a = 50;
-
-function a(num1::Int64, num2::Int64)::Int64
-    println(num1+num2);
+a = 1;
+b = 5;
+for i in "Hola Mundo"
+    println(i);
 end;
-a(3,5);
-println();
-
-b = 3;
-
-function b(num1::Int64, num2::Int64)::Int64
-    return num1+num2;
-end;
-println(b(a,b));
-println();
-
-c = 100;
-println(a);
-println(b);
-println(c);
-println();
-println("Adios "^3);
-println();
-
-d = "Maca Pete ";
-println(d^3);
-println();
-println("Mimir "^b);
