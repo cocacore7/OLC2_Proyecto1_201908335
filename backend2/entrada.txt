@@ -6,15 +6,23 @@ end;
 a(3,5);
 println();
 
-b = 150;
+b = 3;
 
-function b(num1::Int64, num2::Int64)::Int64
-    println(num1+num2);
+function b(str::String, num2::Int64)::Int64
+    println(str*str*str*str);
 end;
-b(a,b);
+b("Hola ",b);
 println();
 
 c = 100;
 println(a);
 println(b);
 println(c);
+println();
+println("Adios "^3);
+println();
+
+d = "Maca Pete ";
+println(d^3);
+println();
+println("Mimir "^b);

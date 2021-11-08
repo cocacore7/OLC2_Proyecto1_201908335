@@ -53,44 +53,28 @@ class Exponential(Expression):
 
         elif leftValue.type == typeExpression.STRING:
             if rightValue.type == typeExpression.INTEGER:
-                if int(rightValue.getValue()) == 1:
-                    return Value(leftValue.value, False, leftValue.type)
-                elif int(rightValue.getValue()) == 2:
-                    tmp = self.generator.newTemp()
-                    self.generator.addActHeap(tmp)
+                tmpr = self.generator.newTemp()
+                tmp = self.generator.newTemp()
+                tmp2 = self.generator.newTemp()
+                LabelTrue = self.generator.newLabel()
+                LabelFalse = self.generator.newLabel()
 
-                    # String 1
-                    tmp2 = self.generator.newTemp()
-                    self.generator.getPointerP(tmp2)
-                    self.generator.setPointerP(leftValue.getValue())
-                    self.generator.addCallFunc("concatenate_strings_proc")
+                self.generator.addExpression(tmp, rightValue.getValue(), "", "")
 
-                    # String 2
-                    self.generator.setPointerP(leftValue.getValue())
-                    self.generator.addCallFunc("concatenate_strings_proc")
-                    self.generator.addSetHeap("H", str(-1))
-                    self.generator.addNextHeap()
-                    self.generator.setPointerP(tmp2)
+                self.generator.addActHeap(tmpr)
+                self.generator.addLabel(LabelTrue)
+                self.generator.addExpression(tmp, tmp, "1", "-")
+                self.generator.getPointerP(tmp2)
+                self.generator.setPointerP(leftValue.getValue())
+                self.generator.addCallFunc("concatenate_strings_proc")
+                self.generator.setPointerP(tmp2)
+                self.generator.addIf(tmp, "0", "==", LabelFalse)
+                self.generator.addGoto(LabelTrue)
+                self.generator.addLabel(LabelFalse)
+                self.generator.addSetHeap("H", str(-1))
+                self.generator.addNextHeap()
 
-                    return Value(tmp, False, leftValue.type)
-                elif int(rightValue.getValue()) > 2:
-                    tmp = self.generator.newTemp()
-                    self.generator.addActHeap(tmp)
-
-                    tmp2 = self.generator.newTemp()
-                    for y in range(int(rightValue.getValue())):
-                        self.generator.getPointerP(tmp2)
-                        self.generator.setPointerP(leftValue.getValue())
-                        self.generator.addCallFunc("concatenate_strings_proc")
-
-                    self.generator.addSetHeap("H", str(-1))
-                    self.generator.addNextHeap()
-                    self.generator.setPointerP(tmp2)
-
-                    return Value(tmp, True, leftValue.type)
-                else:
-                    print("Error en Concatenacion")
-                    return Value("0", False, typeExpression.INTEGER)
+                return Value(tmpr, True, leftValue.type)
 
         else:
             print("Error en exponencial")
