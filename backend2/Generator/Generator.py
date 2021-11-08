@@ -9,7 +9,7 @@ class Generator:
         self.label = 0
         self.code = []
         self.tempList = []
-        self.nativas = []
+        self.functions = []
 
     # Obtener los temporales usados
     def getUsedTemps(self) -> str:
@@ -98,6 +98,9 @@ class Generator:
         tempCode = tempCode + 'return;\n'
         tempCode = tempCode + '}\n'
 
+        for i in self.functions:
+            tempCode = tempCode + "\n".join(i)
+
         tempCode = tempCode + '\nfunc main(){\n'
         tempCode = tempCode + "\n".join(self.code)
         tempCode = tempCode + '\n}\n'
@@ -122,6 +125,21 @@ class Generator:
     # Añade un printf
     def addPrintf(self, typePrint: str, value: str):
         self.code.append("fmt.Printf(\"%" + typePrint + "\"," + value + ");")
+
+    # Añade una Funcion
+    def addFunction(self, id: str):
+        self.code.append("func JOLC_" + id + "(){")
+
+    # Añade una Funcion
+    def addCloseFunction(self):
+        self.code.append("}")
+
+    # Añade una Funcion
+    def addFunctionCall(self, id: str, params):
+        if len(params) > 0:
+            self.code.append("JOLC_" + id + "(" + ",".join(params) + ");")
+        else:
+            self.code.append("JOLC_" + id + "();")
 
     # Obtener Posicion Actual Heap
     def addActHeap(self, temp: str):

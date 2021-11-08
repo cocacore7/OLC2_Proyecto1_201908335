@@ -194,6 +194,7 @@ from Enum.TransferSentence import TransferSentence
 
 from Expression.Primitive.NumberVal import NumberVal
 from Expression.Primitive.VariableCall import VariableCall
+from Expression.Primitive.FunctionCall import FunctionCall
 from Expression.Arithmetic.Plus import Plus
 from Expression.Arithmetic.Minus import Minus
 from Expression.Arithmetic.Negative import Negative
@@ -211,12 +212,14 @@ from Expression.Logic.And import And
 from Expression.Logic.Or import Or
 from Expression.Logic.Not import Not
 
+from Instruction.Function import Function
+from Instruction.Parameter import Parameter
 from Instruction.Print import Print
 from Instruction.Println import Println
 from Instruction.Declaration import Declaration
 from Instruction.While import While
 from Instruction.For import For
-from Instruction.Parameter import Parameter
+from Instruction.ParameterFor import ParameterFor
 from Instruction.If import If
 from Instruction.Block import Block
 
@@ -644,9 +647,13 @@ def p_assignmentc(t):
 
 # ================================FUNCIONES
 def p_function(t):
-    '''function : FUNCTION ID parametersFunc blockf
+    '''function : FUNCTION ID parametersFunc DOSPT DOSPT typeDef blockf
+                | FUNCTION ID parametersFunc blockf
     '''
-    # t[0] = Function(t[2], t[3], t[4])
+    if len(t) == 8:
+        t[0] = Function(t[2], t[3], t[6], t[7])
+    else:
+        t[0] = Function(t[2], t[3], None, t[4])
 
 
 def p_parametersFunc(t):
@@ -684,7 +691,7 @@ def p_parameter(t):
 def p_callFuncSt(t):
     '''callFuncSt   : ID parametersCallFunc PTCOMA
     '''
-    # t[0] = CallFuncSt(t[1], t[2])
+    t[0] = FunctionCall(t[1], t[2])
 
 
 def p_parametersCallFunc(t):
@@ -826,14 +833,23 @@ def p_whileSt(t):
 
 # ================================CICLO FOR
 def p_forSt(t):
-    '''forSt    : RFOR parameter RIN exp DOSPT exp blockc
-                | RFOR parameter RIN exp blockc
+    '''forSt    : RFOR parameterFor RIN exp DOSPT exp blockc
+                | RFOR parameterFor RIN exp blockc
     '''
     if len(t) == 8:
         t[0] = For(t[2], t[4], t[6], t[7])
     elif len(t) == 6:
         t[0] = For(t[2], t[4], NumberVal(typeExpression.NULO, 'nothing'), t[5])
 
+
+def p_parameterFor(t):
+    '''parameterFor : ID DOSPT DOSPT typeDef
+                    | ID
+    '''
+    if len(t) == 5:
+        t[0] = ParameterFor(t[1], t[4])
+    elif len(t) == 2:
+        t[0] = ParameterFor(t[1], None)
 
 # ================================BLOQUES DE CODIGO
 def p_blockf(t):

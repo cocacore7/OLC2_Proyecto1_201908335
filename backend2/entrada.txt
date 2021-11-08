@@ -1,1 +1,13 @@
-println("hola"=="hola");
+a = 15;
+function a()::Int64
+    d = 25;
+    println(a);
+    println(d);
+end;
+println(a);
+a();
+b = 10;
+c = 5;
+println(b);
+println(c);
+

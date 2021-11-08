@@ -3,7 +3,7 @@ import ( "fmt" );
 var stack [30101999]float64;
 var heap [30101999]float64;
 var P, H float64;
-var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13 float64;
+var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10 float64;
 
 func math_error_proc(){
 fmt.Printf("%c", 77);
@@ -69,67 +69,27 @@ goto L2;
 L3:
 return;
 }
-
+func JOLC_a(){
+stack[int(2)] = 25;
+t6 = stack[int(0)];
+fmt.Printf("%d",int(t6));
+fmt.Printf("%c",10);
+t7 = stack[int(2)];
+fmt.Printf("%d",int(t7));
+fmt.Printf("%c",10);
+}
 func main(){
-t6= H;
-heap[int(H)] = 104;
-H = H + 1;
-heap[int(H)] = 111;
-H = H + 1;
-heap[int(H)] = 108;
-H = H + 1;
-heap[int(H)] = 97;
-H = H + 1;
-heap[int(H)] = -1;
-H = H + 1;
-t7= H;
-heap[int(H)] = 104;
-H = H + 1;
-heap[int(H)] = 111;
-H = H + 1;
-heap[int(H)] = 108;
-H = H + 1;
-heap[int(H)] = 97;
-H = H + 1;
-heap[int(H)] = -1;
-H = H + 1;
-t8 = t6  ;
-t9 = t7  ;
-L0:
-t10 = heap[int(t8) ];
-t11 = heap[int(t9) ];
-if t10 == -1 {goto L1;}
-goto L2;
-L1:
-t12 = 1  ;
-goto L3;
-L2:
-t12 = 0  ;
-L3:
-if t11 == -1 {goto L4;}
-goto L5;
-L4:
-t13 = 1  ;
-if t12 == 1 {goto L7;}
-t13 = 0  ;
-goto L7;
-L5:
-t13 = 0  ;
-if t12 == 1 {goto L7;}
-if t10 == t11 {goto L6;}
-goto L7;
-L6:
-t8 = t8 + 1;
-t9 = t9 + 1;
-goto L0;
-L7:
-if t13 == 1 {goto L9;}
-goto L10;
-L9:
-print_true_proc();
-goto L8;
-L10:
-print_false_proc();
-L8:
+stack[int(0)] = 15;
+t8 = stack[int(0)];
+fmt.Printf("%d",int(t8));
+fmt.Printf("%c",10);
+JOLC_a();
+stack[int(1)] = 10;
+stack[int(2)] = 5;
+t9 = stack[int(1)];
+fmt.Printf("%d",int(t9));
+fmt.Printf("%c",10);
+t10 = stack[int(2)];
+fmt.Printf("%d",int(t10));
 fmt.Printf("%c",10);
 }

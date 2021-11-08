@@ -9,7 +9,7 @@ class Environment:
         self.father = father
         self.variable = {}
         self.size = 0
-        self.function = {}
+        self.localSize = 0
         self.globalAccess = {}
         self.localAccess = {}
 
@@ -36,6 +36,7 @@ class Environment:
 
                         tempVar = Symbol(id, type, globalenv.size)
                         globalenv.size = globalenv.size + 1
+                        globalenv.localSize = globalenv.localSize + 1
                         globalenv.variable[id] = tempVar
                         self.globalAccess[id] = id
                         if self.variable.get(id) is not None:
@@ -43,6 +44,7 @@ class Environment:
                         return tempVar
                     tempVar = Symbol(id, type, globalenv.size)
                     globalenv.size = globalenv.size + 1
+                    globalenv.localSize = globalenv.localSize + 1
                     tempVar.array = isArray
                     if tempVar.ref == "":
                         tempVar.ref = ref
@@ -73,6 +75,7 @@ class Environment:
                             return tempVar
                         tempVar = Symbol(id, type, self.size)
                         self.size = self.size + 1
+                        self.localSize = self.localSize + 1
                         tempVar.array = isArray
                         if tempVar.ref == "":
                             tempVar.ref = ref
@@ -107,6 +110,7 @@ class Environment:
                         globalenv = self.getGlobal()
                         tempVar = Symbol(id, type, globalenv.size)
                         globalenv.size = globalenv.size + 1
+                        globalenv.localSize = globalenv.localSize + 1
                         tempVar.array = isArray
                         if tempVar.ref == "":
                             tempVar.ref = ref
@@ -134,6 +138,7 @@ class Environment:
                         return tempVar
                     tempVar = Symbol(id, type, self.size)
                     self.size = self.size + 1
+                    self.localSize = self.localSize + 1
                     tempVar.array = isArray
                     if tempVar.ref == "":
                         tempVar.ref = ref
@@ -164,6 +169,7 @@ class Environment:
     def saveParameter(self, id: str, type: typeExpression, isArray: bool, ref: str):
         tempVar = Symbol(id, type, self.size)
         self.size = self.size + 1
+        self.localSize = self.localSize + 1
         tempVar.array = isArray
         if tempVar.ref == "":
             tempVar.ref = ref
