@@ -195,6 +195,7 @@ from Enum.TransferSentence import TransferSentence
 from Expression.Primitive.NumberVal import NumberVal
 from Expression.Primitive.VariableCall import VariableCall
 from Expression.Primitive.FunctionCall import FunctionCall
+
 from Expression.Arithmetic.Plus import Plus
 from Expression.Arithmetic.Minus import Minus
 from Expression.Arithmetic.Negative import Negative
@@ -202,30 +203,35 @@ from Expression.Arithmetic.Multiply import Multiply
 from Expression.Arithmetic.Division import Division
 from Expression.Arithmetic.Exponential import Exponential
 from Expression.Arithmetic.Mod import Mod
+
 from Expression.Relational.Equal import Equal
 from Expression.Relational.NotEqual import NotEqual
 from Expression.Relational.Menor import Menor
 from Expression.Relational.Mayor import Mayor
 from Expression.Relational.MenorEqual import MenorEqual
 from Expression.Relational.MayorEqual import MayorEqual
+
 from Expression.Logic.And import And
 from Expression.Logic.Or import Or
 from Expression.Logic.Not import Not
 
-from Instruction.Function import Function
-from Instruction.Parameter import Parameter
+from Instruction.Declaration import Declaration
 from Instruction.Print import Print
 from Instruction.Println import Println
-from Instruction.Declaration import Declaration
+from Instruction.Function import Function
+from Instruction.Parameter import Parameter
+from Instruction.If import If
+from Instruction.Block import Block
 from Instruction.While import While
 from Instruction.For import For
 from Instruction.ParameterFor import ParameterFor
-from Instruction.If import If
-from Instruction.Block import Block
-
 from Instruction.Break import Break
 from Instruction.Continue import Continue
 from Instruction.Return import Return
+
+from Nativas.LowerCase import LowerCase
+from Nativas.UpperCase import UpperCase
+from Nativas.Length import Length
 
 import Analyzer.ply.lex as lex
 
@@ -1000,17 +1006,48 @@ def p_exp_logica(t):
         t[0] = Not(t[2])
 
 
-# ================================FUNCIONES VARIAS
+# ================================FUNCIONES NATIVAS
 def p_exp_uppercase(t):
     'exp : UPPERCASE PARIZQ exp PARDER'
-    # t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.UPPER)
+    t[0] = UpperCase(t[3])
 
 
 def p_exp_lowercase(t):
     'exp : LOWERCASE PARIZQ exp PARDER'
-    # t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.LOWER)
+    t[0] = LowerCase(t[3])
 
 
+def p_exp_length(t):
+    'exp : RLENGTH PARIZQ exp PARDER'
+    t[0] = Length(t[3])
+
+
+def p_exp_parse(t):
+    'exp : PARSE PARIZQ typeDef COMA exp PARDER'
+    # t[0] = FuncionVaria2(t[3], t[5], operacionVaria.PARSE)
+
+
+def p_exp_trunc(t):
+    '''exp  : TRUNC PARIZQ typeDef COMA exp PARDER
+            | TRUNC PARIZQ exp PARDER
+    '''
+    # if len(t) == 7:
+    #    t[0] = FuncionVaria2(t[3], t[5], operacionVaria.TRUNC)
+    # else:
+    #    t[0] = FuncionVaria2(typeExpression.INTEGER, t[3], operacionVaria.TRUNC)
+
+
+def p_exp_float(t):
+    'exp : MFLOAT PARIZQ exp PARDER'
+    # t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.FLOAT)
+
+
+def p_exp_string(t):
+    'exp : MSTRING PARIZQ exp PARDER'
+    # t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.STRING)
+
+
+# ================================FUNCIONES NO USADAS
 def p_exp_log(t):
     'exp : LOG PARIZQ exp COMA exp PARDER'
     # t[0] = FuncionVaria(t[3], t[5], operacionVaria.LOG)
@@ -1039,32 +1076,6 @@ def p_exp_tan(t):
 def p_exp_sqrt(t):
     'exp : SQRT PARIZQ exp PARDER'
     # t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.SQRT)
-
-
-# ================================FUNCIONES VARIAS 2
-def p_exp_parse(t):
-    'exp : PARSE PARIZQ typeDef COMA exp PARDER'
-    # t[0] = FuncionVaria2(t[3], t[5], operacionVaria.PARSE)
-
-
-def p_exp_trunc(t):
-    '''exp  : TRUNC PARIZQ typeDef COMA exp PARDER
-            | TRUNC PARIZQ exp PARDER
-    '''
-    # if len(t) == 7:
-    #    t[0] = FuncionVaria2(t[3], t[5], operacionVaria.TRUNC)
-    # else:
-    #    t[0] = FuncionVaria2(typeExpression.INTEGER, t[3], operacionVaria.TRUNC)
-
-
-def p_exp_float(t):
-    'exp : MFLOAT PARIZQ exp PARDER'
-    # t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.FLOAT)
-
-
-def p_exp_string(t):
-    'exp : MSTRING PARIZQ exp PARDER'
-    # t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.STRING)
 
 
 def p_exp_typeof(t):
@@ -1139,11 +1150,6 @@ def p_exp_pop2(t):
     #    t[0] = Pop(t[4], VariableCall(t[4]), [])
     # else:
     #    t[0] = Pop(t[4], VariableCall(t[4]), t[5])
-
-
-def p_exp_length(t):
-    'exp : RLENGTH PARIZQ exp PARDER'
-    # t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.LENGTH)
 
 
 # ================================TIPOS DE EXPRESIONES, DATOS Y ARREGLOS

@@ -3,7 +3,7 @@ import ( "fmt" );
 var stack [30101999]float64;
 var heap [30101999]float64;
 var P, H float64;
-var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16,t17,t18,t19,t20,t21 float64;
+var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12 float64;
 
 func math_error_proc(){
 fmt.Printf("%c", 77);
@@ -69,59 +69,36 @@ goto L2;
 L3:
 return;
 }
-func JOLC_sumar(){
-t6= P+1;
-t7= P+2;
-t8= P+3;
-t9 = stack[int(3)];
-t10 = P;
-P = t9;
-print_String_proc();
-P = t10;
-fmt.Printf("%c",10);
-t12 = stack[int(1)];
-t13 = stack[int(2)];
-t14 = t12 + t13;
-t11 = t14  ;
-stack[int(0)] = t11;
-}
-
-func JOLC_restar(){
-t15= P+1;
-t16= P+2;
-t18 = stack[int(1)];
-t19 = stack[int(2)];
-t20 = t18 - t19;
-t17 = t20  ;
-stack[int(0)] = t17;
-}
-
 
 func main(){
-P = P + 0;
-stack[int(1)] = 5;
-stack[int(2)] = 10;
-t21= H;
-heap[int(H)] = 72;
+t6= H;
+heap[int(H)] = 83;
 H = H + 1;
 heap[int(H)] = 111;
 H = H + 1;
 heap[int(H)] = 108;
 H = H + 1;
+heap[int(H)] = 32;
+H = H + 1;
+heap[int(H)] = 77;
+H = H + 1;
 heap[int(H)] = 97;
+H = H + 1;
+heap[int(H)] = 114;
 H = H + 1;
 heap[int(H)] = -1;
 H = H + 1;
-stack[int(3)] = t21;
-JOLC_sumar();
-P = P - 0;
-fmt.Printf("%d",int(t14));
-fmt.Printf("%c",10);
-P = P + 0;
-stack[int(1)] = 5;
-stack[int(2)] = 10;
-JOLC_restar();
-P = P - 0;
-fmt.Printf("%d",int(t20));
+t7 = t6  ;
+t8 = 0  ;
+L0:
+t9 = heap[int(t7)]  ;
+if t9 == -1 {goto L1;}
+goto L2;
+L2:
+t7 = t7 + 1;
+t8 = t8 + 1;
+goto L0;
+L1:
+fmt.Printf("%d",int(t8));
 fmt.Printf("%c",10);
 }
