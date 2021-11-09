@@ -193,6 +193,7 @@ from Enum.typeExpression import typeExpression
 from Enum.TransferSentence import TransferSentence
 
 from Expression.Primitive.NumberVal import NumberVal
+from Expression.Primitive.Array import Array
 from Expression.Primitive.VariableCall import VariableCall
 from Expression.Primitive.FunctionCall import FunctionCall
 
@@ -405,7 +406,7 @@ def p_declaration(t):
         t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "N", "N")
     elif len(t) == 8:
         if t[4] == "[":
-            t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "N", "N")
+            t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "N", "N")
         else:
             t[0] = Declaration(t[1], t[3], t[6], False, "N", "N")
     elif len(t) == 9:
@@ -415,11 +416,11 @@ def p_declaration(t):
     elif len(t) == 4:
         t[0] = Declaration(t[2], None, typeExpression.NULO, False, "N", "N")
     elif len(t) == 7:
-        t[0] = Declaration(t[1], t[4], typeExpression.ANY, True, "N", "N")
+        t[0] = Declaration(t[1], Array(t[4], typeExpression.ANY), typeExpression.ANY, True, "N", "N")
     elif len(t) == 10:
-        t[0] = Declaration(t[1], t[4], t[8], True, "N", "N")
+        t[0] = Declaration(t[1], Array(t[4], t[8]), t[8], True, "N", "N")
     elif len(t) == 11:
-        t[0] = Declaration(t[2], t[5], t[9], True, "N", "N")
+        t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "N", "N")
 
 
 def p_declarationf(t):
@@ -443,9 +444,9 @@ def p_declarationf(t):
     elif len(t) == 8:
         if t[4] == "[":
             if t[1] == "local":
-                t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "L", "F")
+                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "L", "F")
             elif t[1] == "global":
-                t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "G", "F")
+                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "G", "F")
         else:
             t[0] = Declaration(t[1], t[3], t[6], False, "L", "F")
     elif len(t) == 9:
@@ -464,14 +465,14 @@ def p_declarationf(t):
         elif t[1] == "global":
             t[0] = Declaration(t[2], None, typeExpression.NULO, False, "G", "F")
     elif len(t) == 7:
-        t[0] = Declaration(t[1], t[4], typeExpression.ANY, True, "L", "F")
+        t[0] = Declaration(t[1], Array(t[4], typeExpression.ANY), typeExpression.ANY, True, "L", "F")
     elif len(t) == 10:
-        t[0] = Declaration(t[1], t[4], t[8], True, "L", "F")
+        t[0] = Declaration(t[1], Array(t[4], t[8]), t[8], True, "L", "F")
     elif len(t) == 11:
         if t[1] == "local":
-            t[0] = Declaration(t[2], t[5], t[9], True, "L", "F")
+            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "L", "F")
         elif t[1] == "global":
-            t[0] = Declaration(t[2], t[5], t[9], True, "G", "F")
+            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "G", "F")
 
 
 def p_declarationc(t):
@@ -495,9 +496,9 @@ def p_declarationc(t):
     elif len(t) == 8:
         if t[4] == "[":
             if t[1] == "local":
-                t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "L", "C")
+                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "L", "C")
             elif t[1] == "global":
-                t[0] = Declaration(t[2], t[5], typeExpression.ANY, True, "G", "C")
+                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "G", "C")
         else:
             t[0] = Declaration(t[1], t[3], t[6], False, "G", "C")
     elif len(t) == 9:
@@ -516,14 +517,14 @@ def p_declarationc(t):
         elif t[1] == "global":
             t[0] = Declaration(t[2], None, typeExpression.NULO, False, "G", "C")
     elif len(t) == 7:
-        t[0] = Declaration(t[1], t[4], typeExpression.ANY, True, "G", "C")
+        t[0] = Declaration(t[1], Array(t[4], typeExpression.ANY), typeExpression.ANY, True, "G", "C")
     elif len(t) == 10:
-        t[0] = Declaration(t[1], t[4], t[8], True, "G", "C")
+        t[0] = Declaration(t[1], Array(t[4], t[8]), t[8], True, "G", "C")
     elif len(t) == 11:
         if t[1] == "local":
-            t[0] = Declaration(t[2], t[5], t[9], True, "L", "C")
+            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "L", "C")
         elif t[1] == "global":
-            t[0] = Declaration(t[2], t[5], t[9], True, "G", "C")
+            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "G", "C")
 
 
 def p_assignment(t):
@@ -1250,12 +1251,12 @@ def p_exp_array(t):
             | CORIZQ listValues CORDER DOSPT DOSPT typeDef
             | CORIZQ CORDER
     '''
-    # if len(t) == 4:
-    #    t[0] = Array(t[2], typeExpression.ANY)
-    # elif len(t) == 3:
-    #    t[0] = Array([], typeExpression.ANY)
-    # else:
-    #    t[0] = Array(t[2], t[6])
+    if len(t) == 4:
+        t[0] = Array(t[2], typeExpression.ANY)
+    elif len(t) == 3:
+        t[0] = Array([], typeExpression.ANY)
+    else:
+        t[0] = Array(t[2], t[6])
 
 
 # ====================================================

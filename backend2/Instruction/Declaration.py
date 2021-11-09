@@ -18,12 +18,15 @@ class Declaration(Instruction):
         self.entorno = entorno
 
     def compile(self, environment: Environment) -> Value:
-
         self.exp.generator = self.generator
-
         newValue: Value = self.exp.compile(environment)
-
-        tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD, self.entorno, "")
-
+        if not self.isArray:
+            tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
+                                                       self.entorno, "")
+        else:
+            tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
+                                                       self.entorno, self.id)
         if newValue.type != typeExpression.NULO:
             self.generator.addSetStack(str(tempVar.position), newValue.getValue())
+
+

@@ -41,5 +41,7 @@ class UpperCase(Instruction):
             self.generator.addExpression(tmp, tmp, "1", "+")
             self.generator.addGoto(trueLabel)
             self.generator.addLabel(falseLabel)
-
-        return value
+            return value
+        else:
+            print("Error En LowerCase")
+            return Value("0", False, typeExpression.INTEGER)

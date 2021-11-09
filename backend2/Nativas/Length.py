@@ -32,3 +32,6 @@ class Length(Instruction):
             self.generator.addGoto(trueLabel)
             self.generator.addLabel(falseLabel)
             return Value(tmp1, True, typeExpression.INTEGER)
+        else:
+            print("Error En LowerCase")
+            return Value("0", False, typeExpression.INTEGER)
