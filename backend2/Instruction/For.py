@@ -69,7 +69,7 @@ class For(Instruction):
             else:
                 print("Tipo De Dato Exp Derecha De For Incorrecta")
 
-        if leftValue.type == typeExpression.STRING:
+        elif leftValue.type == typeExpression.STRING:
             if leftValue.trueLabel == "":
                 leftValue.trueLabel = self.generator.newLabel()
             if leftValue.falseLabel == "":

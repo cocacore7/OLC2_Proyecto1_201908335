@@ -217,6 +217,7 @@ from Expression.Logic.Or import Or
 from Expression.Logic.Not import Not
 
 from Instruction.Declaration import Declaration
+from Instruction.AssignmentArray import AssignmentArray
 from Instruction.Print import Print
 from Instruction.Println import Println
 from Instruction.Function import Function
@@ -542,25 +543,25 @@ def p_assignment(t):
                     | LOCAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
                     | LOCAL ID listArray2 IGUAL exp PTCOMA
     '''
-    # if len(t) == 8:
-    #    t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], typeExpression.ANY, True, "N", "N")
-    # elif len(t) == 11:
-    #    t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], t[9], True, "N", "N")
-    # elif len(t) == 12:
-    #    t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], t[10], True, "N", "N")
-    # elif len(t) == 9:
-    #    if t[1] == "local":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "N", "N")
-    #    elif t[1] == "global":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "N", "N")
-    #    else:
-    #        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "N", "N")
-    # elif len(t) == 6:
-    #    t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "N", "N")
-    # elif len(t) == 10:
-    #    t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "N", "N")
-    # elif len(t) == 7:
-    #    t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "N", "N")
+    if len(t) == 8:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "N", "N")
+    elif len(t) == 11:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], t[9]), t[9], True, "N", "N")
+    elif len(t) == 12:
+        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "N", "N")
+    elif len(t) == 9:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "N", "N")
+        elif t[1] == "global":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "N", "N")
+        else:
+            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "N", "N")
+    elif len(t) == 6:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "N", "N")
+    elif len(t) == 10:
+        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "N", "N")
+    elif len(t) == 7:
+        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "N", "N")
 
 
 def p_assignmentf(t):
@@ -578,34 +579,34 @@ def p_assignmentf(t):
                     | LOCAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
                     | LOCAL ID listArray2 IGUAL exp PTCOMA
     '''
-    # if len(t) == 8:
-    #    t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], typeExpression.ANY, True, "L", "F")
-    # elif len(t) == 11:
-    #    t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], t[9], True, "L", "F")
-    # elif len(t) == 12:
-    #    if t[1] == "local":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], t[10], True, "L", "F")
-    #    else:
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], t[10], True, "G", "F")
-    # elif len(t) == 9:
-    #    if t[1] == "local":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "L", "F")
-    #    elif t[1] == "global":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "G", "F")
-    #    else:
-    #        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "L", "F")
-    # elif len(t) == 6:
-    #    t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "L", "F")
-    # elif len(t) == 10:
-    #    if t[1] == "local":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "L", "F")
-    #    else:
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "G", "F")
-    # elif len(t) == 7:
-    #    if t[1] == "local":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "L", "F")
-    #    else:
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "G", "F")
+    if len(t) == 8:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "L", "F")
+    elif len(t) == 11:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], t[9]), t[9], True, "L", "F")
+    elif len(t) == 12:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "L", "F")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "G", "F")
+    elif len(t) == 9:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "L", "F")
+        elif t[1] == "global":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "G", "F")
+        else:
+            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "L", "F")
+    elif len(t) == 6:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "L", "F")
+    elif len(t) == 10:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "L", "F")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "G", "F")
+    elif len(t) == 7:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "L", "F")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "G", "F")
 
 
 def p_assignmentc(t):
@@ -623,34 +624,34 @@ def p_assignmentc(t):
                     | LOCAL ID listArray2 IGUAL exp DOSPT DOSPT typeDef PTCOMA
                     | LOCAL ID listArray2 IGUAL exp PTCOMA
     '''
-    # if len(t) == 8:
-    #    t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], typeExpression.ANY, True, "G", "C")
-    # elif len(t) == 11:
-    #    t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[5], t[9], True, "G", "C")
-    # elif len(t) == 12:
-    #    if t[1] == "local":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], t[10], True, "L", "C")
-    #    else:
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], t[10], True, "G", "C")
-    # elif len(t) == 9:
-    #    if t[1] == "local":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "L", "C")
-    #    elif t[1] == "global":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[6], typeExpression.ANY, True, "G", "C")
-    #    else:
-    #        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "G", "C")
-    # elif len(t) == 6:
-    #    t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "G", "C")
-    # elif len(t) == 10:
-    #    if t[1] == "local":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "L", "C")
-    #    else:
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "G", "C")
-    # elif len(t) == 7:
-    #    if t[1] == "local":
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "L", "C")
-    #    else:
-    #        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "G", "C")
+    if len(t) == 8:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "G", "C")
+    elif len(t) == 11:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], t[9]), t[9], True, "G", "C")
+    elif len(t) == 12:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "L", "C")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "G", "C")
+    elif len(t) == 9:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "L", "C")
+        elif t[1] == "global":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "G", "C")
+        else:
+            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "G", "C")
+    elif len(t) == 6:
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "G", "C")
+    elif len(t) == 10:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "L", "C")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "G", "C")
+    elif len(t) == 7:
+        if t[1] == "local":
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "L", "C")
+        else:
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "G", "C")
 
 
 # ================================FUNCIONES
@@ -1048,111 +1049,6 @@ def p_exp_string(t):
     # t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.STRING)
 
 
-# ================================FUNCIONES NO USADAS
-def p_exp_log(t):
-    'exp : LOG PARIZQ exp COMA exp PARDER'
-    # t[0] = FuncionVaria(t[3], t[5], operacionVaria.LOG)
-
-
-def p_exp_log10(t):
-    'exp : LOG10 PARIZQ exp PARDER'
-    # t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.LOG10)
-
-
-def p_exp_sin(t):
-    'exp : SIN PARIZQ exp PARDER'
-    # t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.SIN)
-
-
-def p_exp_cos(t):
-    'exp : COS PARIZQ exp PARDER'
-    # t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.COS)
-
-
-def p_exp_tan(t):
-    'exp : TAN PARIZQ exp PARDER'
-    # t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.TAN)
-
-
-def p_exp_sqrt(t):
-    'exp : SQRT PARIZQ exp PARDER'
-    # t[0] = FuncionVaria(t[3], Primitive('nothing', typeExpression.NULO), operacionVaria.SQRT)
-
-
-def p_exp_typeof(t):
-    'exp : TYPEOF PARIZQ exp PARDER'
-    # t[0] = FuncionVaria2(Primitive('nothing', typeExpression.NULO), t[3], operacionVaria.TYPEOF)
-
-
-def p_exp_push(t):
-    '''exp  : RPUSH NOTT PARIZQ ID COMA exp PARDER
-            | RPUSH NOTT PARIZQ ID COMA CORIZQ CORDER PARDER
-            | RPUSH NOTT PARIZQ ID COMA CORIZQ exps CORDER PARDER
-            | RPUSH NOTT PARIZQ ID listArray2 COMA exp PARDER
-            | RPUSH NOTT PARIZQ ID listArray2 COMA CORIZQ CORDER PARDER
-            | RPUSH NOTT PARIZQ ID listArray2 COMA CORIZQ exps CORDER PARDER
-    '''
-    # if len(t) == 8:
-    #    t[0] = Push(t[4], VariableCall(t[4]), [], t[6])
-    # elif len(t) == 9:
-    #    if t[5] == ",":
-    #        t[0] = Push(t[4], VariableCall(t[4]), [], [])
-    #    else:
-    #        t[0] = Push(t[4], VariableCall(t[4]), t[5], t[7])
-    # elif len(t) == 10:
-    #    if t[5] == ",":
-    #        t[0] = Push(t[4], VariableCall(t[4]), [], t[7])
-    #    else:
-    #        t[0] = Push(t[4], VariableCall(t[4]), t[5], [])
-    # elif len(t) == 11:
-    #    t[0] = Push(t[4], VariableCall(t[4]), t[5], t[8])
-
-
-def p_exp_pop(t):
-    '''exp  : RPOP NOTT PARIZQ ID PARDER
-            | RPOP NOTT PARIZQ ID listArray2 PARDER
-    '''
-    # if len(t) == 6:
-    #    t[0] = Pop(t[4], VariableCall(t[4]), [])
-    # else:
-    #    t[0] = Pop(t[4], VariableCall(t[4]), t[5])
-
-
-def p_exp_push2(t):
-    '''push : RPUSH NOTT PARIZQ ID COMA exp PARDER PTCOMA
-            | RPUSH NOTT PARIZQ ID COMA CORIZQ CORDER PARDER PTCOMA
-            | RPUSH NOTT PARIZQ ID COMA CORIZQ exps CORDER PARDER PTCOMA
-            | RPUSH NOTT PARIZQ ID listArray2 COMA exp PARDER PTCOMA
-            | RPUSH NOTT PARIZQ ID listArray2 COMA CORIZQ CORDER PARDER PTCOMA
-            | RPUSH NOTT PARIZQ ID listArray2 COMA CORIZQ exps CORDER PARDER PTCOMA
-
-    '''
-    # if len(t) == 9:
-    #    t[0] = Push(t[4], VariableCall(t[4]), [], t[6])
-    # elif len(t) == 10:
-    #    if t[5] == ",":
-    #        t[0] = Push(t[4], VariableCall(t[4]), [], [])
-    #    else:
-    #        t[0] = Push(t[4], VariableCall(t[4]), t[5], t[7])
-    # elif len(t) == 11:
-    #    if t[5] == ",":
-    #        t[0] = Push(t[4], VariableCall(t[4]), [], t[7])
-    #    else:
-    #        t[0] = Push(t[4], VariableCall(t[4]), t[5], [])
-    # elif len(t) == 12:
-    #    t[0] = Push(t[4], VariableCall(t[4]), t[5], t[8])
-
-
-def p_exp_pop2(t):
-    '''pop  : RPOP NOTT PARIZQ ID PARDER PTCOMA
-            | RPOP NOTT PARIZQ ID listArray2 PARDER PTCOMA
-    '''
-    # if len(t) == 7:
-    #    t[0] = Pop(t[4], VariableCall(t[4]), [])
-    # else:
-    #    t[0] = Pop(t[4], VariableCall(t[4]), t[5])
-
-
 # ================================TIPOS DE EXPRESIONES, DATOS Y ARREGLOS
 def p_typeDef(t):
     '''typeDef  : RINT
@@ -1262,7 +1158,7 @@ def p_exp_array(t):
 # ====================================================
 def p_error(t):
     Errores.append(
-        {'Descripcion': "Error sintáctico en '%s'" % t.value, 'Linea': t.lineno, 'Columna': "",
+        {'Descripcion': "Error sintáctico", 'Linea': t.lineno, 'Columna': "",
          'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
 

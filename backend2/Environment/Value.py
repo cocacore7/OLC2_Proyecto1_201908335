@@ -8,6 +8,8 @@ class Value:
         self.type = type
         self.trueLabel = ''
         self.falseLabel = ''
+        self.array = []
+        self.dim = 0
         self.zero = False
 
     def getValue(self) -> str:

@@ -19,6 +19,7 @@ class Array(Expression):
         self.generator.addSetHeap('H', str(len(self.values)))
         self.generator.addExpression('H', 'H', '1', '+')
 
+        tmparray = []
         for exp in self.values:
             exp.generator = self.generator
 
@@ -28,8 +29,11 @@ class Array(Expression):
 
             self.generator.addSetHeap('H', valExp.getValue())
             self.generator.addExpression('H', 'H', '1', '+')
+            tmparray.append(valExp.array)
 
-        return Value(newTemp, True, self.type)
+        retorno = Value(newTemp, True, self.type)
+        retorno.array.append(tmparray)
+        return retorno
 
 
 def obtener(type):
