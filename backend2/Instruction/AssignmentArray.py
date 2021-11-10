@@ -27,10 +27,34 @@ class AssignmentArray(Instruction):
         newValue: Value = self.exp.compile(environment)
         if callValue.type != typeExpression.NULO:
             # Generar Out Of Bounds De Todos Los Indices
+            label3 = self.generator.newLabel()
+            for i in self.indices:
+                i.generator = self.generator
+                tmpValue: Value = i.compile(environment)
+                newtmp = i.generator.newTemp()
+                label1 = i.generator.newLabel()
+                label2 = i.generator.newLabel()
+                i.generator.addExpression(newtmp, tmpValue.getValue())
+                i.generator.addIf(newtmp, len(callValue.array), ">", label1)
+                i.generator.addIf(newtmp, "1", "<", label1)
+                i.generator.addGoto(label2)
+                i.generator.addLabel(label1)
+                i.generator.addCallFunc("bounds_error_proc")
+                i.generator.addGoto(label3)
+                i.generator.addLabel(label2)
 
             # Calcular y obtener posicion del valor deseado
+            pos = 0
+            if callValue.type == typeExpression.STRINGA:
+                pos = obtenerPosString(callValue.array, pos)
+            else:
+                pos = obtenerPosNormal(callValue.array, pos)
+            newpos = self.generator.newTemp()
+            self.generator.addExpression(newpos, callValue.getValue(), str(pos), "+")
 
             # Generar Nuevo Arreglo en Heap y Guardar nuevo tmp en stack y variables, la nueva variable y el arreglo referenciado si es que hay
+
+            self.generator.addLabel(label3)
             if not self.isArray:
                 tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
                                                            self.entorno, "")
@@ -43,3 +67,21 @@ class AssignmentArray(Instruction):
             print("Error En AssignmentArray, No existe La Variable A Llamar")
 
 
+def obtenerPosNormal(arr, num):
+    num = num + 2
+    for i in arr:
+        if i.type == typeExpression.INTEGERA:
+            num = num + obtenerPosNormal(arr, num)
+        else:
+            num = num + 1
+    return num
+
+
+def obtenerPosString(arr, num):
+    num = num + 2
+    for i in arr:
+        if i.type == typeExpression.STRINGA:
+            num = num + obtenerPosNormal(arr, num)
+        else:
+            num = num + len(i)
+    return num

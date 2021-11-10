@@ -17,19 +17,10 @@ reservadas = {
 
     'lowercase': 'LOWERCASE',
     'uppercase': 'UPPERCASE',
-    'log10': 'LOG10',
-    'log': 'LOG',
-    'sin': 'SIN',
-    'cos': 'COS',
-    'tan': 'TAN',
-    'sqrt': 'SQRT',
     'parse': 'PARSE',
     'trunc': 'TRUNC',
     'float': 'MFLOAT',
     'string': 'MSTRING',
-    'typeof': 'TYPEOF',
-    'push': 'RPUSH',
-    'pop': 'RPOP',
     'length': 'RLENGTH',
 
     'print': 'PRINT',
@@ -312,8 +303,6 @@ def p_instruction(t):
                     | returnST
                     | breakST
                     | continueST
-                    | push
-                    | pop
     '''
     t[0] = t[1]
 
@@ -330,8 +319,6 @@ def p_instructionf(t):
                     | returnST
                     | breakST
                     | continueST
-                    | push
-                    | pop
     '''
     t[0] = t[1]
 
@@ -348,8 +335,6 @@ def p_instructionc(t):
                     | returnST
                     | breakST
                     | continueST
-                    | push
-                    | pop
     '''
     t[0] = t[1]
 

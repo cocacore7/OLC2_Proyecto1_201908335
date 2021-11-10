@@ -4,39 +4,29 @@ from Environment.Value import Value
 from Enum.typeExpression import typeExpression
 
 
-class Array(Expression):
+class ArrayHeap(Expression):
 
-    def __init__(self, values, type) -> None:
+    def __init__(self, arr, type) -> None:
         super().__init__()
-        self.values = values
+        self.arr = arr
         self.type = type
 
     def compile(self, environment: Environment) -> Value:
-
         tmparray = []
-        newTemp = self.generator.newTemp()
-        self.generator.addExpression(newTemp, '-0.000001', '', '')
-        newTemp2 = self.generator.newTemp()
-        self.generator.addExpression(newTemp2, str(len(self.values)), '', '')
-        tmparray.append(newTemp)
-        tmparray.append(newTemp2)
-
-        for exp in self.values:
-            exp.generator = self.generator
-
-            valExp = exp.compile(environment)
-            if self.type == typeExpression.ANY:
-                self.type = obtener(valExp.type)
-            if obtenertipo(valExp.type):
-                valtmp = self.generator.newTemp()
-                self.generator.addExpression(valtmp, valExp.value, "", "")
-                tmparray.append(valtmp)
+        newTemp = ""
+        for i in self.arr:
+            if isinstance(i, list):
+                crear = ArrayHeap(i, self.type)
+                crear.generator = self.generator
+                nuevo = crear.compile(environment)
+                tmparray.append(nuevo.array)
             else:
-                tmparray.append(valExp.array)
+                newTemp = self.generator.newTemp()
+                self.generator.addExpression(newTemp, "H", '', '')
+                self.generator.addSetHeap('H', i)
+                self.generator.addExpression('H', 'H', '1', '+')
+                tmparray.append(newTemp)
 
-        newTemp3 = self.generator.newTemp()
-        self.generator.addExpression(newTemp3, '-0.000002', '', '')
-        tmparray.append(newTemp3)
         retorno = Value(newTemp, True, self.type)
         retorno.array = tmparray
         return retorno

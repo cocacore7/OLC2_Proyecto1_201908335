@@ -50,49 +50,24 @@ class Println(Instruction):
                 self.generator.setPointerP(tmp)
 
             elif tempValue.type == typeExpression.INTEGERA:
-                tmp = self.generator.newTemp()
-                self.generator.getPointerP(tmp)
-                self.generator.setPointerP(tempValue.getValue())
-                self.generator.addExpression("t12", "P", str(environment.size), "+")
+                self.generator.addExpression("t11", tempValue.getValue(), "", "")
                 self.generator.addCallFunc("print_Integer_Array_proc")
-                self.generator.addExpression("t12", "P", str(environment.size), "-")
-                self.generator.setPointerP(tmp)
 
             elif tempValue.type == typeExpression.FLOATA:
-                tmp = self.generator.newTemp()
-                self.generator.getPointerP(tmp)
-                self.generator.setPointerP(tempValue.getValue())
-                self.generator.addExpression("t12", "P", str(environment.size), "+")
+                self.generator.addExpression("t11", tempValue.getValue(), "", "")
                 self.generator.addCallFunc("print_Float_Array_proc")
-                self.generator.addExpression("t12", "P", str(environment.size), "-")
-                self.generator.setPointerP(tmp)
 
             elif tempValue.type == typeExpression.CHARA:
-                tmp = self.generator.newTemp()
-                self.generator.getPointerP(tmp)
-                self.generator.setPointerP(tempValue.getValue())
-                self.generator.addExpression("t12", "P", str(environment.size), "+")
+                self.generator.addExpression("t11", tempValue.getValue(), "", "")
                 self.generator.addCallFunc("print_Char_Array_proc")
-                self.generator.addExpression("t12", "P", str(environment.size), "-")
-                self.generator.setPointerP(tmp)
 
             elif tempValue.type == typeExpression.BOOLA:
-                tmp = self.generator.newTemp()
-                self.generator.getPointerP(tmp)
-                self.generator.setPointerP(tempValue.getValue())
-                self.generator.addExpression("t12", "P", str(environment.size), "+")
+                self.generator.addExpression("t11", tempValue.getValue(), "", "")
                 self.generator.addCallFunc("print_Bool_Array_proc")
-                self.generator.addExpression("t12", "P", str(environment.size), "-")
-                self.generator.setPointerP(tmp)
 
             elif tempValue.type == typeExpression.STRINGA:
-                tmp = self.generator.newTemp()
-                self.generator.getPointerP(tmp)
-                self.generator.setPointerP(tempValue.getValue())
-                self.generator.addExpression("t12", "P", str(environment.size), "+")
+                self.generator.addExpression("t11", tempValue.getValue(), "", "")
                 self.generator.addCallFunc("print_String_Array_proc")
-                self.generator.addExpression("t12", "P", str(environment.size), "-")
-                self.generator.setPointerP(tmp)
 
             elif tempValue.type == typeExpression.NULO:
                 self.generator.addCallFunc("print_nothing_proc")

@@ -4,6 +4,7 @@ from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Expression.Primitive.ArrayHeap import ArrayHeap
 
 
 class Declaration(Instruction):
@@ -24,9 +25,11 @@ class Declaration(Instruction):
             tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
                                                        self.entorno, "")
         else:
+            crear = ArrayHeap(newValue.array, newValue.type)
+            crear.generator = self.generator
+            nuevo = crear.compile(environment)
+            newValue.value = nuevo.array[0]
             tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
-                                                       self.entorno, self.id)
+                                                       self.entorno, self.id, )
         if newValue.type != typeExpression.NULO:
             self.generator.addSetStack(str(tempVar.position), newValue.getValue())
-
-
