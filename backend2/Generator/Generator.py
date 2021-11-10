@@ -305,7 +305,7 @@ class Generator:
         tempCode = tempCode + 'goto L4;\n'
         tempCode = tempCode + 'L3:\n'
         tempCode = tempCode + 't10 = P;\n'
-        tempCode = tempCode + 'P = t7;\n'
+        tempCode = tempCode + 'P = t8;\n'
         tempCode = tempCode + 'print_String_proc();\n'
         tempCode = tempCode + 'P = t10;\n'
         tempCode = tempCode + 't7 = t7 + 1;\n'

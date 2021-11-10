@@ -277,7 +277,7 @@ if t8 != -0.000002 { goto L3; }
 goto L4;
 L3:
 t10 = P;
-P = t7;
+P = t8;
 print_String_proc();
 P = t10;
 t7 = t7 + 1;
