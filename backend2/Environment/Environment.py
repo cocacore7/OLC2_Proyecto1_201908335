@@ -56,7 +56,7 @@ class Environment:
                     if self.variable.get(id) is not None:
                         del self.variable[id]
                     Simbolos.append(
-                        {'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "", 'Columna': ""})
+                        {'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "0", 'Columna': "0"})
                     return tempVar
                 elif entorno == "L":
                     if self.globalAccess.get(id) is None:
@@ -84,8 +84,8 @@ class Environment:
                             tempVar.ref = ref
                         self.variable[id] = tempVar
                         if ComprobarParam(id):
-                            Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Local", 'Linea': "",
-                                             'Columna': ""})
+                            Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Local", 'Linea': "0",
+                                             'Columna': "0"})
                         return tempVar
                     else:
                         globalenv = self.getGlobal()
@@ -119,7 +119,7 @@ class Environment:
                             tempVar.ref = ref
                         globalenv.variable[id] = tempVar
                         Simbolos.append(
-                            {'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "", 'Columna': ""})
+                            {'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "0", 'Columna': "0"})
                         return tempVar
                     else:
                         tempVar: Symbol = self.variable.get(id)
@@ -149,7 +149,7 @@ class Environment:
                     self.localAccess[id] = id
                     if ComprobarParam(id):
                         Simbolos.append(
-                            {'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Local", 'Linea': "", 'Columna': ""})
+                            {'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Local", 'Linea': "0", 'Columna': "0"})
                     return tempVar
         else:
             if self.variable.get(id) is not None:
@@ -166,7 +166,7 @@ class Environment:
             if tempVar.ref == "":
                 tempVar.ref = ref
             self.variable[id] = tempVar
-            Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "", 'Columna': ""})
+            Simbolos.append({'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "0", 'Columna': "0"})
             return tempVar
 
     def saveParameter(self, id: str, type: typeExpression, isArray: bool, ref: str):
@@ -177,14 +177,14 @@ class Environment:
         if tempVar.ref == "":
             tempVar.ref = ref
         if ComprobarParam(id):
-            Simbolos.append({'Nombre': id, 'Tipo': "Parametro", 'Ambito': "Local", 'Linea': "", 'Columna': ""})
+            Simbolos.append({'Nombre': id, 'Tipo': "Parametro", 'Ambito': "Local", 'Linea': "0", 'Columna': "0"})
         self.variable[id] = tempVar
         return tempVar
 
     def saveFunction(self, id: str, value, type: typeExpression):
         tempVar = Value(value, True, type)
         if ComprobarParam(id):
-            Simbolos.append({'Nombre': id, 'Tipo': "Funcion", 'Ambito': "Global", 'Linea': "", 'Columna': ""})
+            Simbolos.append({'Nombre': id, 'Tipo': "Funcion", 'Ambito': "Global", 'Linea': "0", 'Columna': "0"})
         self.getGlobal().function[id] = tempVar
         return tempVar
 

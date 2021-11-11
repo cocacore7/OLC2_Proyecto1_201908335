@@ -1,7 +1,6 @@
 Errores = []
 Simbolos = []
-Mirrila = []
-Bloques = []
+Optimizacion = []
 Modulo = []
 
 
@@ -23,8 +22,8 @@ def GraficaError(err):
         grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + str(contador)+"</TD>\n"
         contador += 1
         grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + i["Descripcion"] + "</TD>\n"
-        grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + i["Linea"] + "</TD>\n"
-        grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + i["Columna"] + "</TD>\n"
+        grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + str(i["Linea"]) + "</TD>\n"
+        grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + str(i["Columna"]) + "</TD>\n"
         grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + i["Fecha"] + "</TD>\n"
         grafo += "</TR>\n"
     grafo += "</TABLE>>];\n"

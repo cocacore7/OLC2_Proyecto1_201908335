@@ -20,7 +20,7 @@ function Reportes() {
                     <div className="item">
                         <div className="ui big segment rounded image">
                             <Graphviz 
-                                dot={localStorage.getItem('Dot')}
+                                dot={localStorage.getItem('TO')}
                                 options={{zoom:true,height: 2000,width: 2000}} 
                             />
                         </div>

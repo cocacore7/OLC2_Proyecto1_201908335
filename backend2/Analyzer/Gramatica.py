@@ -163,8 +163,7 @@ def find_column(input, token):
 
 def t_error(t):
     Errores.append(
-        {'Descripcion': "Error Lexico '%s'" % t.value[0], 'Linea': t.lineno, 'Columna': "",
-         'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+        {'Descripcion': "Error Lexico", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
     t.lexer.skip(1)
 
 
@@ -1156,8 +1155,7 @@ def p_exp_array(t):
 # ====================================================
 def p_error(t):
     Errores.append(
-        {'Descripcion': "Error sintáctico", 'Linea': t.lineno, 'Columna': "",
-         'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+        {'Descripcion': "Error sintáctico", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
 
 import Analyzer.ply.yacc as yacc
