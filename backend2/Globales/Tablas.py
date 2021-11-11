@@ -2,6 +2,7 @@ Errores = []
 Simbolos = []
 Mirrila = []
 Bloques = []
+Modulo = []
 
 
 def GraficaError(err):
