@@ -2,6 +2,8 @@ from Abstract.Expression import Expression
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class And(Expression):
@@ -43,8 +45,8 @@ class And(Expression):
                 newValue.value = tmp
                 return newValue
             else:
-                print("Error en and")
+                Errores.append({'Descripcion': "Error en And", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.INTEGER)
         else:
-            print("Error en and")
+            Errores.append({'Descripcion': "Error en And", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.INTEGER)

@@ -2,6 +2,8 @@ from Abstract.Expression import Expression
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class NotEqual(Expression):
@@ -40,7 +42,7 @@ class NotEqual(Expression):
 
                 return Value(tmp, True, typeExpression.BOOL)
             else:
-                print("Error en desigualdad")
+                Errores.append({'Descripcion': "Error en Desigualdad", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.BOOL)
 
         elif leftValue.type == typeExpression.STRING:
@@ -111,9 +113,9 @@ class NotEqual(Expression):
 
                 return Value(valid2, True, typeExpression.BOOL)
             else:
-                print("Error en igualdad")
+                Errores.append({'Descripcion': "Error en Desigualdad", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.BOOL)
 
         else:
-            print("Error en desigualdad")
+            Errores.append({'Descripcion': "Error en Desigualdad", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.BOOL)

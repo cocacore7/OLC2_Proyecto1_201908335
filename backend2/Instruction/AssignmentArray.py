@@ -1,10 +1,11 @@
-from Environment.Symbol import Symbol
 from Abstract.Expression import Expression
 from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
 from Expression.Primitive.VariableCall import VariableCall
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class AssignmentArray(Instruction):
@@ -21,50 +22,63 @@ class AssignmentArray(Instruction):
         self.entorno = entorno
 
     def compile(self, environment: Environment) -> Value:
+        # Calcular Expresion Y Llamada A Variable
         self.llamada.generator = self.generator
-        self.exp.generator = self.generator
         callValue: Value = self.llamada.compile(environment)
-        newValue: Value = self.exp.compile(environment)
+        self.exp.generator = self.generator
+        exp: Value = self.exp.compile(environment)
         if callValue.type != typeExpression.NULO:
-            # Generar Out Of Bounds De Todos Los Indices
-            label3 = self.generator.newLabel()
+            # Calcular Indices
+            indices = []
             for i in self.indices:
+                indiceTmp = self.generator.newTemp()
                 i.generator = self.generator
                 tmpValue: Value = i.compile(environment)
-                newtmp = i.generator.newTemp()
-                label1 = i.generator.newLabel()
-                label2 = i.generator.newLabel()
-                i.generator.addExpression(newtmp, tmpValue.getValue())
-                i.generator.addIf(newtmp, len(callValue.array), ">", label1)
-                i.generator.addIf(newtmp, "1", "<", label1)
-                i.generator.addGoto(label2)
-                i.generator.addLabel(label1)
-                i.generator.addCallFunc("bounds_error_proc")
-                i.generator.addGoto(label3)
-                i.generator.addLabel(label2)
+                self.generator.addExpression(indiceTmp, tmpValue.getValue(), "", "")
+                indices.append(indiceTmp)
 
-            # Calcular y obtener posicion del valor deseado
-            pos = 0
-            if callValue.type == typeExpression.STRINGA:
-                pos = obtenerPosString(callValue.array, pos)
-            else:
-                pos = obtenerPosNormal(callValue.array, pos)
-            newpos = self.generator.newTemp()
-            self.generator.addExpression(newpos, callValue.getValue(), str(pos), "+")
+            # Calcular Dos Inicios
+            tmpini1 = self.generator.newTemp()
+            tmpini2 = self.generator.newTemp()
+            self.generator.addExpression(tmpini1, callValue.getValue(), "", "")
+            self.generator.addExpression(tmpini2, callValue.getValue(), "", "")
 
-            # Generar Nuevo Arreglo en Heap y Guardar nuevo tmp en stack y variables, la nueva variable y el arreglo referenciado si es que hay
+            # Procesar Indices en Out of Bounds
+            tmpini3 = self.generator.newTemp()
+            tmpini4 = self.generator.newTemp()
+            for i in indices:
+                Label1 = self.generator.newLabel()
+                Label2 = self.generator.newLabel()
+                Label3 = self.generator.newLabel()
+                Label4 = self.generator.newLabel()
+                Label5 = self.generator.newLabel()
+                # Comprobar Out Of Bounds
+                self.generator.addExpression(tmpini1, tmpini1, "1", "+")
+                self.generator.addGetHeap(tmpini3, tmpini1)
+                self.generator.addIf(i, tmpini3, ">", Label1)
+                self.generator.addIf(i, "1", "<", Label1)
+                self.generator.addGoto(Label2)
+                self.generator.addLabel(Label1)
+                self.generator.addCallFunc("bounds_error_proc")
+                self.generator.addGoto(Label5)
+                # Codigo Para Cambiar Referencia Nueva De Expresion
+                self.generator.addLabel(Label2)
+                self.generator.addExpression(tmpini2, tmpini2, "2", "+")
+                self.generator.addExpression(tmpini2, tmpini2, i, "+")
+                self.generator.addGetHeap(tmpini4, tmpini2)
+                self.generator.addIf(tmpini4, "-0.000001", "==", Label3)
+                self.generator.addGoto(Label4)
+                self.generator.addLabel(Label3)
+                self.generator.addExpression(tmpini1, tmpini1, tmpini3, "+")
+                self.generator.addExpression(tmpini1, tmpini1, "2", "+")
+                self.generator.addExpression(tmpini2, tmpini1, "", "")
+                self.generator.addGoto(Label5)
+                self.generator.addLabel(Label4)
+                self.generator.addSetHeap(tmpini2, exp.getValue())
+                self.generator.addLabel(Label5)
 
-            self.generator.addLabel(label3)
-            if not self.isArray:
-                tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
-                                                           self.entorno, "")
-            else:
-                tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
-                                                           self.entorno, self.id)
-            if newValue.type != typeExpression.NULO:
-                self.generator.addSetStack(str(tempVar.position), newValue.getValue())
         else:
-            print("Error En AssignmentArray, No existe La Variable A Llamar")
+            Errores.append({'Descripcion': "Error En AssignmentArray, No existe La Variable A Llamar", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
 
 def obtenerPosNormal(arr, num):

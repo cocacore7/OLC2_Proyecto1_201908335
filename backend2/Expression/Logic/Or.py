@@ -2,6 +2,8 @@ from Abstract.Expression import Expression
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Or(Expression):
@@ -43,8 +45,8 @@ class Or(Expression):
                 newValue.value = tmp
                 return newValue
             else:
-                print("Error en or")
+                Errores.append({'Descripcion': "Error en Or", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.INTEGER)
         else:
-            print("Error en or")
+            Errores.append({'Descripcion': "Error en Or", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.INTEGER)

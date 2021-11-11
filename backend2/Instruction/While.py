@@ -6,11 +6,14 @@ from Enum.typeExpression import typeExpression
 from Instruction.If import If
 from Instruction.Break import Break
 from Instruction.Continue import Continue
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class While(Instruction):
 
     def __init__(self, condition: Expression, block) -> None:
+        super().__init__()
         self.condition = condition
         self.block = block
 
@@ -48,4 +51,4 @@ class While(Instruction):
                 self.generator.addGoto(newLabel)
             self.generator.addLabel(valueCondition.falseLabel)
         else:
-            print("ERROR EN WHILE")
+            Errores.append({'Descripcion': "Error en While", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})

@@ -6,6 +6,7 @@ from Enum.TransferSentence import TransferSentence
 class Block(Instruction):
 
     def __init__(self, block) -> None:
+        super().__init__()
         self.block = block
 
     def compile(self, environment: Environment):

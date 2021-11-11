@@ -6,11 +6,14 @@ from Enum.typeExpression import typeExpression
 from Instruction.If import If
 from Instruction.Break import Break
 from Instruction.Continue import Continue
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class For(Instruction):
 
     def __init__(self, param: Instruction, ExpIzq: Expression, ExpDer: Expression, block) -> None:
+        super().__init__()
         self.param = param
         self.ExpIzq = ExpIzq
         self.ExpDer = ExpDer
@@ -67,7 +70,7 @@ class For(Instruction):
 
                 self.generator.addLabel(leftValue.falseLabel)
             else:
-                print("Tipo De Dato Exp Derecha De For Incorrecta")
+                Errores.append({'Descripcion': "Tipo De Dato Exp Derecha De For Incorrecta", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif leftValue.type == typeExpression.STRING:
             if leftValue.trueLabel == "":
@@ -112,4 +115,4 @@ class For(Instruction):
 
             self.generator.addLabel(leftValue.falseLabel)
         else:
-            print("Tipo De Dato Exp Izquierda De For Incorrecta")
+            Errores.append({'Descripcion': "Tipo De Dato Exp Izquierda De For Incorrecta", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})

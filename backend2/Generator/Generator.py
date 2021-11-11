@@ -43,6 +43,7 @@ class Generator:
         tempCode = tempCode + 'fmt.Printf("%c", 114);\n'
         tempCode = tempCode + 'fmt.Printf("%c", 111);\n'
         tempCode = tempCode + 'fmt.Printf("%c", 114);\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 10);\n'
         tempCode = tempCode + '}\n'
 
         tempCode = tempCode + '\nfunc bounds_error_proc(){\n'
@@ -57,6 +58,7 @@ class Generator:
         tempCode = tempCode + 'fmt.Printf("%c", 114);\n'
         tempCode = tempCode + 'fmt.Printf("%c", 111);\n'
         tempCode = tempCode + 'fmt.Printf("%c", 114);\n'
+        tempCode = tempCode + 'fmt.Printf("%c", 10);\n'
         tempCode = tempCode + '}\n'
 
         tempCode = tempCode + '\nfunc print_true_proc(){\n'

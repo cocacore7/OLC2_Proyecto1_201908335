@@ -3,14 +3,16 @@ from Abstract.Instruction import Instruction
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
-from Enum.TransferSentence import TransferSentence
 from Instruction.Break import Break
 from Instruction.Continue import Continue
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class If(Instruction):
 
     def __init__(self, condition: Expression, blockif, blockelif, blockelse) -> None:
+        super().__init__()
         self.condition = condition
         self.blockif = blockif
         self.blockelif = blockelif
@@ -73,7 +75,7 @@ class If(Instruction):
 
                         self.generator.addLabel(newValueCondition.falseLabel)
                     else:
-                        print("ERROR EN ElseIf")
+                        Errores.append({'Descripcion': "Error en Else If", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
             if len(self.blockelse.block) > 0:
                 for ins in self.blockelse.block:
@@ -88,4 +90,4 @@ class If(Instruction):
             if not breakSentence:
                 self.generator.addLabel(newLabel)
         else:
-            print("ERROR EN IF")
+            Errores.append({'Descripcion': "Error en If", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})

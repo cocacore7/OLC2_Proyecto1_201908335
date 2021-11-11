@@ -2,6 +2,8 @@ from Abstract.Expression import Expression
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Mayor(Expression):
@@ -40,9 +42,9 @@ class Mayor(Expression):
 
                 return Value(tmp, True, typeExpression.BOOL)
             else:
-                print("Error en mayor")
+                Errores.append({'Descripcion': "Error en Mayor", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.BOOL)
 
         else:
-            print("Error en mayor")
+            Errores.append({'Descripcion': "Error en Mayor", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.BOOL)

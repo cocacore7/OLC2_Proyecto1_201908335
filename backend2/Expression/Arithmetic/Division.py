@@ -2,6 +2,8 @@ from Abstract.Expression import Expression
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Division(Expression):
@@ -45,9 +47,9 @@ class Division(Expression):
                 retorno.zero = self.zero
                 return retorno
             else:
-                print("Error en division")
+                Errores.append({'Descripcion': "Error en Division", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.INTEGER)
 
         else:
-            print("Error en resta")
+            Errores.append({'Descripcion': "Error en Division", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.INTEGER)

@@ -2,6 +2,8 @@ from Abstract.Expression import Expression
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Mod(Expression):
@@ -26,7 +28,7 @@ class Mod(Expression):
                 self.generator.addExpressionMod(newTemp, leftValue.getValue(), rightValue.getValue())
                 return Value(newTemp, True, rightValue.type)
             else:
-                print("Error en modulo")
+                Errores.append({'Descripcion': "Error en Modulo", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.INTEGER)
 
         elif leftValue.type == typeExpression.FLOAT:
@@ -34,9 +36,9 @@ class Mod(Expression):
                 self.generator.addExpressionMod(newTemp, leftValue.getValue(), rightValue.getValue())
                 return Value(newTemp, True, typeExpression.FLOAT)
             else:
-                print("Error en modulo")
+                Errores.append({'Descripcion': "Error en Modulo", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.INTEGER)
 
         else:
-            print("Error en modulo")
+            Errores.append({'Descripcion': "Error en Modulo", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.INTEGER)

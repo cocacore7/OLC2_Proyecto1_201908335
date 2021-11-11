@@ -8,6 +8,7 @@ from Generator.Generator import Generator
 class Function(Instruction):
 
     def __init__(self, id: str, parameters, type: typeExpression, block) -> None:
+        super().__init__()
         self.id = id
         self.parameters = parameters
         self.block = block

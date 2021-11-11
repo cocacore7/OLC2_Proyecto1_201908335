@@ -2,6 +2,8 @@ from Abstract.Expression import Expression
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class NumberVal(Expression):
@@ -55,5 +57,6 @@ class NumberVal(Expression):
         elif self.type == typeExpression.NULO:
             return Value(str(self.value), False, self.type)
 
-        print("No se reconoce el tipo")
+        Errores.append({'Descripcion': "No se reconoce el tipo", 'Linea': "0", 'Columna': "0",
+                        'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return Value("0", False, typeExpression.INTEGER)

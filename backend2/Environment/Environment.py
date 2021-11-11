@@ -2,6 +2,7 @@ from Enum.typeExpression import typeExpression
 from Environment.Symbol import Symbol
 from Environment.Value import Value
 from Globales.Tablas import Errores, Simbolos
+from datetime import datetime
 
 
 class Environment:
@@ -193,13 +194,15 @@ class Environment:
             if tempEnv.variable.get(id) is not None:
                 return tempEnv.variable.get(id)
             tempEnv = tempEnv.father
-        print("Error: la variable " + id + " no existe")
+        Errores.append({'Descripcion': "Error: la variable " + id + " no existe", 'Linea': "0", 'Columna': "0",
+                        'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return None
 
     def getFunction(self, id: str) -> Symbol:
         if self.getGlobal().function.get(id) is not None:
             return self.getGlobal().function.get(id)
-        print("Error: la Funcion " + id + " no existe")
+        Errores.append({'Descripcion': "Error: la Funcion " + id + " no existe", 'Linea': "0", 'Columna': "0",
+                        'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return None
 
 

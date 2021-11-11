@@ -2,6 +2,8 @@ from Abstract.Expression import Expression
 from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
+from Globales.Tablas import Errores
+from datetime import datetime
 
 
 class Exponential(Expression):
@@ -45,10 +47,10 @@ class Exponential(Expression):
                             ant = tmp2
                     return Value(ant, True, leftValue.type)
                 else:
-                    print("Error en exponencial")
+                    Errores.append({'Descripcion': "Error en Exponencial", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                     return Value("0", False, typeExpression.INTEGER)
             else:
-                print("Error en exponencial")
+                Errores.append({'Descripcion': "Error en Exponencial", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.INTEGER)
 
         elif leftValue.type == typeExpression.STRING:
@@ -75,7 +77,8 @@ class Exponential(Expression):
                 self.generator.addNextHeap()
 
                 return Value(tmpr, True, leftValue.type)
-
+            else:
+                Errores.append({'Descripcion': "Error en Concatenacion", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         else:
-            print("Error en exponencial")
+            Errores.append({'Descripcion': "Error en Exponencial", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.INTEGER)

@@ -8,12 +8,8 @@ reservadas = {
     'String': 'RSTRING',
     'Char': 'RCHAR',
     'Bool': 'RBOOL',
-    'Array{Int64}': 'RINTA',
-    'Array{Float64}': 'RFLOATA',
-    'Array{String}': 'RSTRINGA',
-    'Array{Char}': 'RCHARA',
-    'Array{Bool}': 'RBOOLA',
     'Array': 'RARRAY',
+    'Vector': 'RVECTOR',
 
     'lowercase': 'LOWERCASE',
     'uppercase': 'UPPERCASE',
@@ -186,6 +182,7 @@ from Enum.TransferSentence import TransferSentence
 from Expression.Primitive.NumberVal import NumberVal
 from Expression.Primitive.Array import Array
 from Expression.Primitive.VariableCall import VariableCall
+from Expression.Primitive.ArrayCall import ArrayCall
 from Expression.Primitive.FunctionCall import FunctionCall
 
 from Expression.Arithmetic.Plus import Plus
@@ -913,11 +910,11 @@ def p_list_array(t):
     '''listArray    : listArray  CORIZQ exp CORDER
                     | CORIZQ exp CORDER
     '''
-    # if len(t) == 5:
-    #    t[0] = ArrayCall(t[1], t[3])
-    # elif len(t) == 4:
-    #    tempVar = VariableCall(t[-1])
-    #    t[0] = ArrayCall(tempVar, t[2])
+    if len(t) == 5:
+        t[0] = ArrayCall(t[1], t[3])
+    elif len(t) == 4:
+        tempVar = VariableCall(t[-1])
+        t[0] = ArrayCall(tempVar, t[2])
 
 
 def p_list_array2(t):
@@ -1046,6 +1043,11 @@ def p_typeDef(t):
                 | RARRAY LLAIZQ RSTRING LLADER
                 | RARRAY LLAIZQ RCHAR LLADER
                 | RARRAY LLAIZQ RBOOL LLADER
+                | RVECTOR LLAIZQ RINT LLADER
+                | RVECTOR LLAIZQ RFLOAT LLADER
+                | RVECTOR LLAIZQ RSTRING LLADER
+                | RVECTOR LLAIZQ RCHAR LLADER
+                | RVECTOR LLAIZQ RBOOL LLADER
     '''
     if t[1] == 'Int64':
         t[0] = typeExpression.INTEGER
@@ -1058,6 +1060,17 @@ def p_typeDef(t):
     elif t[1] == 'Bool':
         t[0] = typeExpression.BOOL
     elif t[1] == 'Array':
+        if t[3] == 'Int64':
+            t[0] = typeExpression.INTEGERA
+        elif t[3] == 'Float64':
+            t[0] = typeExpression.FLOATA
+        elif t[3] == 'String':
+            t[0] = typeExpression.STRINGA
+        elif t[3] == 'Char':
+            t[0] = typeExpression.CHARA
+        elif t[3] == 'Bool':
+            t[0] = typeExpression.BOOLA
+    elif t[1] == 'Vector':
         if t[3] == 'Int64':
             t[0] = typeExpression.INTEGERA
         elif t[3] == 'Float64':
