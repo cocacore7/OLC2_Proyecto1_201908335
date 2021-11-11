@@ -47,7 +47,6 @@ class Environment:
                         return tempVar
                     tempVar = Symbol(id, type, globalenv.size)
                     globalenv.size = globalenv.size + 1
-                    globalenv.localSize = globalenv.localSize + 1
                     tempVar.array = isArray
                     if tempVar.ref == "":
                         tempVar.ref = ref
@@ -78,7 +77,6 @@ class Environment:
                             return tempVar
                         tempVar = Symbol(id, type, self.size)
                         self.size = self.size + 1
-                        self.localSize = self.localSize + 1
                         tempVar.array = isArray
                         if tempVar.ref == "":
                             tempVar.ref = ref
@@ -88,13 +86,12 @@ class Environment:
                                              'Columna': "0"})
                         return tempVar
                     else:
-                        globalenv = self.getGlobal()
-                        tempVar: Symbol = globalenv.variable.get(id)
+                        tempVar: Symbol = self.getGlobal().variable.get(id)
                         tempVar.type = tempVar.getType()
                         tempVar.array = tempVar.isArray()
                         if tempVar.ref == "":
                             tempVar.ref = ref
-                        globalenv.variable[id] = tempVar
+                        self.getGlobal().variable[id] = tempVar
                         return tempVar
             elif tipoD == "C":
                 if entorno == "G":
@@ -110,14 +107,12 @@ class Environment:
                                 tempEnv.variable[id] = tempVar
                                 return tempVar
                             tempEnv = tempEnv.father
-                        globalenv = self.getGlobal()
-                        tempVar = Symbol(id, type, globalenv.size)
-                        globalenv.size = globalenv.size + 1
-                        globalenv.localSize = globalenv.localSize + 1
+                        tempVar = Symbol(id, type, self.size)
+                        self.size = self.size + 1
                         tempVar.array = isArray
                         if tempVar.ref == "":
                             tempVar.ref = ref
-                        globalenv.variable[id] = tempVar
+                        self.getGlobal().variable[id] = tempVar
                         Simbolos.append(
                             {'Nombre': id, 'Tipo': obtener(type.value), 'Ambito': "Global", 'Linea': "0", 'Columna': "0"})
                         return tempVar

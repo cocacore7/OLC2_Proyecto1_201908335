@@ -24,6 +24,8 @@ class Declaration(Instruction):
         if not self.isArray:
             tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
                                                        self.entorno, "")
+            if newValue.type != typeExpression.NULO:
+                self.generator.addSetStack(str(tempVar.position), newValue.getValue())
         else:
             crear = ArrayHeap(newValue.array, newValue.type)
             crear.generator = self.generator
@@ -31,5 +33,5 @@ class Declaration(Instruction):
             newValue.value = nuevo.array[0]
             tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
                                                        self.entorno, self.id, )
-        if newValue.type != typeExpression.NULO:
-            self.generator.addSetStack(str(tempVar.position), newValue.getValue())
+            if newValue.type != typeExpression.NULO:
+                self.generator.addSetStack(str(tempVar.position), newValue.getValue())
