@@ -20,5 +20,7 @@ class FunctionCall(Expression):
             cont = cont + 1
         returnValue = environment.getFunction(self.id)
         self.generator.addFunctionCall(self.id, self.parameters)
+        tmpretorno = self.generator.newTemp()
+        self.generator.addGetStack(tmpretorno, str(environment.size))
         self.generator.addBackStack(str(environment.size))
-        return returnValue
+        return Value(tmpretorno, True, returnValue.type)

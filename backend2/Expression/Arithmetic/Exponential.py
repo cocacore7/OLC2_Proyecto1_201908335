@@ -25,27 +25,40 @@ class Exponential(Expression):
 
         if leftValue.type == typeExpression.INTEGER or leftValue.type == typeExpression.FLOAT:
             if rightValue.type == typeExpression.INTEGER or rightValue.type == typeExpression.FLOAT:
-                if int(rightValue.getValue()) == 0:
-                    self.generator.addExpression(newTemp, leftValue.getValue(), "1", "*")
-                    return Value(newTemp, True, leftValue.type)
-                elif int(rightValue.getValue()) == 1:
-                    self.generator.addExpression(newTemp, leftValue.getValue(), "1", "*")
-                    return Value(newTemp, True, leftValue.type)
-                elif int(rightValue.getValue()) == 2:
-                    self.generator.addExpression(newTemp, leftValue.getValue(), leftValue.getValue(), "*")
-                    return Value(newTemp, True, leftValue.type)
-                elif int(rightValue.getValue()) > 2:
-                    self.generator.addExpression(newTemp, leftValue.getValue(), leftValue.getValue(), "*")
-                    ant = None
-                    for x in range(int(rightValue.getValue())-2):
-                        tmp2 = self.generator.newTemp()
-                        if x == 0:
-                            self.generator.addExpression(tmp2, newTemp, leftValue.getValue(), "*")
-                            ant = tmp2
-                        else:
-                            self.generator.addExpression(tmp2, ant, leftValue.getValue(), "*")
-                            ant = tmp2
-                    return Value(ant, True, leftValue.type)
+                if type(rightValue.getValue()) == int:
+                    if int(rightValue.getValue()) == 0:
+                        self.generator.addExpression(newTemp, leftValue.getValue(), "1", "*")
+                        return Value(newTemp, True, leftValue.type)
+                    elif int(rightValue.getValue()) == 1:
+                        self.generator.addExpression(newTemp, leftValue.getValue(), "1", "*")
+                        return Value(newTemp, True, leftValue.type)
+                    elif int(rightValue.getValue()) == 2:
+                        self.generator.addExpression(newTemp, leftValue.getValue(), leftValue.getValue(), "*")
+                        return Value(newTemp, True, leftValue.type)
+                    elif int(rightValue.getValue()) > 2:
+                        self.generator.addExpression(newTemp, leftValue.getValue(), leftValue.getValue(), "*")
+                        ant = None
+                        for x in range(int(rightValue.getValue())-2):
+                            tmp2 = self.generator.newTemp()
+                            if x == 0:
+                                self.generator.addExpression(tmp2, newTemp, leftValue.getValue(), "*")
+                                ant = tmp2
+                            else:
+                                self.generator.addExpression(tmp2, ant, leftValue.getValue(), "*")
+                                ant = tmp2
+                        return Value(ant, True, leftValue.type)
+                    else:
+                        self.generator.addExpression(newTemp, leftValue.getValue(), leftValue.getValue(), "*")
+                        ant = None
+                        for x in range(int(rightValue.getValue())-2):
+                            tmp2 = self.generator.newTemp()
+                            if x == 0:
+                                self.generator.addExpression(tmp2, newTemp, leftValue.getValue(), "*")
+                                ant = tmp2
+                            else:
+                                self.generator.addExpression(tmp2, ant, leftValue.getValue(), "*")
+                                ant = tmp2
+                        return Value(ant, True, leftValue.type)
                 else:
                     Errores.append({'Descripcion': "Error en Exponencial", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                     return Value("0", False, typeExpression.INTEGER)

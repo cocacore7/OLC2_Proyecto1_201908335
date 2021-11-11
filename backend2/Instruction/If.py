@@ -4,6 +4,7 @@ from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
 from Instruction.Break import Break
+from Instruction.Return import Return
 from Instruction.Continue import Continue
 from Globales.Tablas import Errores
 from datetime import datetime
@@ -19,6 +20,8 @@ class If(Instruction):
         self.blockelse = blockelse
         self.truelabel = ""
         self.falselabel = ""
+        self.funtioncReturn = ""
+        self.espacioReturn = 0
 
     def compile(self, environment: Environment) -> Value:
         self.condition.generator = self.generator
@@ -43,6 +46,14 @@ class If(Instruction):
                 elif type(ins) == Break:
                     ins.labelFalse = self.falselabel
                     breakSentence = True
+                elif type(ins) == Return:
+                    ins.funtioncReturn = self.funtioncReturn
+                    ins.espacioReturn = self.espacioReturn
+                    if self.falselabel != "":
+                        ins.tmpSalir = self.falselabel
+                        breakSentence = True
+                    else:
+                        ins.tmpSalir = newLabel
                 ins.compile(environment)
             if not breakSentence:
                 self.generator.addGoto(newLabel)
@@ -70,9 +81,17 @@ class If(Instruction):
                             elif type(ins) == Break:
                                 ins.labelFalse = self.falselabel
                                 breakSentence = True
+                            elif type(ins) == Return:
+                                ins.funtioncReturn = self.funtioncReturn
+                                ins.espacioReturn = self.espacioReturn
+                                if self.falselabel != "":
+                                    ins.tmpSalir = self.falselabel
+                                    breakSentence = True
+                                else:
+                                    ins.tmpSalir = newLabel
                             ins.compile(environment)
-                        self.generator.addGoto(newLabel)
-
+                        if not breakSentence:
+                            self.generator.addGoto(newLabel)
                         self.generator.addLabel(newValueCondition.falseLabel)
                     else:
                         Errores.append({'Descripcion': "Error en Else If", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
@@ -86,6 +105,14 @@ class If(Instruction):
                     elif type(ins) == Break:
                         ins.labelFalse = self.falselabel
                         breakSentence = True
+                    elif type(ins) == Return:
+                        ins.funtioncReturn = self.funtioncReturn
+                        ins.espacioReturn = self.espacioReturn
+                        if self.falselabel != "":
+                            ins.tmpSalir = self.falselabel
+                            breakSentence = True
+                        else:
+                            ins.tmpSalir = newLabel
                     ins.compile(environment)
             if not breakSentence:
                 self.generator.addLabel(newLabel)

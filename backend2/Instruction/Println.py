@@ -76,5 +76,5 @@ class Println(Instruction):
             else:
                 Errores.append({'Descripcion': "Error en Println", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
-            self.generator.addNewLine()
+        self.generator.addNewLine()
         return Value("0", False, typeExpression.INTEGER)

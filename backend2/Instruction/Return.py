@@ -11,11 +11,15 @@ class Return(Instruction):
         super().__init__()
         self.type = type
         self.exp = exp
+        self.funtioncReturn = ""
+        self.espacioReturn = 0
+        self.tmpSalir = ""
 
     def compile(self, environment: Environment) -> Value:
-        tmp = self.generator.newTemp()
         self.exp.generator = self.generator
         value = self.exp.compile(environment)
-        self.generator.addExpression(tmp, value.getValue(), "", "")
-        self.generator.addSetStack(str(environment.size-environment.localSize), tmp)
+        self.generator.addExpression(self.funtioncReturn, value.getValue(), "", "")
+        self.generator.addSetStack(str(self.espacioReturn), self.funtioncReturn)
+        if self.tmpSalir != "":
+            self.generator.addGoto(self.tmpSalir)
         return value

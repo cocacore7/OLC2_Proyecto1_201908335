@@ -3,6 +3,10 @@ from Environment.Environment import Environment
 from Environment.Value import Value
 from Enum.typeExpression import typeExpression
 from Generator.Generator import Generator
+from Instruction.If import If
+from Instruction.For import For
+from Instruction.While import While
+from Instruction.Return import Return
 
 
 class Function(Instruction):
@@ -22,23 +26,29 @@ class Function(Instruction):
         generator.label = self.generator.label
         generator.tempList = self.generator.tempList
         newEnv = Environment(environment)
+        posReturn = newEnv.size
         newEnv.size = newEnv.size + 1
         newEnv.localSize = newEnv.localSize + 1
+        tmpReturn = generator.newTemp()
+        environment.saveFunction(self.id, tmpReturn, self.type)
 
         # Pasar Parametros
-        cont = environment.size + 1
         for param in self.parameters:
-            newtmp = generator.newTemp()
-            generator.addActStack(newtmp, str(cont))
-            cont = cont + 1
             newEnv.saveParameter(param.id, param.type, param.array, "")
 
         # Instrucciones De Funcion En  Nuevo Generador
         for ins in self.block:
             ins.generator = generator
-            value = ins.compile(newEnv)
-            if value is not None:
-                environment.saveFunction(self.id, value.value, value.type)
+            if type(ins) == If:
+                ins.funtioncReturn = tmpReturn
+            elif type(ins) == For:
+                ins.funtioncReturn = tmpReturn
+            elif type(ins) == While:
+                ins.funtioncReturn = tmpReturn
+            elif type(ins) == Return:
+                ins.funtioncReturn = tmpReturn
+                ins.espacioReturn = posReturn
+            ins.compile(newEnv)
         generator.addCloseFunction()
 
         # Regresando Valores Nuevos De Generador Funcion a Global + Codigo De Funcion
@@ -46,4 +56,6 @@ class Function(Instruction):
         self.generator.label = generator.label
         self.generator.tempList = generator.tempList
         self.generator.functions.append(generator.code)
+
+        return Value(tmpReturn, True, self.type)
 

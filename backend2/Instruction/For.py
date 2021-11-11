@@ -18,6 +18,8 @@ class For(Instruction):
         self.ExpIzq = ExpIzq
         self.ExpDer = ExpDer
         self.block = block
+        self.funtioncReturn = ""
+        self.espacioReturn = 0
 
     def compile(self, environment: Environment) -> Value:
         self.ExpIzq.generator = self.generator
@@ -54,8 +56,10 @@ class For(Instruction):
                 for ins in self.block:
                     ins.generator = self.generator
                     if type(ins) == If:
+                        ins.funtioncReturn = self.funtioncReturn
                         ins.truelabel = newLabelFalse
                         ins.falselabel = leftValue.falseLabel
+                        ins.espacioReturn = self.espacioReturn
                     elif type(ins) == Break:
                         ins.labelFalse = leftValue.falseLabel
                     elif type(ins) == Continue:

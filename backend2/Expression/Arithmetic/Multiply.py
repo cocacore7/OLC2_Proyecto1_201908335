@@ -42,8 +42,7 @@ class Multiply(Expression):
         elif leftValue.type == typeExpression.STRING:
             if rightValue.type == typeExpression.STRING:
                 # String Derecha Izquierda Procesado = right + lefth
-                tmp = self.generator.newTemp()
-                self.generator.addActHeap(tmp)
+                self.generator.addActHeap(newTemp)
 
                 # String 1
                 tmp2 = self.generator.newTemp()
@@ -58,7 +57,7 @@ class Multiply(Expression):
                 self.generator.addNextHeap()
                 self.generator.setPointerP(tmp2)
 
-                return Value(tmp, False, typeExpression.STRING)
+                return Value(newTemp, False, typeExpression.STRING)
 
             else:
                 Errores.append({'Descripcion': "Error en Concatenacion", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})

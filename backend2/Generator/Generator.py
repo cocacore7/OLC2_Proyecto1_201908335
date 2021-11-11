@@ -326,7 +326,7 @@ class Generator:
         tempCode = tempCode + 'if t9 == 0 { goto L6; }\n'
         tempCode = tempCode + 'goto L0;\n'
         tempCode = tempCode + 'L6:\n'
-        tempCode = tempCode + '}\n'
+        tempCode = tempCode + '}\n\n\n'
 
         for i in self.functions:
             tempCode = tempCode + "\n".join(i)

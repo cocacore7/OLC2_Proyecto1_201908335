@@ -16,6 +16,8 @@ class While(Instruction):
         super().__init__()
         self.condition = condition
         self.block = block
+        self.funtioncReturn = ""
+        self.espacioReturn = 0
 
     def compile(self, environment: Environment) -> Value:
         self.condition.generator = self.generator
@@ -39,10 +41,13 @@ class While(Instruction):
             for ins in self.block:
                 ins.generator = self.generator
                 if type(ins) == If:
+                    ins.funtioncReturn = self.funtioncReturn
                     ins.truelabel = newLabel
                     ins.falselabel = valueCondition.falseLabel
+                    ins.espacioReturn = self.espacioReturn
                 elif type(ins) == Break:
                     ins.labelFalse = valueCondition.falseLabel
+                    ContinueSentence = True
                 elif type(ins) == Continue:
                     ins.labelFalse = newLabel
                     ContinueSentence = True
