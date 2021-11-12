@@ -77,9 +77,10 @@ C3DOM_1 = mirilla.rule1(C3DOM)
 C3DOM_2 = mirilla.rule2(C3DOM_1)
 C3DOM_6 = mirilla.rule6(C3DOM_2)
 C3DOM_7 = mirilla.rule7(C3DOM_6)
+C3DOM_8 = mirilla.rule8(C3DOM_7)
 
 outText = ""
-for ins in C3DOM_7:
+for ins in C3DOM_8:
     if ins.write:
         outText = outText + ins.writeC3D() + "\n"
 

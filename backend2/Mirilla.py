@@ -87,3 +87,21 @@ class Mirilla:
                                 ins.value.operation = typeExpression.PRIMITIVE
                 self.instructionsRule6.append(ins)
         return C3D
+
+    def rule8(self, C3D):
+        for ins in C3D:
+            if ins.getType() == typeInstruction.ASSIGNMENT:
+                if type(ins.value) == ArithmeticC3D:
+                    if ins.target != ins.value.left.value:
+                        if ins.value.getType() == typeExpression.MULTIPLY:
+                            if ins.value.rigth.value == "2":
+                                ins.value.operation = typeExpression.PLUS
+                                ins.value.rigth.value = ins.value.left.value
+                            elif ins.value.rigth.value == "0":
+                                ins.value.operation = typeExpression.PRIMITIVE
+                                ins.value.left.value = "0"
+                        elif ins.value.getType() == typeExpression.DIV:
+                            if ins.value.left.value == "0":
+                                ins.value.operation = typeExpression.PRIMITIVE
+                self.instructionsRule6.append(ins)
+        return C3D
