@@ -14,7 +14,7 @@ from Globales.Tablas import Optimizacion
 from Globales.Tablas import Simbolos
 from Globales.Tablas import Errores
 
-app = Flask(__name__)
+'''app = Flask(__name__)
 CORS(app)
 
 
@@ -59,14 +59,14 @@ def OptimizarB():
 
 if __name__ == '__main__':
     app.run(threaded=True, debug=True, port=4000)
-    '''app.run(threaded=True, debug=True, port="https://back2compi.herokuapp.com")'''
+    app.run(threaded=True, debug=True, port="https://back2compi.herokuapp.com")'''
 
 '''f = open("./entrada.txt", "r")
 entrada = f.read()
 C3D = parser.parse(entrada)
 
 f2 = open("./salida.txt", "w")
-f2.write(C3D)
+f2.write(C3D)'''
 
 f3 = open("./salida.txt", "r")
 entrada2 = f3.read()
@@ -74,10 +74,10 @@ C3DOM = parser2.parse(entrada2)
 
 mirilla: Mirilla = Mirilla()
 C3DOM_1 = mirilla.rule1(C3DOM)
-C3DOM_2 = mirilla.rule2(C3DOM_1)
+# C3DOM_2 = mirilla.rule2(C3DOM_1)
 
 outText = ""
-for ins in C3DOM_2:
+for ins in C3DOM_1:
     if ins.write:
         outText = outText + ins.writeC3D() + "\n"
 
@@ -86,4 +86,4 @@ bloques.crearBloques(C3DOM)
 bloques.imprimirBloques()
 
 f4 = open("salida2.txt", "w")
-f4.write(outText)'''
+f4.write(outText)

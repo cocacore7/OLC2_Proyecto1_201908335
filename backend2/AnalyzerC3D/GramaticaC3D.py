@@ -111,8 +111,8 @@ def t_ID(t):
 
 # Caracteres ignorados
 t_ignore = " \t\r"
-t_ignore_COMMENT = r'\#.*'
-t_ignore_COMMENTM = r'\#=(.|\n)*?=\#'
+t_ignore_COMMENT = r'//.*'
+t_ignore_COMMENTM = r'/\*(.|\n)*?\*/'
 
 
 def t_newline(t):
@@ -261,6 +261,6 @@ def p_error(t):
     pass
 
 
-import Analyzer.ply.yacc as yacc
+import AnalyzerC3D.ply.yacc as yacc
 
 parser2 = yacc.yacc()
