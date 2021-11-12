@@ -120,16 +120,23 @@ def t_newline(t):
     t.lexer.lineno += t.value.count("\n")
 
 
+def t_error(t):
+    t.lexer.skip(1)
+
+
 # Construyendo el analizador léxico
 from Globales.Tablas import Errores
 from datetime import datetime
 
 from Enum.typeExpresionC3D import typeExpression
+
 from OptimizacionC3D.AssignmentC3D import AssignmentC3D
+from OptimizacionC3D.GotoC3D import GotoC3D
 from OptimizacionC3D.LabelC3D import LabelC3D
+
+from OptimizacionC3D.RelationalC3D import RelationalC3D
 from OptimizacionC3D.ArithmeticC3D import ArithmeticC3D
 from OptimizacionC3D.PrimitiveC3D import PrimitiveC3D
-from OptimizacionC3D.RelationalC3D import RelationalC3D
 
 import Analyzer.ply.lex as lex
 
@@ -164,7 +171,7 @@ def p_instructions(t):
 # ================================INSTRUCCIONES
 def p_instruction(t):
     '''instruction  : assignment
-                    | RGOTO ID PTCOMA
+                    | gotoSt
                     | labelSt
     '''
     t[0] = t[1]
@@ -175,6 +182,12 @@ def p_assignment(t):
     '''assignment   : ID IGUAL exp PTCOMA
     '''
     t[0] = AssignmentC3D(t[1], t[3])
+
+
+def p_gotoSt(t):
+    '''gotoSt : RGOTO ID PTCOMA
+    '''
+    t[0] = GotoC3D(t[2])
 
 
 def p_labelSt(t):
@@ -189,8 +202,7 @@ def p_exp_aritmetica(t):
             | exp MENOS exp
             | exp MULTIPLICACION exp
             | exp DIVISION exp
-            | exp POTENCIA exp
-            | exp MODULO exp
+            | RMATH PUNTO RMOD PARIZQ exp COMA exp PARDER
             | MENOS exp %prec UMENOS
     '''
     if t[2] == '+':
@@ -201,10 +213,10 @@ def p_exp_aritmetica(t):
         t[0] = ArithmeticC3D(t[1], t[3], typeExpression.MULTIPLY)
     elif t[2] == '/':
         t[0] = ArithmeticC3D(t[1], t[3], typeExpression.DIV)
-    elif t[2] == '%':
-        t[0] = ArithmeticC3D(t[1], t[3], typeExpression.MOD)
     elif t[1] == '-':
         t[0] = ArithmeticC3D(t[2], None, typeExpression.NEG)
+    elif t[1] == 'math' and t[3] == 'Mod':
+        t[0] = ArithmeticC3D(t[5], t[7], typeExpression.MOD)
 
 
 def p_exp_relacional(t):
@@ -255,4 +267,4 @@ def p_error(t):
 
 import Analyzer.ply.yacc as yacc
 
-parser = yacc.yacc()
+parser2 = yacc.yacc()
