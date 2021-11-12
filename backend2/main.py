@@ -1,6 +1,7 @@
 from Analyzer.Gramatica import parser
 from AnalyzerC3D.Gramatica import parser2
 from Mirilla import Mirilla
+from Bloques import Bloques
 '''from flask import Flask, request
 from flask_cors import CORS
 from Globales.Tablas import GraficaError
@@ -52,6 +53,10 @@ outText = ""
 for ins in C3DOM_2:
     if ins.write:
         outText = outText + ins.writeC3D() + "\n"
+
+bloques: Bloques = Bloques()
+bloques.crearBloques(C3DOM)
+bloques.imprimirBloques()
 
 f4 = open("salida2.txt", "w")
 f4.write(outText)
