@@ -125,9 +125,6 @@ def t_error(t):
 
 
 # Construyendo el analizador léxico
-from Globales.Tablas import Errores
-from datetime import datetime
-
 from Enum.typeExpresionC3D import typeExpression
 
 from OptimizacionC3D.AssignmentC3D import AssignmentC3D
@@ -138,7 +135,7 @@ from OptimizacionC3D.RelationalC3D import RelationalC3D
 from OptimizacionC3D.ArithmeticC3D import ArithmeticC3D
 from OptimizacionC3D.PrimitiveC3D import PrimitiveC3D
 
-import Analyzer.ply.lex as lex
+import AnalyzerC3D.ply.lex as lex
 
 lexer = lex.lex()
 
@@ -261,8 +258,7 @@ def p_exp_valor_decimal(t):
 
 # ====================================================
 def p_error(t):
-    Errores.append(
-        {'Descripcion': "Error sintáctico", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+    pass
 
 
 import Analyzer.ply.yacc as yacc

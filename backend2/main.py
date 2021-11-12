@@ -1,8 +1,8 @@
 from Analyzer.Gramatica import parser
-'''from AnalyzerC3D.Gramatica import parser2
+from AnalyzerC3D.GramaticaC3D import parser2
 from Mirilla import Mirilla
 from Bloques import Bloques
-from flask import Flask, request
+'''from flask import Flask, request
 from flask_cors import CORS
 from Globales.Tablas import GraficaError
 from Globales.Tablas import GraficaTS
