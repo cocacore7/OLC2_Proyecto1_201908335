@@ -20,6 +20,7 @@ class Generator:
         tempCode: str = 'package main;\n'
         tempCode = tempCode + 'import ( "fmt" ); \n'
         if len(Modulo) > 0:
+            Modulo.clear()
             tempCode = tempCode + 'import ( "math" ); \n'
         tempCode = tempCode + "var stack [30101999]float64;\n"
         tempCode = tempCode + "var heap [30101999]float64;\n"
