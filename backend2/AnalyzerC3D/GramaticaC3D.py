@@ -180,25 +180,25 @@ def p_instruction(t):
 def p_ifSt(t):
     '''ifSt : RIF exp LLAIZQ gotoSt LLADER
     '''
-    t[0] = IfC3D(t[2], t[4])
+    t[0] = IfC3D(t[2], t[4], str(t.lexer.lineno))
 
 
 def p_assignment(t):
     '''assignment   : ID IGUAL exp PTCOMA
     '''
-    t[0] = AssignmentC3D(t[1], t[3])
+    t[0] = AssignmentC3D(t[1], t[3], str(t.lexer.lineno))
 
 
 def p_gotoSt(t):
     '''gotoSt : RGOTO ID PTCOMA
     '''
-    t[0] = GotoC3D(t[2])
+    t[0] = GotoC3D(t[2], str(t.lexer.lineno))
 
 
 def p_labelSt(t):
     '''labelSt : ID DOSPT
     '''
-    t[0] = LabelC3D(t[1])
+    t[0] = LabelC3D(t[1], str(t.lexer.lineno))
 
 
 # ================================EXPRESIONES ARITMETICAS, LOGICAS Y RELACIONALES

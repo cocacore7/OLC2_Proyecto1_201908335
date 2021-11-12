@@ -4,9 +4,10 @@ from Enum.typeInstructionC3D import typeInstruction
 
 class LabelC3D(Instruccion):
 
-    def __init__(self, value: str) -> None:
+    def __init__(self, value: str, line: str) -> None:
         super().__init__()
         self.value = value
+        self.line = line
 
     def getType(self) -> typeInstruction:
         return typeInstruction.LABEL

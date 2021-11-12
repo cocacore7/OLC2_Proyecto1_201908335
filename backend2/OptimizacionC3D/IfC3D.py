@@ -5,10 +5,11 @@ from Enum.typeInstructionC3D import typeInstruction
 
 class IfC3D(Instruccion):
 
-    def __init__(self, exp: Expression, goto: Instruccion) -> None:
+    def __init__(self, exp: Expression, goto: Instruccion, line: str) -> None:
         super().__init__()
         self.exp = exp
         self.goto = goto
+        self.line = line
 
     def getType(self) -> typeInstruction:
         return typeInstruction.IF

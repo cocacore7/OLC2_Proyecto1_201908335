@@ -5,10 +5,11 @@ from Enum.typeInstructionC3D import typeInstruction
 
 class AssignmentC3D(Instruccion):
 
-    def __init__(self, target: str, value: Expression) -> None:
+    def __init__(self, target: str, value: Expression, line: str) -> None:
         super().__init__()
         self.target = target
         self.value = value
+        self.line = line
 
     def getType(self) -> typeInstruction:
         return typeInstruction.ASSIGNMENT
