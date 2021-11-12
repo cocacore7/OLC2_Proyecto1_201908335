@@ -31,6 +31,7 @@ class Function(Instruction):
         newEnv.localSize = newEnv.localSize + 1
         tmpReturn = generator.newTemp()
         environment.saveFunction(self.id, tmpReturn, self.type)
+        LabelSalir = generator.newLabel()
 
         # Pasar Parametros
         for param in self.parameters:
@@ -41,14 +42,19 @@ class Function(Instruction):
             ins.generator = generator
             if type(ins) == If:
                 ins.funtioncReturn = tmpReturn
+                ins.LabelSalir = LabelSalir
             elif type(ins) == For:
                 ins.funtioncReturn = tmpReturn
+                ins.LabelSalir = LabelSalir
             elif type(ins) == While:
                 ins.funtioncReturn = tmpReturn
+                ins.LabelSalir = LabelSalir
             elif type(ins) == Return:
                 ins.funtioncReturn = tmpReturn
                 ins.espacioReturn = posReturn
+                ins.tmpSalir = LabelSalir
             ins.compile(newEnv)
+        generator.addLabel(LabelSalir)
         generator.addCloseFunction()
 
         # Regresando Valores Nuevos De Generador Funcion a Global + Codigo De Funcion

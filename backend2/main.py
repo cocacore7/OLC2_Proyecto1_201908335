@@ -1,8 +1,8 @@
 from Analyzer.Gramatica import parser
-from AnalyzerC3D.Gramatica import parser2
+'''from AnalyzerC3D.Gramatica import parser2
 from Mirilla import Mirilla
 from Bloques import Bloques
-'''from flask import Flask, request
+from flask import Flask, request
 from flask_cors import CORS
 from Globales.Tablas import GraficaError
 from Globales.Tablas import GraficaTS
@@ -34,14 +34,14 @@ if __name__ == '__main__':
     app.run(threaded=True, debug=True, port=4000)
     app.run(threaded=True, debug=True, port="https://back2compi.herokuapp.com")'''
 
-'''f = open("./entrada.txt", "r")
+f = open("./entrada.txt", "r")
 entrada = f.read()
 C3D = parser.parse(entrada)
 
 f2 = open("./salida.txt", "w")
-f2.write(C3D)'''
+f2.write(C3D)
 
-f3 = open("./salida.txt", "r")
+'''f3 = open("./salida.txt", "r")
 entrada2 = f3.read()
 C3DOM = parser2.parse(entrada2)
 
@@ -59,4 +59,4 @@ bloques.crearBloques(C3DOM)
 bloques.imprimirBloques()
 
 f4 = open("salida2.txt", "w")
-f4.write(outText)
+f4.write(outText)'''

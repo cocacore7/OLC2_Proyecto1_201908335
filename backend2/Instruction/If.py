@@ -20,6 +20,7 @@ class If(Instruction):
         self.blockelse = blockelse
         self.truelabel = ""
         self.falselabel = ""
+        self.LabelSalir = ""
         self.funtioncReturn = ""
         self.espacioReturn = 0
 
@@ -49,8 +50,8 @@ class If(Instruction):
                 elif type(ins) == Return:
                     ins.funtioncReturn = self.funtioncReturn
                     ins.espacioReturn = self.espacioReturn
-                    if self.falselabel != "":
-                        ins.tmpSalir = self.falselabel
+                    if self.LabelSalir != "":
+                        ins.tmpSalir = self.LabelSalir
                         breakSentence = True
                     else:
                         ins.tmpSalir = newLabel
@@ -84,8 +85,8 @@ class If(Instruction):
                             elif type(ins) == Return:
                                 ins.funtioncReturn = self.funtioncReturn
                                 ins.espacioReturn = self.espacioReturn
-                                if self.falselabel != "":
-                                    ins.tmpSalir = self.falselabel
+                                if self.LabelSalir != "":
+                                    ins.tmpSalir = self.LabelSalir
                                     breakSentence = True
                                 else:
                                     ins.tmpSalir = newLabel
@@ -108,8 +109,8 @@ class If(Instruction):
                     elif type(ins) == Return:
                         ins.funtioncReturn = self.funtioncReturn
                         ins.espacioReturn = self.espacioReturn
-                        if self.falselabel != "":
-                            ins.tmpSalir = self.falselabel
+                        if self.LabelSalir != "":
+                            ins.tmpSalir = self.LabelSalir
                             breakSentence = True
                         else:
                             ins.tmpSalir = newLabel

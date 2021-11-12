@@ -17,6 +17,7 @@ class While(Instruction):
         self.condition = condition
         self.block = block
         self.funtioncReturn = ""
+        self.LabelSalir = ""
         self.espacioReturn = 0
 
     def compile(self, environment: Environment) -> Value:
@@ -42,6 +43,7 @@ class While(Instruction):
                 ins.generator = self.generator
                 if type(ins) == If:
                     ins.funtioncReturn = self.funtioncReturn
+                    ins.LabelSalir = self.LabelSalir
                     ins.truelabel = newLabel
                     ins.falselabel = valueCondition.falseLabel
                     ins.espacioReturn = self.espacioReturn

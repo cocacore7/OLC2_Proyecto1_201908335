@@ -18,6 +18,7 @@ class For(Instruction):
         self.ExpIzq = ExpIzq
         self.ExpDer = ExpDer
         self.block = block
+        self.LabelSalir = ""
         self.funtioncReturn = ""
         self.espacioReturn = 0
 
@@ -57,6 +58,7 @@ class For(Instruction):
                     ins.generator = self.generator
                     if type(ins) == If:
                         ins.funtioncReturn = self.funtioncReturn
+                        ins.LabelSalir = self.LabelSalir
                         ins.truelabel = newLabelFalse
                         ins.falselabel = leftValue.falseLabel
                         ins.espacioReturn = self.espacioReturn

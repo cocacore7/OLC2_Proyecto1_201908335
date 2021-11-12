@@ -30,18 +30,16 @@ class Division(Expression):
                 if rightValue.getValue() == "0":
                     self.zero = True
 
-                TempRigth = self.generator.newTemp()
-                self.generator.addExpression(TempRigth, "float64("+rightValue.getValue()+")", "", "")
-                self.generator.addIf(TempRigth, "0", "==", self.falseLabel)
+                self.generator.addIf(rightValue.getValue(), "0", "==", self.falseLabel)
                 # Division entre 0
                 newLabel = self.generator.newLabel()
-                self.generator.addExpression(newTemp, "float64("+leftValue.getValue()+")", TempRigth, "/")
+                self.generator.addExpression(newTemp, "float64("+leftValue.getValue()+")", "float64("+rightValue.getValue()+")", "/")
                 self.generator.addGoto(newLabel)
                 self.generator.addLabel(self.falseLabel)
                 self.generator.addCallFunc("math_error_proc")
                 self.generator.addLabel(newLabel)
 
-                retorno = Value(newTemp, True, typeExpression.FLOAT)
+                retorno = Value("float64("+newTemp+")", True, typeExpression.FLOAT)
                 retorno.trueLabel = self.trueLabel
                 retorno.falseLabel = self.falseLabel
                 retorno.zero = self.zero
