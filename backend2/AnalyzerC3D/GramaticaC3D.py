@@ -19,38 +19,38 @@ reservadas = {
 }
 
 tokens = [
-    'ENTERO',
-    'DECIMAL',
-    'ID',
+             'ENTERO',
+             'DECIMAL',
+             'ID',
 
-    'MAS',
-    'MENOS',
-    'MULTIPLICACION',
-    'DIVISION',
+             'MAS',
+             'MENOS',
+             'MULTIPLICACION',
+             'DIVISION',
 
-    'MAYOR',
-    'MENOR',
-    'IGUALIGUAL',
-    'MAYORIGUAL',
-    'MENORIGUAL',
-    'DISTINTO',
-    'IGUAL',
+             'MAYOR',
+             'MENOR',
+             'IGUALIGUAL',
+             'MAYORIGUAL',
+             'MENORIGUAL',
+             'DISTINTO',
+             'IGUAL',
 
-    'PARIZQ',
-    'PARDER',
-    'LLADER',
-    'LLAIZQ',
-    'CORDER',
-    'CORIZQ',
-    'DOSPT',
-    'COMA',
-    'PUNTO',
-    'PTCOMA',
+             'PARIZQ',
+             'PARDER',
+             'LLADER',
+             'LLAIZQ',
+             'CORDER',
+             'CORIZQ',
+             'DOSPT',
+             'COMA',
+             'PUNTO',
+             'PTCOMA',
 
-    'PRCHAR',
-    'PRINTEGER',
-    'PRFLOAT',
-] + list(reservadas.values())
+             'PRCHAR',
+             'PRINTEGER',
+             'PRFLOAT',
+         ] + list(reservadas.values())
 
 # Tokens
 t_MAS = r'\+'
@@ -76,7 +76,6 @@ t_DOSPT = r':'
 t_COMA = r'\,'
 t_PUNTO = r'\.'
 t_PTCOMA = r'\;'
-
 
 t_PRCHAR = r'"%c"'
 t_PRINTEGER = r'"%d"'
@@ -121,6 +120,7 @@ def t_newline(t):
 
 
 def t_error(t):
+    print("Error Lexico en Linea: " + str(t.lexer.lineno) + ", Columna:" + str(t.lexer.lexpos))
     t.lexer.skip(1)
 
 
@@ -130,6 +130,7 @@ from Enum.typeExpresionC3D import typeExpression
 from OptimizacionC3D.AssignmentC3D import AssignmentC3D
 from OptimizacionC3D.GotoC3D import GotoC3D
 from OptimizacionC3D.LabelC3D import LabelC3D
+from OptimizacionC3D.IfC3D import IfC3D
 
 from OptimizacionC3D.RelationalC3D import RelationalC3D
 from OptimizacionC3D.ArithmeticC3D import ArithmeticC3D
@@ -170,11 +171,18 @@ def p_instruction(t):
     '''instruction  : assignment
                     | gotoSt
                     | labelSt
+                    | ifSt
     '''
     t[0] = t[1]
 
 
 # ================================INSTRUCCIONES
+def p_ifSt(t):
+    '''ifSt : RIF exp LLAIZQ gotoSt LLADER
+    '''
+    t[0] = IfC3D(t[2], t[4])
+
+
 def p_assignment(t):
     '''assignment   : ID IGUAL exp PTCOMA
     '''
@@ -258,6 +266,7 @@ def p_exp_valor_decimal(t):
 
 # ====================================================
 def p_error(t):
+    print("Error Sintactico en Linea: " + str(t.lexer.lineno) + ", Columna:" + str(t.lexer.lexpos))
     pass
 
 

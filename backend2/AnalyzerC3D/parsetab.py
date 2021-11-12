@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftIGUALIGUALDISTINTOMAYORMENORMAYORIGUALMENORIGUALleftMASMENOSleftMULTIPLICACIONDIVISIONrightUMENOSCOMA CORDER CORIZQ DECIMAL DISTINTO DIVISION DOSPT ENTERO ID IGUAL IGUALIGUAL LLADER LLAIZQ MAS MAYOR MAYORIGUAL MENOR MENORIGUAL MENOS MULTIPLICACION PARDER PARIZQ PRCHAR PRFLOAT PRINTEGER PTCOMA PUNTO RCANT RCLOSEA RFLOAT RFMT RFUNC RGOTO RHEAP RIF RIMPORT RMAIN RMATH RMOD ROPENA RPACKAGE RPRINTF RSTACK RVARinitial : instructionsinstructions : instructions instruction\n                    | instruction\n    instruction  : assignment\n                    | gotoSt\n                    | labelSt\n    assignment   : ID IGUAL exp PTCOMA\n    gotoSt : RGOTO ID PTCOMA\n    labelSt : ID DOSPT\n    exp  : exp MAS exp\n            | exp MENOS exp\n            | exp MULTIPLICACION exp\n            | exp DIVISION exp\n            | RMATH PUNTO RMOD PARIZQ exp COMA exp PARDER\n            | MENOS exp %prec UMENOS\n    exp  : exp IGUALIGUAL exp\n            | exp DISTINTO exp\n            | exp MAYOR exp\n            | exp MENOR exp\n            | exp MAYORIGUAL exp\n            | exp MENORIGUAL exp\n    exp  : ID\n    exp  : ENTERO\n    exp  : DECIMAL\n    '
+_lr_signature = 'leftIGUALIGUALDISTINTOMAYORMENORMAYORIGUALMENORIGUALleftMASMENOSleftMULTIPLICACIONDIVISIONrightUMENOSCOMA CORDER CORIZQ DECIMAL DISTINTO DIVISION DOSPT ENTERO ID IGUAL IGUALIGUAL LLADER LLAIZQ MAS MAYOR MAYORIGUAL MENOR MENORIGUAL MENOS MULTIPLICACION PARDER PARIZQ PRCHAR PRFLOAT PRINTEGER PTCOMA PUNTO RCANT RCLOSEA RFLOAT RFMT RFUNC RGOTO RHEAP RIF RIMPORT RMAIN RMATH RMOD ROPENA RPACKAGE RPRINTF RSTACK RVARinitial : instructionsinstructions : instructions instruction\n                    | instruction\n    instruction  : assignment\n                    | gotoSt\n                    | labelSt\n                    | ifSt\n    ifSt : RIF exp LLAIZQ gotoSt LLADER\n    assignment   : ID IGUAL exp PTCOMA\n    gotoSt : RGOTO ID PTCOMA\n    labelSt : ID DOSPT\n    exp  : exp MAS exp\n            | exp MENOS exp\n            | exp MULTIPLICACION exp\n            | exp DIVISION exp\n            | RMATH PUNTO RMOD PARIZQ exp COMA exp PARDER\n            | MENOS exp %prec UMENOS\n    exp  : exp IGUALIGUAL exp\n            | exp DISTINTO exp\n            | exp MAYOR exp\n            | exp MENOR exp\n            | exp MAYORIGUAL exp\n            | exp MENORIGUAL exp\n    exp  : ID\n    exp  : ENTERO\n    exp  : DECIMAL\n    '
     
-_lr_action_items = {'ID':([0,2,3,4,5,6,8,9,10,11,15,19,20,21,22,23,24,25,26,27,28,29,30,44,46,],[7,7,-3,-4,-5,-6,12,-2,13,-9,13,-8,-7,13,13,13,13,13,13,13,13,13,13,13,13,]),'RGOTO':([0,2,3,4,5,6,9,11,19,20,],[8,8,-3,-4,-5,-6,-2,-9,-8,-7,]),'$end':([1,2,3,4,5,6,9,11,19,20,],[0,-1,-3,-4,-5,-6,-2,-9,-8,-7,]),'IGUAL':([7,],[10,]),'DOSPT':([7,],[11,]),'RMATH':([10,15,21,22,23,24,25,26,27,28,29,30,44,46,],[16,16,16,16,16,16,16,16,16,16,16,16,16,16,]),'MENOS':([10,13,14,15,17,18,21,22,23,24,25,26,27,28,29,30,31,33,34,35,36,37,38,39,40,41,42,44,45,46,47,48,],[15,-22,22,15,-23,-24,15,15,15,15,15,15,15,15,15,15,-15,-10,-11,-12,-13,22,22,22,22,22,22,15,22,15,22,-14,]),'ENTERO':([10,15,21,22,23,24,25,26,27,28,29,30,44,46,],[17,17,17,17,17,17,17,17,17,17,17,17,17,17,]),'DECIMAL':([10,15,21,22,23,24,25,26,27,28,29,30,44,46,],[18,18,18,18,18,18,18,18,18,18,18,18,18,18,]),'PTCOMA':([12,13,14,17,18,31,33,34,35,36,37,38,39,40,41,42,48,],[19,-22,20,-23,-24,-15,-10,-11,-12,-13,-16,-17,-18,-19,-20,-21,-14,]),'MAS':([13,14,17,18,31,33,34,35,36,37,38,39,40,41,42,45,47,48,],[-22,21,-23,-24,-15,-10,-11,-12,-13,21,21,21,21,21,21,21,21,-14,]),'MULTIPLICACION':([13,14,17,18,31,33,34,35,36,37,38,39,40,41,42,45,47,48,],[-22,23,-23,-24,-15,23,23,-12,-13,23,23,23,23,23,23,23,23,-14,]),'DIVISION':([13,14,17,18,31,33,34,35,36,37,38,39,40,41,42,45,47,48,],[-22,24,-23,-24,-15,24,24,-12,-13,24,24,24,24,24,24,24,24,-14,]),'IGUALIGUAL':([13,14,17,18,31,33,34,35,36,37,38,39,40,41,42,45,47,48,],[-22,25,-23,-24,-15,-10,-11,-12,-13,-16,-17,-18,-19,-20,-21,25,25,-14,]),'DISTINTO':([13,14,17,18,31,33,34,35,36,37,38,39,40,41,42,45,47,48,],[-22,26,-23,-24,-15,-10,-11,-12,-13,-16,-17,-18,-19,-20,-21,26,26,-14,]),'MAYOR':([13,14,17,18,31,33,34,35,36,37,38,39,40,41,42,45,47,48,],[-22,27,-23,-24,-15,-10,-11,-12,-13,-16,-17,-18,-19,-20,-21,27,27,-14,]),'MENOR':([13,14,17,18,31,33,34,35,36,37,38,39,40,41,42,45,47,48,],[-22,28,-23,-24,-15,-10,-11,-12,-13,-16,-17,-18,-19,-20,-21,28,28,-14,]),'MAYORIGUAL':([13,14,17,18,31,33,34,35,36,37,38,39,40,41,42,45,47,48,],[-22,29,-23,-24,-15,-10,-11,-12,-13,-16,-17,-18,-19,-20,-21,29,29,-14,]),'MENORIGUAL':([13,14,17,18,31,33,34,35,36,37,38,39,40,41,42,45,47,48,],[-22,30,-23,-24,-15,-10,-11,-12,-13,-16,-17,-18,-19,-20,-21,30,30,-14,]),'COMA':([13,17,18,31,33,34,35,36,37,38,39,40,41,42,45,48,],[-22,-23,-24,-15,-10,-11,-12,-13,-16,-17,-18,-19,-20,-21,46,-14,]),'PARDER':([13,17,18,31,33,34,35,36,37,38,39,40,41,42,47,48,],[-22,-23,-24,-15,-10,-11,-12,-13,-16,-17,-18,-19,-20,-21,48,-14,]),'PUNTO':([16,],[32,]),'RMOD':([32,],[43,]),'PARIZQ':([43,],[44,]),}
+_lr_action_items = {'ID':([0,2,3,4,5,6,7,9,10,11,12,13,16,22,24,25,26,27,28,29,30,31,32,33,36,49,50,52,],[8,8,-3,-4,-5,-6,-7,14,18,-2,18,-11,18,-10,18,18,18,18,18,18,18,18,18,18,-9,-8,18,18,]),'RGOTO':([0,2,3,4,5,6,7,11,13,22,23,36,49,],[9,9,-3,-4,-5,-6,-7,-2,-11,-10,9,-9,-8,]),'RIF':([0,2,3,4,5,6,7,11,13,22,36,49,],[10,10,-3,-4,-5,-6,-7,-2,-11,-10,-9,-8,]),'$end':([1,2,3,4,5,6,7,11,13,22,36,49,],[0,-1,-3,-4,-5,-6,-7,-2,-11,-10,-9,-8,]),'IGUAL':([8,],[12,]),'DOSPT':([8,],[13,]),'RMATH':([10,12,16,24,25,26,27,28,29,30,31,32,33,50,52,],[17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,]),'MENOS':([10,12,15,16,18,19,20,21,24,25,26,27,28,29,30,31,32,33,34,38,39,40,41,42,43,44,45,46,47,50,51,52,53,54,],[16,16,25,16,-24,-25,-26,25,16,16,16,16,16,16,16,16,16,16,-17,-12,-13,-14,-15,25,25,25,25,25,25,16,25,16,25,-16,]),'ENTERO':([10,12,16,24,25,26,27,28,29,30,31,32,33,50,52,],[19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,]),'DECIMAL':([10,12,16,24,25,26,27,28,29,30,31,32,33,50,52,],[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,]),'PTCOMA':([14,18,19,20,21,34,38,39,40,41,42,43,44,45,46,47,54,],[22,-24,-25,-26,36,-17,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,-16,]),'LLAIZQ':([15,18,19,20,34,38,39,40,41,42,43,44,45,46,47,54,],[23,-24,-25,-26,-17,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,-16,]),'MAS':([15,18,19,20,21,34,38,39,40,41,42,43,44,45,46,47,51,53,54,],[24,-24,-25,-26,24,-17,-12,-13,-14,-15,24,24,24,24,24,24,24,24,-16,]),'MULTIPLICACION':([15,18,19,20,21,34,38,39,40,41,42,43,44,45,46,47,51,53,54,],[26,-24,-25,-26,26,-17,26,26,-14,-15,26,26,26,26,26,26,26,26,-16,]),'DIVISION':([15,18,19,20,21,34,38,39,40,41,42,43,44,45,46,47,51,53,54,],[27,-24,-25,-26,27,-17,27,27,-14,-15,27,27,27,27,27,27,27,27,-16,]),'IGUALIGUAL':([15,18,19,20,21,34,38,39,40,41,42,43,44,45,46,47,51,53,54,],[28,-24,-25,-26,28,-17,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,28,28,-16,]),'DISTINTO':([15,18,19,20,21,34,38,39,40,41,42,43,44,45,46,47,51,53,54,],[29,-24,-25,-26,29,-17,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,29,29,-16,]),'MAYOR':([15,18,19,20,21,34,38,39,40,41,42,43,44,45,46,47,51,53,54,],[30,-24,-25,-26,30,-17,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,30,30,-16,]),'MENOR':([15,18,19,20,21,34,38,39,40,41,42,43,44,45,46,47,51,53,54,],[31,-24,-25,-26,31,-17,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,31,31,-16,]),'MAYORIGUAL':([15,18,19,20,21,34,38,39,40,41,42,43,44,45,46,47,51,53,54,],[32,-24,-25,-26,32,-17,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,32,32,-16,]),'MENORIGUAL':([15,18,19,20,21,34,38,39,40,41,42,43,44,45,46,47,51,53,54,],[33,-24,-25,-26,33,-17,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,33,33,-16,]),'PUNTO':([17,],[35,]),'COMA':([18,19,20,34,38,39,40,41,42,43,44,45,46,47,51,54,],[-24,-25,-26,-17,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,52,-16,]),'PARDER':([18,19,20,34,38,39,40,41,42,43,44,45,46,47,53,54,],[-24,-25,-26,-17,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,54,-16,]),'LLADER':([22,37,],[-10,49,]),'RMOD':([35,],[48,]),'PARIZQ':([48,],[50,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'initial':([0,],[1,]),'instructions':([0,],[2,]),'instruction':([0,2,],[3,9,]),'assignment':([0,2,],[4,4,]),'gotoSt':([0,2,],[5,5,]),'labelSt':([0,2,],[6,6,]),'exp':([10,15,21,22,23,24,25,26,27,28,29,30,44,46,],[14,31,33,34,35,36,37,38,39,40,41,42,45,47,]),}
+_lr_goto_items = {'initial':([0,],[1,]),'instructions':([0,],[2,]),'instruction':([0,2,],[3,11,]),'assignment':([0,2,],[4,4,]),'gotoSt':([0,2,23,],[5,5,37,]),'labelSt':([0,2,],[6,6,]),'ifSt':([0,2,],[7,7,]),'exp':([10,12,16,24,25,26,27,28,29,30,31,32,33,50,52,],[15,21,34,38,39,40,41,42,43,44,45,46,47,51,53,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,28 +27,30 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> initial","S'",1,None,None,None),
-  ('initial -> instructions','initial',1,'p_initial','GramaticaC3D.py',152),
-  ('instructions -> instructions instruction','instructions',2,'p_instructions','GramaticaC3D.py',157),
-  ('instructions -> instruction','instructions',1,'p_instructions','GramaticaC3D.py',158),
-  ('instruction -> assignment','instruction',1,'p_instruction','GramaticaC3D.py',169),
-  ('instruction -> gotoSt','instruction',1,'p_instruction','GramaticaC3D.py',170),
-  ('instruction -> labelSt','instruction',1,'p_instruction','GramaticaC3D.py',171),
-  ('assignment -> ID IGUAL exp PTCOMA','assignment',4,'p_assignment','GramaticaC3D.py',178),
-  ('gotoSt -> RGOTO ID PTCOMA','gotoSt',3,'p_gotoSt','GramaticaC3D.py',184),
-  ('labelSt -> ID DOSPT','labelSt',2,'p_labelSt','GramaticaC3D.py',190),
-  ('exp -> exp MAS exp','exp',3,'p_exp_aritmetica','GramaticaC3D.py',197),
-  ('exp -> exp MENOS exp','exp',3,'p_exp_aritmetica','GramaticaC3D.py',198),
-  ('exp -> exp MULTIPLICACION exp','exp',3,'p_exp_aritmetica','GramaticaC3D.py',199),
-  ('exp -> exp DIVISION exp','exp',3,'p_exp_aritmetica','GramaticaC3D.py',200),
-  ('exp -> RMATH PUNTO RMOD PARIZQ exp COMA exp PARDER','exp',8,'p_exp_aritmetica','GramaticaC3D.py',201),
-  ('exp -> MENOS exp','exp',2,'p_exp_aritmetica','GramaticaC3D.py',202),
-  ('exp -> exp IGUALIGUAL exp','exp',3,'p_exp_relacional','GramaticaC3D.py',219),
-  ('exp -> exp DISTINTO exp','exp',3,'p_exp_relacional','GramaticaC3D.py',220),
-  ('exp -> exp MAYOR exp','exp',3,'p_exp_relacional','GramaticaC3D.py',221),
-  ('exp -> exp MENOR exp','exp',3,'p_exp_relacional','GramaticaC3D.py',222),
-  ('exp -> exp MAYORIGUAL exp','exp',3,'p_exp_relacional','GramaticaC3D.py',223),
-  ('exp -> exp MENORIGUAL exp','exp',3,'p_exp_relacional','GramaticaC3D.py',224),
-  ('exp -> ID','exp',1,'p_exp_variable','GramaticaC3D.py',241),
-  ('exp -> ENTERO','exp',1,'p_exp_valor_entero','GramaticaC3D.py',247),
-  ('exp -> DECIMAL','exp',1,'p_exp_valor_decimal','GramaticaC3D.py',253),
+  ('initial -> instructions','initial',1,'p_initial','GramaticaC3D.py',154),
+  ('instructions -> instructions instruction','instructions',2,'p_instructions','GramaticaC3D.py',159),
+  ('instructions -> instruction','instructions',1,'p_instructions','GramaticaC3D.py',160),
+  ('instruction -> assignment','instruction',1,'p_instruction','GramaticaC3D.py',171),
+  ('instruction -> gotoSt','instruction',1,'p_instruction','GramaticaC3D.py',172),
+  ('instruction -> labelSt','instruction',1,'p_instruction','GramaticaC3D.py',173),
+  ('instruction -> ifSt','instruction',1,'p_instruction','GramaticaC3D.py',174),
+  ('ifSt -> RIF exp LLAIZQ gotoSt LLADER','ifSt',5,'p_ifSt','GramaticaC3D.py',181),
+  ('assignment -> ID IGUAL exp PTCOMA','assignment',4,'p_assignment','GramaticaC3D.py',187),
+  ('gotoSt -> RGOTO ID PTCOMA','gotoSt',3,'p_gotoSt','GramaticaC3D.py',193),
+  ('labelSt -> ID DOSPT','labelSt',2,'p_labelSt','GramaticaC3D.py',199),
+  ('exp -> exp MAS exp','exp',3,'p_exp_aritmetica','GramaticaC3D.py',206),
+  ('exp -> exp MENOS exp','exp',3,'p_exp_aritmetica','GramaticaC3D.py',207),
+  ('exp -> exp MULTIPLICACION exp','exp',3,'p_exp_aritmetica','GramaticaC3D.py',208),
+  ('exp -> exp DIVISION exp','exp',3,'p_exp_aritmetica','GramaticaC3D.py',209),
+  ('exp -> RMATH PUNTO RMOD PARIZQ exp COMA exp PARDER','exp',8,'p_exp_aritmetica','GramaticaC3D.py',210),
+  ('exp -> MENOS exp','exp',2,'p_exp_aritmetica','GramaticaC3D.py',211),
+  ('exp -> exp IGUALIGUAL exp','exp',3,'p_exp_relacional','GramaticaC3D.py',228),
+  ('exp -> exp DISTINTO exp','exp',3,'p_exp_relacional','GramaticaC3D.py',229),
+  ('exp -> exp MAYOR exp','exp',3,'p_exp_relacional','GramaticaC3D.py',230),
+  ('exp -> exp MENOR exp','exp',3,'p_exp_relacional','GramaticaC3D.py',231),
+  ('exp -> exp MAYORIGUAL exp','exp',3,'p_exp_relacional','GramaticaC3D.py',232),
+  ('exp -> exp MENORIGUAL exp','exp',3,'p_exp_relacional','GramaticaC3D.py',233),
+  ('exp -> ID','exp',1,'p_exp_variable','GramaticaC3D.py',250),
+  ('exp -> ENTERO','exp',1,'p_exp_valor_entero','GramaticaC3D.py',256),
+  ('exp -> DECIMAL','exp',1,'p_exp_valor_decimal','GramaticaC3D.py',262),
 ]

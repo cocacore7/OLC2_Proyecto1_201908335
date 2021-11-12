@@ -153,17 +153,12 @@ t_ignore_COMMENTM = r'\#=(.|\n)*?=\#'
 
 def t_newline(t):
     r'\n+'
-    t.lexer.lineno += len(t.value)
-
-
-def find_column(input, token):
-    line_start = input.rfind('\n', 0, token.lexpos) + 1
-    return (token.lexpos - line_start) + 1
+    t.lexer.lineno += t.value.count("\n")
 
 
 def t_error(t):
     Errores.append(
-        {'Descripcion': "Error Lexico", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+        {'Descripcion': "Error Lexico", 'Linea': str(t.lexer.lineno), 'Columna': str(t.lexer.lexpos), 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
     t.lexer.skip(1)
 
 
@@ -1155,7 +1150,7 @@ def p_exp_array(t):
 # ====================================================
 def p_error(t):
     Errores.append(
-        {'Descripcion': "Error sintáctico", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+        {'Descripcion': "Error sintáctico", 'Linea': str(t.lexer.lineno), 'Columna': str(t.lexer.lexpos), 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
 
 import Analyzer.ply.yacc as yacc

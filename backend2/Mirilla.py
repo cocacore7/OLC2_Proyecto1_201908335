@@ -8,8 +8,12 @@ class Mirilla:
     def __init__(self) -> None:
         self.instructionsRule1 = []
         self.instructionsRule2 = []
+        self.instructionsRule3 = []
         self.instructionsRule6 = []
         self.saltoRule2 = None
+        self.salto1Rule3 = None
+        self.salto2Rule3 = None
+        self.Label1Rule3 = None
 
     def rule1(self, C3D):
         for ins in C3D:
@@ -25,7 +29,7 @@ class Mirilla:
                     self.instructionsRule1.append(ins)
                 else:
                     self.instructionsRule1.append(ins)
-            elif ins.getType() == typeInstruction.LABEL:
+            else:
                 self.instructionsRule1.clear()
         return C3D
 
@@ -46,6 +50,43 @@ class Mirilla:
                     self.saltoRule2 = None
             if self.saltoRule2 is not None:
                 self.instructionsRule2.append(ins)
+        return C3D
+
+    def rule3(self, C3D):
+        for ins in C3D:
+            if ins.getType() == typeInstruction.IF and self.salto1Rule3 is None:
+                self.salto1Rule3 = ins
+            elif ins.getType() == typeInstruction.GOTO and self.salto1Rule3 is not None:
+                self.salto2Rule3 = ins
+            elif ins.getType() == typeInstruction.LABEL and self.salto1Rule3 is not None and self.salto2Rule3 is not None:
+                if self.salto1Rule3 is not None and self.salto2Rule3 is None:
+                    self.salto1Rule3 = None
+                    self.salto2Rule3 = None
+                    self.Label1Rule3 = None
+
+                elif self.salto1Rule3 is not None and self.salto2Rule3 is not None:
+                    if self.salto1Rule3.goto.value == ins.value and self.Label1Rule3 is None:
+                        self.Label1Rule3 = ins
+                    elif self.salto2Rule3.value == ins.value and self.Label1Rule3 is not None:
+                        self.salto1Rule3.goto.value = ins.value
+                        self.salto2Rule3.write = False
+                        if self.salto1Rule3.exp.operation == typeExpression.IGUAL:
+                            self.salto1Rule3.exp.operation = typeExpression.DISTINTO
+                        elif self.salto1Rule3.exp.operation == typeExpression.DISTINTO:
+                            self.salto1Rule3.exp.operation = typeExpression.IGUAL
+                        elif self.salto1Rule3.exp.operation == typeExpression.MENOR:
+                            self.salto1Rule3.exp.operation = typeExpression.MAYOR
+                        elif self.salto1Rule3.exp.operation == typeExpression.MAYOR:
+                            self.salto1Rule3.exp.operation = typeExpression.MENOR
+                        elif self.salto1Rule3.exp.operation == typeExpression.MENORIGUAL:
+                            self.salto1Rule3.exp.operation = typeExpression.MAYORIGUAL
+                        elif self.salto1Rule3.exp.operation == typeExpression.MAYORIGUAL:
+                            self.salto1Rule3.exp.operation = typeExpression.MENORIGUAL
+                        self.Label1Rule3.write = False
+                    else:
+                        self.salto1Rule3 = None
+                        self.salto2Rule3 = None
+                        self.Label1Rule3 = None
         return C3D
 
     def rule6(self, C3D):
