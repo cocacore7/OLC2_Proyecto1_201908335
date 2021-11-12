@@ -45,17 +45,14 @@ class Multiply(Expression):
                 self.generator.addActHeap(newTemp)
 
                 # String 1
-                tmp2 = self.generator.newTemp()
-                self.generator.getPointerP(tmp2)
-                self.generator.setPointerP(leftValue.getValue())
+                self.generator.addExpression("t12", leftValue.getValue(), "", "")
                 self.generator.addCallFunc("concatenate_strings_proc")
 
                 # String 2
-                self.generator.setPointerP(rightValue.getValue())
+                self.generator.addExpression("t12", rightValue.getValue(), "", "")
                 self.generator.addCallFunc("concatenate_strings_proc")
                 self.generator.addSetHeap("H", str(-1))
                 self.generator.addNextHeap()
-                self.generator.setPointerP(tmp2)
 
                 return Value(newTemp, False, typeExpression.STRING)
 

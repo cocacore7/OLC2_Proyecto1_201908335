@@ -5,7 +5,7 @@ class Generator:
 
     def __init__(self) -> None:
         self.generator = None
-        self.temporal = 12
+        self.temporal = 13
         self.label = 0
         self.code = []
         self.tempList = []
@@ -24,12 +24,12 @@ class Generator:
         tempCode = tempCode + "var stack [30101999]float64;\n"
         tempCode = tempCode + "var heap [30101999]float64;\n"
         tempCode = tempCode + "var P, H float64;\n"
-        tempCode = tempCode + "var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,"
+        tempCode = tempCode + "var t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,"
 
         if len(self.tempList) > 0:
             tempCode = tempCode + self.getUsedTemps()
         else:
-            tempCode = tempCode + "t12"
+            tempCode = tempCode + "t13"
 
         tempCode = tempCode + " float64;\n"
 
@@ -87,7 +87,7 @@ class Generator:
         tempCode = tempCode + '}\n'
 
         tempCode = tempCode + '\nfunc print_String_proc(){\n'
-        tempCode = tempCode + 't0 = P;\n'
+        tempCode = tempCode + 't0 = t12;\n'
         tempCode = tempCode + 't1 = t0;\n'
         tempCode = tempCode + 'L0:\n'
         tempCode = tempCode + 't2 = heap[int(t1)];\n'
@@ -100,7 +100,7 @@ class Generator:
         tempCode = tempCode + '}\n'
 
         tempCode = tempCode + '\nfunc concatenate_strings_proc(){\n'
-        tempCode = tempCode + 't3 = P;\n'
+        tempCode = tempCode + 't3 = t12;\n'
         tempCode = tempCode + 't4 = t3;\n'
         tempCode = tempCode + 'L2:\n'
         tempCode = tempCode + 't5 = heap[int(t4)];\n'

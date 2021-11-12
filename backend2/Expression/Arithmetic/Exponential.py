@@ -70,7 +70,6 @@ class Exponential(Expression):
             if rightValue.type == typeExpression.INTEGER:
                 tmpr = self.generator.newTemp()
                 tmp = self.generator.newTemp()
-                tmp2 = self.generator.newTemp()
                 LabelTrue = self.generator.newLabel()
                 LabelFalse = self.generator.newLabel()
 
@@ -79,10 +78,8 @@ class Exponential(Expression):
                 self.generator.addActHeap(tmpr)
                 self.generator.addLabel(LabelTrue)
                 self.generator.addExpression(tmp, tmp, "1", "-")
-                self.generator.getPointerP(tmp2)
-                self.generator.setPointerP(leftValue.getValue())
+                self.generator.addExpression("t12", leftValue.getValue(), "", "")
                 self.generator.addCallFunc("concatenate_strings_proc")
-                self.generator.setPointerP(tmp2)
                 self.generator.addIf(tmp, "0", "==", LabelFalse)
                 self.generator.addGoto(LabelTrue)
                 self.generator.addLabel(LabelFalse)

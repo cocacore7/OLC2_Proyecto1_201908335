@@ -45,11 +45,8 @@ class Print(Instruction):
                 self.generator.addLabel(newLabel)
 
             elif tempValue.type == typeExpression.STRING:
-                tmp = self.generator.newTemp()
-                self.generator.getPointerP(tmp)
-                self.generator.setPointerP(tempValue.getValue())
+                self.generator.addExpression("t12", tempValue.getValue(), "", "")
                 self.generator.addCallFunc("print_String_proc")
-                self.generator.setPointerP(tmp)
 
             elif tempValue.type == typeExpression.INTEGERA:
                 self.generator.addExpression("t11", tempValue.getValue(), "", "")
