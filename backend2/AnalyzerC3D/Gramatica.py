@@ -1,0 +1,258 @@
+reservadas = {
+    '"package"': 'RPACKAGE',
+    '"main"': 'RMAIN',
+    'import': 'RIMPORT',
+    '"fmt"': 'RFMT',
+    '"math"': 'RMATH',
+    'Mod': 'RMOD',
+    'var': 'RVAR',
+    'stack': 'RSTACK',
+    'heap': 'RHEAP',
+    'float64': 'RFLOAT',
+    '[30101999]': 'RCANT',
+    'func': 'RFUNC',
+    'goto': 'RGOTO',
+    'if': 'RIF',
+    'Printf': 'RPRINTF',
+    '-0.000001': 'ROPENA',
+    '-0.000002': 'RCLOSEA',
+}
+
+tokens = [
+    'ENTERO',
+    'DECIMAL',
+    'ID',
+
+    'MAS',
+    'MENOS',
+    'MULTIPLICACION',
+    'DIVISION',
+
+    'MAYOR',
+    'MENOR',
+    'IGUALIGUAL',
+    'MAYORIGUAL',
+    'MENORIGUAL',
+    'DISTINTO',
+    'IGUAL',
+
+    'PARIZQ',
+    'PARDER',
+    'LLADER',
+    'LLAIZQ',
+    'CORDER',
+    'CORIZQ',
+    'DOSPT',
+    'COMA',
+    'PUNTO',
+    'PTCOMA',
+
+    'PRCHAR',
+    'PRINTEGER',
+    'PRFLOAT',
+] + list(reservadas.values())
+
+# Tokens
+t_MAS = r'\+'
+t_MENOS = r'-'
+t_MULTIPLICACION = r'\*'
+t_DIVISION = r'/'
+
+t_MAYOR = r'>'
+t_MENOR = r'<'
+t_MAYORIGUAL = r'>='
+t_MENORIGUAL = r'<='
+t_IGUALIGUAL = r'=='
+t_DISTINTO = r'!='
+
+t_PARIZQ = r'\('
+t_PARDER = r'\)'
+t_CORIZQ = r'\['
+t_CORDER = r'\]'
+t_LLAIZQ = r'\{'
+t_LLADER = r'\}'
+t_IGUAL = r'='
+t_DOSPT = r':'
+t_COMA = r'\,'
+t_PUNTO = r'\.'
+t_PTCOMA = r'\;'
+
+
+t_PRCHAR = r'"%c"'
+t_PRINTEGER = r'"%d"'
+t_PRFLOAT = r'"%f"'
+
+
+def t_DECIMAL(t):
+    r'\d+\.\d+'
+    try:
+        t.value = float(t.value)
+    except ValueError:
+        print("Floaat value too large %d", t.value)
+        t.value = 0
+    return t
+
+
+def t_ENTERO(t):
+    r'\d+'
+    try:
+        t.value = int(t.value)
+    except ValueError:
+        print("Integer value too large %d", t.value)
+        t.value = 0
+    return t
+
+
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reservadas.get(t.value, 'ID')
+    return t
+
+
+# Caracteres ignorados
+t_ignore = " \t\r"
+t_ignore_COMMENT = r'\#.*'
+t_ignore_COMMENTM = r'\#=(.|\n)*?=\#'
+
+
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += t.value.count("\n")
+
+
+# Construyendo el analizador léxico
+from Globales.Tablas import Errores
+from datetime import datetime
+
+from Enum.typeExpresionC3D import typeExpression
+from OptimizacionC3D.AssignmentC3D import AssignmentC3D
+from OptimizacionC3D.LabelC3D import LabelC3D
+from OptimizacionC3D.ArithmeticC3D import ArithmeticC3D
+from OptimizacionC3D.PrimitiveC3D import PrimitiveC3D
+from OptimizacionC3D.RelationalC3D import RelationalC3D
+
+import Analyzer.ply.lex as lex
+
+lexer = lex.lex()
+
+# Asociación de operadores y precedencia
+precedence = (
+    ('left', 'IGUALIGUAL', 'DISTINTO', 'MAYOR', 'MENOR', 'MAYORIGUAL', 'MENORIGUAL'),
+    ('left', 'MAS', 'MENOS'),
+    ('left', 'MULTIPLICACION', 'DIVISION'),
+    ('right', 'UMENOS')
+)
+
+
+# ================================Definición de la gramática
+def p_initial(t):
+    '''initial : instructions'''
+    t[0] = t[1]
+
+
+def p_instructions(t):
+    '''instructions : instructions instruction
+                    | instruction
+    '''
+    if len(t) == 3:
+        t[1].append(t[2])
+        t[0] = t[1]
+    elif len(t) == 2:
+        t[0] = [t[1]]
+
+
+# ================================INSTRUCCIONES
+def p_instruction(t):
+    '''instruction  : assignment
+                    | RGOTO ID PTCOMA
+                    | labelSt
+    '''
+    t[0] = t[1]
+
+
+# ================================INSTRUCCIONES
+def p_assignment(t):
+    '''assignment   : ID IGUAL exp PTCOMA
+    '''
+    t[0] = AssignmentC3D(t[1], t[3])
+
+
+def p_labelSt(t):
+    '''labelSt : ID DOSPT
+    '''
+    t[0] = LabelC3D(t[1])
+
+
+# ================================EXPRESIONES ARITMETICAS, LOGICAS Y RELACIONALES
+def p_exp_aritmetica(t):
+    '''exp  : exp MAS exp
+            | exp MENOS exp
+            | exp MULTIPLICACION exp
+            | exp DIVISION exp
+            | exp POTENCIA exp
+            | exp MODULO exp
+            | MENOS exp %prec UMENOS
+    '''
+    if t[2] == '+':
+        t[0] = ArithmeticC3D(t[1], t[3], typeExpression.PLUS)
+    elif t[2] == '-':
+        t[0] = ArithmeticC3D(t[1], t[3], typeExpression.MINUS)
+    elif t[2] == '*':
+        t[0] = ArithmeticC3D(t[1], t[3], typeExpression.MULTIPLY)
+    elif t[2] == '/':
+        t[0] = ArithmeticC3D(t[1], t[3], typeExpression.DIV)
+    elif t[2] == '%':
+        t[0] = ArithmeticC3D(t[1], t[3], typeExpression.MOD)
+    elif t[1] == '-':
+        t[0] = ArithmeticC3D(t[2], None, typeExpression.NEG)
+
+
+def p_exp_relacional(t):
+    '''exp  : exp IGUALIGUAL exp
+            | exp DISTINTO exp
+            | exp MAYOR exp
+            | exp MENOR exp
+            | exp MAYORIGUAL exp
+            | exp MENORIGUAL exp
+    '''
+    if t[2] == '==':
+        t[0] = RelationalC3D(t[1], t[3], typeExpression.IGUAL)
+    elif t[2] == '!=':
+        t[0] = RelationalC3D(t[1], t[3], typeExpression.DISTINTO)
+    elif t[2] == '>':
+        t[0] = RelationalC3D(t[1], t[3], typeExpression.MAYOR)
+    elif t[2] == '<':
+        t[0] = RelationalC3D(t[1], t[3], typeExpression.MENOR)
+    elif t[2] == '>=':
+        t[0] = RelationalC3D(t[1], t[3], typeExpression.MAYORIGUAL)
+    elif t[2] == '<=':
+        t[0] = RelationalC3D(t[1], t[3], typeExpression.MENORIGUAL)
+
+
+def p_exp_variable(t):
+    '''exp  : ID
+    '''
+    t[0] = PrimitiveC3D(t[1])
+
+
+def p_exp_valor_entero(t):
+    '''exp  : ENTERO
+    '''
+    t[0] = PrimitiveC3D(t[1])
+
+
+def p_exp_valor_decimal(t):
+    '''exp  : DECIMAL
+    '''
+    t[0] = PrimitiveC3D(t[1])
+
+
+# ====================================================
+def p_error(t):
+    Errores.append(
+        {'Descripcion': "Error sintáctico", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+
+
+import Analyzer.ply.yacc as yacc
+
+parser = yacc.yacc()

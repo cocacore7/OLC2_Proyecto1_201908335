@@ -34,28 +34,28 @@ fmt.Printf("%c", 10);
 }
 
 func print_true_proc(){
-fmt.Printf("%c", int(116));
-fmt.Printf("%c", int(114));
-fmt.Printf("%c", int(117));
-fmt.Printf("%c", int(101));
+fmt.Printf("%c", 116);
+fmt.Printf("%c", 114);
+fmt.Printf("%c", 117);
+fmt.Printf("%c", 101);
 }
 
 func print_false_proc(){
-fmt.Printf("%c", int(102));
-fmt.Printf("%c", int(97));
-fmt.Printf("%c", int(108));
-fmt.Printf("%c", int(115));
-fmt.Printf("%c", int(101));
+fmt.Printf("%c", 102);
+fmt.Printf("%c", 97);
+fmt.Printf("%c", 108);
+fmt.Printf("%c", 115);
+fmt.Printf("%c", 101);
 }
 
 func print_nothing_proc(){
-fmt.Printf("%c", int(78));
-fmt.Printf("%c", int(111));
-fmt.Printf("%c", int(116));
-fmt.Printf("%c", int(104));
-fmt.Printf("%c", int(105));
-fmt.Printf("%c", int(110));
-fmt.Printf("%c", int(103));
+fmt.Printf("%c", 78);
+fmt.Printf("%c", 111);
+fmt.Printf("%c", 116);
+fmt.Printf("%c", 104);
+fmt.Printf("%c", 105);
+fmt.Printf("%c", 110);
+fmt.Printf("%c", 103);
 }
 
 func print_String_proc(){
