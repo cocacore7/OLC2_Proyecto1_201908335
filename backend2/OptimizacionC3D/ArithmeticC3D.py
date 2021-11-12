@@ -27,5 +27,7 @@ class ArithmeticC3D(Expression):
             return "math.Mod( " + self.left.writeC3D() + ", " + self.rigth.writeC3D() + " )"
         elif self.operation == typeExpression.NEG:
             return "-" + self.left.writeC3D()
+        elif self.operation == typeExpression.PRIMITIVE:
+            return self.left.writeC3D()
 
         return self.left.writeC3D() + " " + operator + " " + self.rigth.writeC3D()

@@ -86,7 +86,7 @@ t_PRFLOAT = r'"%f"'
 def t_DECIMAL(t):
     r'\d+\.\d+'
     try:
-        t.value = float(t.value)
+        t.value = t.value
     except ValueError:
         print("Floaat value too large %d", t.value)
         t.value = 0
@@ -96,7 +96,7 @@ def t_DECIMAL(t):
 def t_ENTERO(t):
     r'\d+'
     try:
-        t.value = int(t.value)
+        t.value = t.value
     except ValueError:
         print("Integer value too large %d", t.value)
         t.value = 0

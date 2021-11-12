@@ -1,5 +1,6 @@
 from Enum.typeExpresionC3D import typeExpression
 from Enum.typeInstructionC3D import typeInstruction
+from OptimizacionC3D.ArithmeticC3D import ArithmeticC3D
 
 
 class Mirilla:
@@ -7,6 +8,7 @@ class Mirilla:
     def __init__(self) -> None:
         self.instructionsRule1 = []
         self.instructionsRule2 = []
+        self.instructionsRule6 = []
         self.saltoRule2 = None
 
     def rule1(self, C3D):
@@ -44,4 +46,44 @@ class Mirilla:
                     self.saltoRule2 = None
             if self.saltoRule2 is not None:
                 self.instructionsRule2.append(ins)
+        return C3D
+
+    def rule6(self, C3D):
+        for ins in C3D:
+            if ins.getType() == typeInstruction.ASSIGNMENT:
+                if type(ins.value) == ArithmeticC3D:
+                    if ins.target == ins.value.left.value:
+                        if ins.value.getType() == typeExpression.PLUS:
+                            if ins.value.rigth.value == "0":
+                                ins.write = False
+                        elif ins.value.getType() == typeExpression.MINUS:
+                            if ins.value.rigth.value == "0":
+                                ins.write = False
+                        elif ins.value.getType() == typeExpression.MULTIPLY:
+                            if ins.value.rigth.value == "1":
+                                ins.write = False
+                        elif ins.value.getType() == typeExpression.DIV:
+                            if ins.value.rigth.value == "1":
+                                ins.write = False
+                self.instructionsRule6.append(ins)
+        return C3D
+
+    def rule7(self, C3D):
+        for ins in C3D:
+            if ins.getType() == typeInstruction.ASSIGNMENT:
+                if type(ins.value) == ArithmeticC3D:
+                    if ins.target != ins.value.left.value:
+                        if ins.value.getType() == typeExpression.PLUS:
+                            if ins.value.rigth.value == "0":
+                                ins.value.operation = typeExpression.PRIMITIVE
+                        elif ins.value.getType() == typeExpression.MINUS:
+                            if ins.value.rigth.value == "0":
+                                ins.value.operation = typeExpression.PRIMITIVE
+                        elif ins.value.getType() == typeExpression.MULTIPLY:
+                            if ins.value.rigth.value == "1":
+                                ins.value.operation = typeExpression.PRIMITIVE
+                        elif ins.value.getType() == typeExpression.DIV:
+                            if ins.value.rigth.value == "1":
+                                ins.value.operation = typeExpression.PRIMITIVE
+                self.instructionsRule6.append(ins)
         return C3D
