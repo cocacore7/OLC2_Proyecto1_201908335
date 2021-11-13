@@ -8,9 +8,11 @@ from datetime import datetime
 
 class UpperCase(Instruction):
 
-    def __init__(self, value) -> None:
+    def __init__(self, value, line: str, col: str) -> None:
         super().__init__()
         self.value = value
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
         self.value.generator = self.generator
@@ -45,5 +47,5 @@ class UpperCase(Instruction):
             self.generator.addLabel(falseLabel)
             return value
         else:
-            Errores.append({'Descripcion': "Error en UpperCase", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            Errores.append({'Descripcion': "Error en UpperCase", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.INTEGER)

@@ -8,10 +8,12 @@ from datetime import datetime
 
 class NumberVal(Expression):
 
-    def __init__(self, type: typeExpression, value) -> None:
+    def __init__(self, type: typeExpression, value, line: str, col: str) -> None:
         super().__init__()
         self.type = type
         self.value = value
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
         if self.type == typeExpression.INTEGER or self.type == typeExpression.FLOAT:
@@ -57,6 +59,5 @@ class NumberVal(Expression):
         elif self.type == typeExpression.NULO:
             return Value(str(self.value), False, self.type)
 
-        Errores.append({'Descripcion': "No se reconoce el tipo", 'Linea': "0", 'Columna': "0",
-                        'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+        Errores.append({'Descripcion': "No se reconoce el tipo", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return Value("0", False, typeExpression.INTEGER)

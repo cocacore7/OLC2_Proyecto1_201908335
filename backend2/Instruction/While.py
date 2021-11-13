@@ -12,13 +12,15 @@ from datetime import datetime
 
 class While(Instruction):
 
-    def __init__(self, condition: Expression, block) -> None:
+    def __init__(self, condition: Expression, block, line: str, col: str) -> None:
         super().__init__()
         self.condition = condition
         self.block = block
         self.funtioncReturn = ""
         self.LabelSalir = ""
         self.espacioReturn = 0
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
         self.condition.generator = self.generator
@@ -58,4 +60,4 @@ class While(Instruction):
                 self.generator.addGoto(newLabel)
             self.generator.addLabel(valueCondition.falseLabel)
         else:
-            Errores.append({'Descripcion': "Error en While", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            Errores.append({'Descripcion': "Error en While", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})

@@ -336,9 +336,9 @@ def p_print(t):
                 | PRINT PARIZQ PARDER PTCOMA
     '''
     if len(t) == 6:
-        t[0] = Print(t[3])
+        t[0] = Print(t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     else:
-        t[0] = Print([NumberVal(typeExpression.CHAR, '\n')])
+        t[0] = Print([NumberVal(typeExpression.CHAR, '\n', str(t.lexer.lineno), str(t.lexer.lexpos))], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_println(t):
@@ -346,9 +346,9 @@ def p_println(t):
                     | PRINTLN PARIZQ PARDER PTCOMA
     '''
     if len(t) == 6:
-        t[0] = Println(t[3])
+        t[0] = Println(t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     else:
-        t[0] = Println([NumberVal(typeExpression.CHAR, '')])
+        t[0] = Println([NumberVal(typeExpression.CHAR, '', str(t.lexer.lineno), str(t.lexer.lexpos))], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_expresions(t):
@@ -520,24 +520,24 @@ def p_assignment(t):
                     | LOCAL ID listArray2 IGUAL exp PTCOMA
     '''
     if len(t) == 8:
-        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "N", "N")
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 11:
-        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], t[9]), t[9], True, "N", "N")
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], t[9]), t[9], True, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 12:
-        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "N", "N")
+        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 9:
         if t[1] == "local":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "N", "N")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "N", "N")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "N", "N")
+            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 6:
-        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "N", "N")
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 10:
-        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "N", "N")
+        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 7:
-        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "N", "N")
+        t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_assignmentf(t):
@@ -556,33 +556,33 @@ def p_assignmentf(t):
                     | LOCAL ID listArray2 IGUAL exp PTCOMA
     '''
     if len(t) == 8:
-        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "L", "F")
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 11:
-        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], t[9]), t[9], True, "L", "F")
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], t[9]), t[9], True, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 12:
         if t[1] == "local":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "L", "F")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "G", "F")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "G", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 9:
         if t[1] == "local":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "L", "F")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "G", "F")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "G", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "L", "F")
+            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 6:
-        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "L", "F")
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 10:
         if t[1] == "local":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "L", "F")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "G", "F")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "G", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 7:
         if t[1] == "local":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "L", "F")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "G", "F")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "G", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_assignmentc(t):
@@ -601,33 +601,33 @@ def p_assignmentc(t):
                     | LOCAL ID listArray2 IGUAL exp PTCOMA
     '''
     if len(t) == 8:
-        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "G", "C")
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 11:
-        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], t[9]), t[9], True, "G", "C")
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], Array(t[5], t[9]), t[9], True, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 12:
         if t[1] == "local":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "L", "C")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "L", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "G", "C")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], t[10]), t[10], True, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 9:
         if t[1] == "local":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "L", "C")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "L", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "G", "C")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], Array(t[6], typeExpression.ANY), typeExpression.ANY, True, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "G", "C")
+            t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], t[7], False, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 6:
-        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "G", "C")
+        t[0] = AssignmentArray(t[1], VariableCall(t[1]), t[2], t[4], typeExpression.NULO, False, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 10:
         if t[1] == "local":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "L", "C")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "L", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "G", "C")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], t[8], False, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 7:
         if t[1] == "local":
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "L", "C")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "L", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "G", "C")
+            t[0] = AssignmentArray(t[2], VariableCall(t[2]), t[3], t[5], typeExpression.NULO, False, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 # ================================FUNCIONES
@@ -717,21 +717,21 @@ def p_ifSt(t):
                 | RIF exp blockiff elseifSt RELSE END PTCOMA
     '''
     if len(t) == 5:
-        t[0] = If(t[2], Block([]), [], Block([]))
+        t[0] = If(t[2], Block([]), [], Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 6:
-        t[0] = If(t[2], Block(t[3]), [], Block([]))
+        t[0] = If(t[2], Block(t[3]), [], Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 8:
         if t[4] == 'else':
-            t[0] = If(t[2], Block(t[3]), [], Block(t[5]))
+            t[0] = If(t[2], Block(t[3]), [], Block(t[5]), str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[5] == 'else':
-            t[0] = If(t[2], Block(t[3]), t[4], Block([]))
+            t[0] = If(t[2], Block(t[3]), t[4], Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 7:
         if t[4] == 'else':
-            t[0] = If(t[2], Block(t[3]), [], Block([]))
+            t[0] = If(t[2], Block(t[3]), [], Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[5] == 'end':
-            t[0] = If(t[2], Block(t[3]), t[4], Block([]))
+            t[0] = If(t[2], Block(t[3]), t[4], Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 9:
-        t[0] = If(t[2], Block(t[3]), t[4], Block(t[6]))
+        t[0] = If(t[2], Block(t[3]), t[4], Block(t[6]), str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_elseifSt(t):
@@ -756,9 +756,9 @@ def p_conelseift(t):
                     | RELSEIF exp
     '''
     if len(t) == 3:
-        t[0] = If(t[2], Block([]), Block([]), Block([]))
+        t[0] = If(t[2], Block([]), Block([]), Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 4:
-        t[0] = If(t[2], Block(t[3]), Block([]), Block([]))
+        t[0] = If(t[2], Block(t[3]), Block([]), Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_ifStc(t):
@@ -771,21 +771,21 @@ def p_ifStc(t):
                 | RIF exp blockifc elseifStc RELSE END PTCOMA
     '''
     if len(t) == 5:
-        t[0] = If(t[2], Block([]), [], Block([]))
+        t[0] = If(t[2], Block([]), [], Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 6:
-        t[0] = If(t[2], Block(t[3]), [], Block([]))
+        t[0] = If(t[2], Block(t[3]), [], Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 8:
         if t[4] == 'else':
-            t[0] = If(t[2], Block(t[3]), [], Block(t[5]))
+            t[0] = If(t[2], Block(t[3]), [], Block(t[5]), str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[5] == 'else':
-            t[0] = If(t[2], Block(t[3]), t[4], Block([]))
+            t[0] = If(t[2], Block(t[3]), t[4], Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 7:
         if t[4] == 'else':
-            t[0] = If(t[2], Block(t[3]), [], Block([]))
+            t[0] = If(t[2], Block(t[3]), [], Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[5] == 'end':
-            t[0] = If(t[2], Block(t[3]), t[4], Block([]))
+            t[0] = If(t[2], Block(t[3]), t[4], Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 9:
-        t[0] = If(t[2], Block(t[3]), t[4], Block(t[6]))
+        t[0] = If(t[2], Block(t[3]), t[4], Block(t[6]), str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_elseifStc(t):
@@ -810,16 +810,16 @@ def p_conelseiftc(t):
                      | RELSEIF exp
     '''
     if len(t) == 3:
-        t[0] = If(t[2], Block([]), Block([]), Block([]))
+        t[0] = If(t[2], Block([]), Block([]), Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 4:
-        t[0] = If(t[2], Block(t[3]), Block([]), Block([]))
+        t[0] = If(t[2], Block(t[3]), Block([]), Block([]), str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 # ================================CICLO WHILE
 def p_whileSt(t):
     '''whileSt  : RWHILE exp blockc
     '''
-    t[0] = While(t[2], t[3])
+    t[0] = While(t[2], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 # ================================CICLO FOR
@@ -828,9 +828,9 @@ def p_forSt(t):
                 | RFOR parameterFor RIN exp blockc
     '''
     if len(t) == 8:
-        t[0] = For(t[2], t[4], t[6], t[7])
+        t[0] = For(t[2], t[4], t[6], t[7], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 6:
-        t[0] = For(t[2], t[4], NumberVal(typeExpression.NULO, 'nothing'), t[5])
+        t[0] = For(t[2], t[4], NumberVal(typeExpression.NULO, 'nothing', str(t.lexer.lineno), str(t.lexer.lexpos)), t[5], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_parameterFor(t):
@@ -884,7 +884,7 @@ def p_return(t):
     if len(t) == 4:
         t[0] = Return(TransferSentence.RETURN, t[2])
     else:
-        t[0] = Return(TransferSentence.RETURN, NumberVal(typeExpression.NULO, 'nothing'))
+        t[0] = Return(TransferSentence.RETURN, NumberVal(typeExpression.NULO, 'nothing', str(t.lexer.lineno), str(t.lexer.lexpos)))
 
 
 def p_break(t):
@@ -905,10 +905,10 @@ def p_list_array(t):
                     | CORIZQ exp CORDER
     '''
     if len(t) == 5:
-        t[0] = ArrayCall(t[1], t[3])
+        t[0] = ArrayCall(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 4:
         tempVar = VariableCall(t[-1])
-        t[0] = ArrayCall(tempVar, t[2])
+        t[0] = ArrayCall(tempVar, t[2], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_list_array2(t):
@@ -933,20 +933,20 @@ def p_exp_aritmetica(t):
             | MENOS exp %prec UMENOS
     '''
     if t[2] == '+':
-        t[0] = Plus(t[1], t[3])
+        t[0] = Plus(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '-':
-        t[0] = Minus(t[1], t[3])
+        t[0] = Minus(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '*':
-        t[0] = Multiply(t[1], t[3])
+        t[0] = Multiply(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '/':
-        t[0] = Division(t[1], t[3])
+        t[0] = Division(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '^':
-        t[0] = t[0] = Exponential(t[1], t[3])
+        t[0] = t[0] = Exponential(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '%':
         Modulo.append(0)
-        t[0] = Mod(t[1], t[3])
+        t[0] = Mod(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[1] == '-':
-        t[0] = Negative(t[2])
+        t[0] = Negative(t[2], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_relacional(t):
@@ -958,17 +958,17 @@ def p_exp_relacional(t):
             | exp MENORIGUAL exp
     '''
     if t[2] == '==':
-        t[0] = Equal(t[1], t[3])
+        t[0] = Equal(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '!=':
-        t[0] = NotEqual(t[1], t[3])
+        t[0] = NotEqual(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '>':
-        t[0] = Mayor(t[1], t[3])
+        t[0] = Mayor(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '<':
-        t[0] = Menor(t[1], t[3])
+        t[0] = Menor(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '>=':
-        t[0] = MayorEqual(t[1], t[3])
+        t[0] = MayorEqual(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '<=':
-        t[0] = MenorEqual(t[1], t[3])
+        t[0] = MenorEqual(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_logica(t):
@@ -977,27 +977,27 @@ def p_exp_logica(t):
             | NOTT exp %prec UNOT
     '''
     if t[2] == '&&':
-        t[0] = And(t[1], t[3])
+        t[0] = And(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[2] == '||':
-        t[0] = Or(t[1], t[3])
+        t[0] = Or(t[1], t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif t[1] == '!':
-        t[0] = Not(t[2])
+        t[0] = Not(t[2], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 # ================================FUNCIONES NATIVAS
 def p_exp_uppercase(t):
     'exp : UPPERCASE PARIZQ exp PARDER'
-    t[0] = UpperCase(t[3])
+    t[0] = UpperCase(t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_lowercase(t):
     'exp : LOWERCASE PARIZQ exp PARDER'
-    t[0] = LowerCase(t[3])
+    t[0] = LowerCase(t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_length(t):
     'exp : RLENGTH PARIZQ exp PARDER'
-    t[0] = Length(t[3])
+    t[0] = Length(t[3], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_parse(t):
@@ -1085,43 +1085,43 @@ def p_exp_agrupacion(t):
 def p_exp_valor_entero(t):
     '''exp  : ENTERO
     '''
-    t[0] = NumberVal(typeExpression.INTEGER, int(t[1]))
+    t[0] = NumberVal(typeExpression.INTEGER, int(t[1]), str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_valor_decimal(t):
     '''exp  : DECIMAL
     '''
-    t[0] = NumberVal(typeExpression.FLOAT, float(t[1]))
+    t[0] = NumberVal(typeExpression.FLOAT, float(t[1]), str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_valor_string(t):
     '''exp  : STRING
     '''
-    t[0] = NumberVal(typeExpression.STRING, t[1])
+    t[0] = NumberVal(typeExpression.STRING, t[1], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_valor_char(t):
     '''exp  : CHAR
     '''
-    t[0] = NumberVal(typeExpression.CHAR, t[1])
+    t[0] = NumberVal(typeExpression.CHAR, t[1], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_valor_verdadero(t):
     '''exp  : VERDADERO
     '''
-    t[0] = NumberVal(typeExpression.BOOL, 1)
+    t[0] = NumberVal(typeExpression.BOOL, 1, str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_valor_falso(t):
     '''exp  : FALSO
     '''
-    t[0] = NumberVal(typeExpression.BOOL, 0)
+    t[0] = NumberVal(typeExpression.BOOL, 0, str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_valor_nulo(t):
     '''exp  : NULO
     '''
-    t[0] = NumberVal(typeExpression.NULO, t[1])
+    t[0] = NumberVal(typeExpression.NULO, t[1], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_exp_variable(t):

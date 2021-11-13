@@ -8,10 +8,12 @@ from datetime import datetime
 
 class Minus(Expression):
 
-    def __init__(self, left: Expression, right: Expression) -> None:
+    def __init__(self, left: Expression, right: Expression, line: str, col: str) -> None:
         super().__init__()
         self.leftExpression = left
         self.rightExpression = right
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
 
@@ -28,7 +30,7 @@ class Minus(Expression):
                 self.generator.addExpression(newTemp, leftValue.getValue(), rightValue.getValue(), "-")
                 return Value(newTemp, True, rightValue.type)
             else:
-                Errores.append({'Descripcion': "Error en Resta", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                Errores.append({'Descripcion': "Error en Resta", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.INTEGER)
 
         elif leftValue.type == typeExpression.FLOAT:
@@ -36,9 +38,9 @@ class Minus(Expression):
                 self.generator.addExpression(newTemp, leftValue.getValue(), rightValue.getValue(), "-")
                 return Value(newTemp, True, typeExpression.FLOAT)
             else:
-                Errores.append({'Descripcion': "Error en Resta", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                Errores.append({'Descripcion': "Error en Resta", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.INTEGER)
 
         else:
-            Errores.append({'Descripcion': "Error en Resta", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            Errores.append({'Descripcion': "Error en Resta", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.INTEGER)

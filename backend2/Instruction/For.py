@@ -12,7 +12,7 @@ from datetime import datetime
 
 class For(Instruction):
 
-    def __init__(self, param: Instruction, ExpIzq: Expression, ExpDer: Expression, block) -> None:
+    def __init__(self, param: Instruction, ExpIzq: Expression, ExpDer: Expression, block, line: str, col: str) -> None:
         super().__init__()
         self.param = param
         self.ExpIzq = ExpIzq
@@ -21,6 +21,8 @@ class For(Instruction):
         self.LabelSalir = ""
         self.funtioncReturn = ""
         self.espacioReturn = 0
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
         self.ExpIzq.generator = self.generator
@@ -76,7 +78,7 @@ class For(Instruction):
 
                 self.generator.addLabel(leftValue.falseLabel)
             else:
-                Errores.append({'Descripcion': "Tipo De Dato Exp Derecha De For Incorrecta", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                Errores.append({'Descripcion': "Tipo De Dato Exp Derecha De For Incorrecta", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         elif leftValue.type == typeExpression.STRING:
             if leftValue.trueLabel == "":
@@ -123,4 +125,4 @@ class For(Instruction):
 
             self.generator.addLabel(leftValue.falseLabel)
         else:
-            Errores.append({'Descripcion': "Tipo De Dato Exp Izquierda De For Incorrecta", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            Errores.append({'Descripcion': "Tipo De Dato Exp Izquierda De For Incorrecta", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})

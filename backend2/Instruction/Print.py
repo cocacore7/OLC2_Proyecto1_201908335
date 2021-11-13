@@ -9,9 +9,11 @@ from datetime import datetime
 
 class Print(Instruction):
 
-    def __init__(self, exp: Expression) -> None:
+    def __init__(self, exp: Expression, line: str, col: str) -> None:
         super().__init__()
         self.exp = exp
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
 
@@ -72,5 +74,5 @@ class Print(Instruction):
                 self.generator.addCallFunc("print_nothing_proc")
 
             else:
-                Errores.append({'Descripcion': "Error en Print", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                Errores.append({'Descripcion': "Error en Print", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         return Value("0", False, typeExpression.INTEGER)

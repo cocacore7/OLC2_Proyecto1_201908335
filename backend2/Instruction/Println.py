@@ -9,9 +9,11 @@ from datetime import datetime
 
 class Println(Instruction):
 
-    def __init__(self, exp: Expression) -> None:
+    def __init__(self, exp: Expression, line: str, col: str) -> None:
         super().__init__()
         self.exp = exp
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
 
@@ -71,7 +73,7 @@ class Println(Instruction):
             elif tempValue.type == typeExpression.NULO:
                 self.generator.addCallFunc("print_nothing_proc")
             else:
-                Errores.append({'Descripcion': "Error en Println", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                Errores.append({'Descripcion': "Error en Println", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
         self.generator.addNewLine()
         return Value("0", False, typeExpression.INTEGER)

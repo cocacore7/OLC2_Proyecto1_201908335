@@ -50,11 +50,9 @@ class Mirilla:
                 continue
             elif ins.getType() == typeInstruction.LABEL and self.saltoRule2 is not None:
                 if ins.value == self.saltoRule2.value:
-                    # Aqui va el valor para Reporte
                     org = ""
                     for ins2 in self.instructionsRule2:
                         org = org + ins2.writeC3D() + "\n"
-                        ins2.write = False
                     Optimizacion.append({
                         'Tipo': "Mirilla",
                         'Regla': "2",
@@ -62,6 +60,8 @@ class Mirilla:
                         'ExpOp': self.saltoRule2.writeC3D() + " - " + ins.writeC3D(),
                         'Fila': self.saltoRule2.line
                     })
+                    for ins2 in self.instructionsRule2:
+                        ins2.write = False
                     self.instructionsRule2.clear()
                     self.saltoRule2 = None
                 else:
@@ -234,7 +234,7 @@ class Mirilla:
                             expopt = ins.writeC3D()
                             Optimizacion.append({
                                 'Tipo': "Mirilla",
-                                'Regla': "7",
+                                'Regla': "8",
                                 'ExpOr': exporg,
                                 'ExpOp': expopt,
                                 'Fila': ins.line
@@ -246,7 +246,7 @@ class Mirilla:
                             expopt = ins.writeC3D()
                             Optimizacion.append({
                                 'Tipo': "Mirilla",
-                                'Regla': "7",
+                                'Regla': "8",
                                 'ExpOr': exporg,
                                 'ExpOp': expopt,
                                 'Fila': ins.line
@@ -258,7 +258,7 @@ class Mirilla:
                             expopt = ins.writeC3D()
                             Optimizacion.append({
                                 'Tipo': "Mirilla",
-                                'Regla': "7",
+                                'Regla': "8",
                                 'ExpOr': exporg,
                                 'ExpOp': expopt,
                                 'Fila': ins.line

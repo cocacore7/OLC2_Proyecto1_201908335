@@ -9,9 +9,11 @@ from datetime import datetime
 
 class LowerCase(Instruction):
 
-    def __init__(self, value: Expression) -> None:
+    def __init__(self, value: Expression, line: str, col: str) -> None:
         super().__init__()
         self.value = value
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
         self.value.generator = self.generator
@@ -46,6 +48,6 @@ class LowerCase(Instruction):
             self.generator.addLabel(falseLabel)
             return value
         else:
-            Errores.append({'Descripcion': "Error en LowerCase", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            Errores.append({'Descripcion': "Error en LowerCase", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.INTEGER)
 

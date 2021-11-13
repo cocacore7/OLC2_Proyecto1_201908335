@@ -8,11 +8,13 @@ from datetime import datetime
 
 class ArrayCall(Instruction):
 
-    def __init__(self, llamada, indices) -> None:
+    def __init__(self, llamada, indices, line: str, col:str) -> None:
         super().__init__()
         self.id = id
         self.llamada = llamada
         self.indices = indices
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
         # Calcular Expresion Y Llamada A Variable
@@ -65,7 +67,7 @@ class ArrayCall(Instruction):
                 self.generator.addLabel(Label4)
 
         else:
-            Errores.append({'Descripcion': "Error En AssignmentArray, No existe La Variable A Llamar", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            Errores.append({'Descripcion': "Error En AssignmentArray, No existe La Variable A Llamar", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
 
 def obtenerPosNormal(arr, num):

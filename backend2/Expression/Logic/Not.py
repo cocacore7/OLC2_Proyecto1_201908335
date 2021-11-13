@@ -8,9 +8,11 @@ from datetime import datetime
 
 class Not(Expression):
 
-    def __init__(self, left: Expression) -> None:
+    def __init__(self, left: Expression, line: str, col: str) -> None:
         super().__init__()
         self.leftExpression = left
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
 
@@ -39,5 +41,5 @@ class Not(Expression):
             newValue.value = tmp
             return newValue
         else:
-            Errores.append({'Descripcion': "Error en Not", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            Errores.append({'Descripcion': "Error en Not", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.INTEGER)

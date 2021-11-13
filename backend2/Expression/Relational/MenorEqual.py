@@ -8,10 +8,12 @@ from datetime import datetime
 
 class MenorEqual(Expression):
 
-    def __init__(self, left: Expression, right: Expression) -> None:
+    def __init__(self, left: Expression, right: Expression, line: str, col: str) -> None:
         super().__init__()
         self.leftExpression = left
         self.rightExpression = right
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
 
@@ -42,9 +44,9 @@ class MenorEqual(Expression):
 
                 return Value(tmp, True, typeExpression.BOOL)
             else:
-                Errores.append({'Descripcion': "Error en Menor Igual", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                Errores.append({'Descripcion': "Error en Menor Igual", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.BOOL)
 
         else:
-            Errores.append({'Descripcion': "Error en Menor Igual", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            Errores.append({'Descripcion': "Error en Menor Igual", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.BOOL)

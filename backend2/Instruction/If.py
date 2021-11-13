@@ -12,7 +12,7 @@ from datetime import datetime
 
 class If(Instruction):
 
-    def __init__(self, condition: Expression, blockif, blockelif, blockelse) -> None:
+    def __init__(self, condition: Expression, blockif, blockelif, blockelse, line: str, col: str) -> None:
         super().__init__()
         self.condition = condition
         self.blockif = blockif
@@ -23,6 +23,8 @@ class If(Instruction):
         self.LabelSalir = ""
         self.funtioncReturn = ""
         self.espacioReturn = 0
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
         self.condition.generator = self.generator
@@ -95,7 +97,7 @@ class If(Instruction):
                             self.generator.addGoto(newLabel)
                         self.generator.addLabel(newValueCondition.falseLabel)
                     else:
-                        Errores.append({'Descripcion': "Error en Else If", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                        Errores.append({'Descripcion': "Error en Else If", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
 
             if len(self.blockelse.block) > 0:
                 for ins in self.blockelse.block:
@@ -118,4 +120,4 @@ class If(Instruction):
             if not breakSentence:
                 self.generator.addLabel(newLabel)
         else:
-            Errores.append({'Descripcion': "Error en If", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            Errores.append({'Descripcion': "Error en If", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})

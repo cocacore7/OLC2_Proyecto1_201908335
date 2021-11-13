@@ -8,10 +8,12 @@ from datetime import datetime
 
 class Exponential(Expression):
 
-    def __init__(self, left: Expression, right: Expression) -> None:
+    def __init__(self, left: Expression, right: Expression, line: str, col: str) -> None:
         super().__init__()
         self.leftExpression = left
         self.rightExpression = right
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
 
@@ -20,8 +22,6 @@ class Exponential(Expression):
 
         leftValue: Value = self.leftExpression.compile(environment)
         rightValue: Value = self.rightExpression.compile(environment)
-
-        newTemp = self.generator.newTemp()
 
         if leftValue.type == typeExpression.INTEGER or leftValue.type == typeExpression.FLOAT:
             if rightValue.type == typeExpression.INTEGER or rightValue.type == typeExpression.FLOAT:
@@ -43,7 +43,7 @@ class Exponential(Expression):
 
                 return Value(tmp2, True, leftValue.type)
             else:
-                Errores.append({'Descripcion': "Error en Exponencial", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                Errores.append({'Descripcion': "Error en Exponencial", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
                 return Value("0", False, typeExpression.INTEGER)
 
         elif leftValue.type == typeExpression.STRING:
@@ -68,7 +68,7 @@ class Exponential(Expression):
 
                 return Value(tmpr, True, leftValue.type)
             else:
-                Errores.append({'Descripcion': "Error en Concatenacion", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+                Errores.append({'Descripcion': "Error en Concatenacion", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         else:
-            Errores.append({'Descripcion': "Error en Exponencial", 'Linea': "0", 'Columna': "0", 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
+            Errores.append({'Descripcion': "Error en Exponencial", 'Linea': self.line, 'Columna': self.col, 'Fecha': datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
             return Value("0", False, typeExpression.INTEGER)
