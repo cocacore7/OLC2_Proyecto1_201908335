@@ -56,6 +56,7 @@ class Function(Instruction):
                 ins.espacioReturn = posReturn
                 ins.tmpSalir = LabelSalir
             ins.compile(newEnv)
+        generator.addGoto(LabelSalir)
         generator.addLabel(LabelSalir)
         generator.addCloseFunction()
 
