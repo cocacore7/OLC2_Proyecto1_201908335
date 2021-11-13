@@ -1,6 +1,5 @@
 from flask import Flask, request
 from flask_cors import CORS
-import json
 
 from Analyzer.Gramatica import parser
 from AnalyzerC3D.GramaticaC3D import parser2
