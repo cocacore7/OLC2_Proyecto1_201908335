@@ -16,6 +16,7 @@ reservadas = {
     'Printf': 'RPRINTF',
     '-0.000001': 'ROPENA',
     '-0.000002': 'RCLOSEA',
+    'int': 'RINT'
 }
 
 tokens = [
@@ -131,6 +132,12 @@ from OptimizacionC3D.AssignmentC3D import AssignmentC3D
 from OptimizacionC3D.GotoC3D import GotoC3D
 from OptimizacionC3D.LabelC3D import LabelC3D
 from OptimizacionC3D.IfC3D import IfC3D
+from OptimizacionC3D.HeapAC3D import HeapAC3D
+from OptimizacionC3D.HeapGC3D import HeapGC3D
+from OptimizacionC3D.StackAC3D import StackAC3D
+from OptimizacionC3D.StackGC3D import StackGC3D
+from OptimizacionC3D.PrintC3D import PrintC3D
+from OptimizacionC3D.FuncCallC3D import FuncCallC3D
 
 from OptimizacionC3D.RelationalC3D import RelationalC3D
 from OptimizacionC3D.ArithmeticC3D import ArithmeticC3D
@@ -152,6 +159,8 @@ precedence = (
 # ================================Definición de la gramática
 def p_initial(t):
     '''initial : instructions'''
+    t.lexer.lineno = 0
+    t.lexer.lexpos = 0
     t[0] = t[1]
 
 
@@ -169,24 +178,30 @@ def p_instructions(t):
 # ================================INSTRUCCIONES
 def p_instruction(t):
     '''instruction  : assignment
-                    | gotoSt
                     | labelSt
+                    | gotoSt
                     | ifSt
+                    | HeapA
+                    | HeapG
+                    | StackA
+                    | StackG
+                    | Print
+                    | FuncCall
     '''
     t[0] = t[1]
 
 
 # ================================INSTRUCCIONES
-def p_ifSt(t):
-    '''ifSt : RIF exp LLAIZQ gotoSt LLADER
-    '''
-    t[0] = IfC3D(t[2], t[4], str(t.lexer.lineno))
-
-
 def p_assignment(t):
     '''assignment   : ID IGUAL exp PTCOMA
     '''
     t[0] = AssignmentC3D(t[1], t[3], str(t.lexer.lineno))
+
+
+def p_labelSt(t):
+    '''labelSt : ID DOSPT
+    '''
+    t[0] = LabelC3D(t[1], str(t.lexer.lineno))
 
 
 def p_gotoSt(t):
@@ -195,10 +210,54 @@ def p_gotoSt(t):
     t[0] = GotoC3D(t[2], str(t.lexer.lineno))
 
 
-def p_labelSt(t):
-    '''labelSt : ID DOSPT
+def p_ifSt(t):
+    '''ifSt : RIF exp LLAIZQ gotoSt LLADER
     '''
-    t[0] = LabelC3D(t[1], str(t.lexer.lineno))
+    t[0] = IfC3D(t[2], t[4], str(t.lexer.lineno))
+
+
+def p_HeapA(t):
+    '''HeapA   : RHEAP CORIZQ RINT PARIZQ exp PARDER CORDER IGUAL exp PTCOMA
+    '''
+    t[0] = HeapAC3D(t[5], t[9], str(t.lexer.lineno))
+
+
+def p_HeapG(t):
+    '''HeapG   : ID IGUAL RHEAP CORIZQ RINT PARIZQ exp PARDER CORDER PTCOMA
+    '''
+    t[0] = HeapGC3D(t[1], t[7], str(t.lexer.lineno))
+
+
+def p_StackA(t):
+    '''StackA   : RSTACK CORIZQ RINT PARIZQ exp PARDER CORDER IGUAL exp PTCOMA
+    '''
+    t[0] = StackAC3D(t[5], t[9], str(t.lexer.lineno))
+
+
+def p_StackG(t):
+    '''StackG   : ID IGUAL RSTACK CORIZQ RINT PARIZQ exp PARDER CORDER PTCOMA
+    '''
+    t[0] = StackGC3D(t[1], t[7], str(t.lexer.lineno))
+
+
+def p_Print(t):
+    '''Print    : RFMT PUNTO RPRINTF PARIZQ PRCHAR COMA exp PARDER PTCOMA
+                | RFMT PUNTO RPRINTF PARIZQ PRINTEGER COMA exp PARDER PTCOMA
+                | RFMT PUNTO RPRINTF PARIZQ PRFLOAT COMA exp PARDER PTCOMA
+                | RFMT PUNTO RPRINTF PARIZQ PRCHAR COMA RINT PARIZQ exp PARDER PARDER PTCOMA
+                | RFMT PUNTO RPRINTF PARIZQ PRINTEGER COMA RINT PARIZQ exp PARDER PARDER PTCOMA
+                | RFMT PUNTO RPRINTF PARIZQ PRFLOAT COMA RINT PARIZQ exp PARDER PARDER PTCOMA
+    '''
+    if len(t) == 10:
+        t[0] = PrintC3D(t[5], t[7], str(t.lexer.lineno), False)
+    else:
+        t[0] = PrintC3D(t[5], t[9], str(t.lexer.lineno), True)
+
+
+def p_FuncCall(t):
+    '''FuncCall    : ID PARIZQ PARDER PTCOMA
+    '''
+    t[0] = FuncCallC3D(t[1], str(t.lexer.lineno))
 
 
 # ================================EXPRESIONES ARITMETICAS, LOGICAS Y RELACIONALES
