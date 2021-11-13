@@ -26,7 +26,7 @@ class Print(Instruction):
 
             elif tempValue.type == typeExpression.FLOAT:
                 if tempValue.zero is not True:
-                    self.generator.addPrintf("f", "float64(" + str(tempValue.getValue())+")")
+                    self.generator.addPrintf("f", str(tempValue.getValue()))
 
             elif tempValue.type == typeExpression.CHAR:
                 self.generator.addPrintf("c", "int(" + str(tempValue.getValue()) + ")")

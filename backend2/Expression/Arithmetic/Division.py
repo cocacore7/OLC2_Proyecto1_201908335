@@ -43,7 +43,7 @@ class Division(Expression):
                 self.generator.addCallFunc("math_error_proc")
                 self.generator.addLabel(newLabel)
 
-                retorno = Value("float64("+newTemp+")", True, typeExpression.FLOAT)
+                retorno = Value(newTemp, True, typeExpression.FLOAT)
                 retorno.trueLabel = self.trueLabel
                 retorno.falseLabel = self.falseLabel
                 retorno.zero = self.zero
