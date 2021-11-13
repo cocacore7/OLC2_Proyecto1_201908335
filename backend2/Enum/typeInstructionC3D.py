@@ -12,3 +12,6 @@ class typeInstruction(enum.Enum):
     STACKG = 7
     PRINT = 8
     FUNCCALL = 9
+    PACKAGE = 10
+    IMPORT = 11
+    VAR = 12

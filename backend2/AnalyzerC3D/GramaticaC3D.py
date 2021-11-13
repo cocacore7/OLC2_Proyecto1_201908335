@@ -1,27 +1,28 @@
 reservadas = {
-    '"package"': 'RPACKAGE',
-    '"main"': 'RMAIN',
+    'package': 'RPACKAGE',
+    'main': 'RMAIN',
     'import': 'RIMPORT',
-    '"fmt"': 'RFMT',
-    '"math"': 'RMATH',
-    'Mod': 'RMOD',
     'var': 'RVAR',
+    'float64': 'RFLOAT',
+
+    'func': 'RFUNC',
     'stack': 'RSTACK',
     'heap': 'RHEAP',
-    'float64': 'RFLOAT',
-    '[30101999]': 'RCANT',
-    'func': 'RFUNC',
-    'goto': 'RGOTO',
-    'if': 'RIF',
+    'fmt': 'RFMT',
     'Printf': 'RPRINTF',
+    'int': 'RINT',
+    'math': 'RMATH',
+    'Mod': 'RMOD',
+    'if': 'RIF',
+    'goto': 'RGOTO',
     '-0.000001': 'ROPENA',
-    '-0.000002': 'RCLOSEA',
-    'int': 'RINT'
+    '-0.000002': 'RCLOSEA'
 }
 
 tokens = [
              'ENTERO',
              'DECIMAL',
+             'STRING',
              'ID',
 
              'MAS',
@@ -103,6 +104,12 @@ def t_ENTERO(t):
     return t
 
 
+def t_STRING(t):
+    r'\".*?\"'
+    t.value = t.value[1:-1]
+    return t
+
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reservadas.get(t.value, 'ID')
@@ -127,6 +134,10 @@ def t_error(t):
 
 # Construyendo el analizador léxico
 from Enum.typeExpresionC3D import typeExpression
+
+from OptimizacionC3D.PackageC3D import PackageC3D
+from OptimizacionC3D.ImportC3D import ImportC3D
+from OptimizacionC3D.VarC3D import VarC3D
 
 from OptimizacionC3D.AssignmentC3D import AssignmentC3D
 from OptimizacionC3D.GotoC3D import GotoC3D
@@ -187,6 +198,9 @@ def p_instruction(t):
                     | StackG
                     | Print
                     | FuncCall
+                    | Package
+                    | Import
+                    | Var
     '''
     t[0] = t[1]
 
@@ -260,6 +274,37 @@ def p_FuncCall(t):
     t[0] = FuncCallC3D(t[1], str(t.lexer.lineno))
 
 
+def p_Package(t):
+    '''Package : RPACKAGE RMAIN PTCOMA
+    '''
+    t[0] = PackageC3D(str(t.lexer.lineno))
+
+
+def p_Import(t):
+    '''Import   : RIMPORT PARIZQ STRING PARDER PTCOMA
+    '''
+    t[0] = ImportC3D(t[3], str(t.lexer.lineno))
+
+
+def p_Var(t):
+    '''Var  : RVAR RSTACK CORIZQ ENTERO CORDER RFLOAT PTCOMA
+            | RVAR RHEAP CORIZQ ENTERO CORDER RFLOAT PTCOMA
+            | RVAR ids RFLOAT PTCOMA
+    '''
+    t[0] = VarC3D(t[2], str(t.lexer.lineno))
+
+
+def p_ids(t):
+    '''ids  : ids COMA ID
+            | ID
+    '''
+    if len(t) == 4:
+        t[1].append(t[3])
+        t[0] = t[1]
+    elif len(t) == 2:
+        t[0] = [t[1]]
+
+
 # ================================EXPRESIONES ARITMETICAS, LOGICAS Y RELACIONALES
 def p_exp_aritmetica(t):
     '''exp  : exp MAS exp
@@ -325,7 +370,7 @@ def p_exp_valor_decimal(t):
 
 # ====================================================
 def p_error(t):
-    print("Error Sintactico en Linea: " + str(t.lexer.lineno) + ", Columna:" + str(t.lexer.lexpos))
+    print("Error Sintactico: " + t.value + ", Linea: " + str(t.lexer.lineno) + ", Columna:" + str(t.lexer.lexpos))
     pass
 
 
