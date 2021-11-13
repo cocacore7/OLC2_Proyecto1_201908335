@@ -97,7 +97,6 @@ class Generator:
         tempCode = tempCode + 't1 = t1 + 1;\n'
         tempCode = tempCode + 'goto L0;\n'
         tempCode = tempCode + 'L1:\n'
-        tempCode = tempCode + 'return;\n'
         tempCode = tempCode + '}\n'
 
         tempCode = tempCode + '\nfunc concatenate_strings_proc(){\n'
@@ -111,7 +110,6 @@ class Generator:
         tempCode = tempCode + 't4 = t4 + 1;\n'
         tempCode = tempCode + 'goto L2;\n'
         tempCode = tempCode + 'L3:\n'
-        tempCode = tempCode + 'return;\n'
         tempCode = tempCode + '}\n'
 
         tempCode = tempCode + '\nfunc print_Integer_Array_proc (){\n'

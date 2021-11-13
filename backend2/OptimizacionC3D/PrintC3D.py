@@ -18,7 +18,7 @@ class PrintC3D(Instruccion):
     def writeC3D(self) -> str:
         if self.write:
             if self.isint:
-                return "fmt.println(" + self.tipo + " , int(" + self.value.writeC3D() + " ) );"
+                return "fmt.Printf(" + self.tipo + " , int(" + self.value.writeC3D() + " ) );"
             else:
-                return "fmt.println(" + self.tipo + " , " + self.value.writeC3D() + " );"
+                return "fmt.Printf(" + self.tipo + " , " + self.value.writeC3D() + " );"
         return ""

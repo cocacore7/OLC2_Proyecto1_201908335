@@ -14,9 +14,7 @@ reservadas = {
     'math': 'RMATH',
     'Mod': 'RMOD',
     'if': 'RIF',
-    'goto': 'RGOTO',
-    '-0.000001': 'ROPENA',
-    '-0.000002': 'RCLOSEA'
+    'goto': 'RGOTO'
 }
 
 tokens = [
@@ -47,11 +45,7 @@ tokens = [
              'DOSPT',
              'COMA',
              'PUNTO',
-             'PTCOMA',
-
-             'PRCHAR',
-             'PRINTEGER',
-             'PRFLOAT',
+             'PTCOMA'
          ] + list(reservadas.values())
 
 # Tokens
@@ -78,10 +72,6 @@ t_DOSPT = r':'
 t_COMA = r'\,'
 t_PUNTO = r'\.'
 t_PTCOMA = r'\;'
-
-t_PRCHAR = r'"%c"'
-t_PRINTEGER = r'"%d"'
-t_PRFLOAT = r'"%f"'
 
 
 def t_DECIMAL(t):
@@ -149,6 +139,8 @@ from OptimizacionC3D.StackAC3D import StackAC3D
 from OptimizacionC3D.StackGC3D import StackGC3D
 from OptimizacionC3D.PrintC3D import PrintC3D
 from OptimizacionC3D.FuncCallC3D import FuncCallC3D
+from OptimizacionC3D.FunctionC3D import FunctionC3D
+from OptimizacionC3D.CloseC3D import CloseC3D
 
 from OptimizacionC3D.RelationalC3D import RelationalC3D
 from OptimizacionC3D.ArithmeticC3D import ArithmeticC3D
@@ -188,19 +180,21 @@ def p_instructions(t):
 
 # ================================INSTRUCCIONES
 def p_instruction(t):
-    '''instruction  : assignment
-                    | labelSt
-                    | gotoSt
-                    | ifSt
+    '''instruction  : Package
+                    | Import
+                    | Var
                     | HeapA
                     | HeapG
                     | StackA
                     | StackG
+                    | Function
+                    | Close
+                    | assignment
+                    | ifSt
+                    | gotoSt
+                    | labelSt
                     | Print
                     | FuncCall
-                    | Package
-                    | Import
-                    | Var
     '''
     t[0] = t[1]
 
@@ -255,17 +249,13 @@ def p_StackG(t):
 
 
 def p_Print(t):
-    '''Print    : RFMT PUNTO RPRINTF PARIZQ PRCHAR COMA exp PARDER PTCOMA
-                | RFMT PUNTO RPRINTF PARIZQ PRINTEGER COMA exp PARDER PTCOMA
-                | RFMT PUNTO RPRINTF PARIZQ PRFLOAT COMA exp PARDER PTCOMA
-                | RFMT PUNTO RPRINTF PARIZQ PRCHAR COMA RINT PARIZQ exp PARDER PARDER PTCOMA
-                | RFMT PUNTO RPRINTF PARIZQ PRINTEGER COMA RINT PARIZQ exp PARDER PARDER PTCOMA
-                | RFMT PUNTO RPRINTF PARIZQ PRFLOAT COMA RINT PARIZQ exp PARDER PARDER PTCOMA
+    '''Print    : RFMT PUNTO RPRINTF PARIZQ STRING COMA exp PARDER PTCOMA
+                | RFMT PUNTO RPRINTF PARIZQ STRING COMA RINT PARIZQ exp PARDER PARDER PTCOMA
     '''
     if len(t) == 10:
-        t[0] = PrintC3D(t[5], t[7], str(t.lexer.lineno), False)
+        t[0] = PrintC3D('"' + t[5] + '"', t[7], str(t.lexer.lineno), False)
     else:
-        t[0] = PrintC3D(t[5], t[9], str(t.lexer.lineno), True)
+        t[0] = PrintC3D('"' + t[5] + '"', t[9], str(t.lexer.lineno), True)
 
 
 def p_FuncCall(t):
@@ -283,7 +273,7 @@ def p_Package(t):
 def p_Import(t):
     '''Import   : RIMPORT PARIZQ STRING PARDER PTCOMA
     '''
-    t[0] = ImportC3D(t[3], str(t.lexer.lineno))
+    t[0] = ImportC3D('"' + t[3] + '"', str(t.lexer.lineno))
 
 
 def p_Var(t):
@@ -303,6 +293,19 @@ def p_ids(t):
         t[0] = t[1]
     elif len(t) == 2:
         t[0] = [t[1]]
+
+
+def p_Function(t):
+    '''Function : RFUNC ID PARIZQ PARDER LLAIZQ
+                | RFUNC RMAIN PARIZQ PARDER LLAIZQ
+    '''
+    t[0] = FunctionC3D(t[2], str(t.lexer.lineno))
+
+
+def p_Close(t):
+    '''Close : LLADER
+    '''
+    t[0] = CloseC3D(str(t.lexer.lineno))
 
 
 # ================================EXPRESIONES ARITMETICAS, LOGICAS Y RELACIONALES
@@ -356,14 +359,32 @@ def p_exp_variable(t):
     t[0] = PrimitiveC3D(t[1])
 
 
+def p_exp_variable_float(t):
+    '''exp  : RFLOAT PARIZQ ID PARDER
+    '''
+    t[0] = PrimitiveC3D("float64(" + t[3] + ")")
+
+
 def p_exp_valor_entero(t):
     '''exp  : ENTERO
     '''
     t[0] = PrimitiveC3D(t[1])
 
 
+def p_exp_valor_entero_float(t):
+    '''exp  : RFLOAT PARIZQ ENTERO PARDER
+    '''
+    t[0] = PrimitiveC3D("float64(" + t[3] + ")")
+
+
 def p_exp_valor_decimal(t):
     '''exp  : DECIMAL
+    '''
+    t[0] = PrimitiveC3D(t[1])
+
+
+def p_exp_valor_string(t):
+    '''exp  : STRING
     '''
     t[0] = PrimitiveC3D(t[1])
 

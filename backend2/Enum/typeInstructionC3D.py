@@ -15,3 +15,5 @@ class typeInstruction(enum.Enum):
     PACKAGE = 10
     IMPORT = 11
     VAR = 12
+    FUNCTION = 13
+    CLOSE = 14
