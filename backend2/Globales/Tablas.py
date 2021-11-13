@@ -55,27 +55,3 @@ def GraficaTS(simb):
     grafo += "}\n"
     return grafo
 
-
-def GraficaTO(simb):
-    grafo = "digraph G { bgcolor=\"yellow:red\"\n"
-    grafo += "node [shape=filled];\n"
-    grafo += "a0 [label=<\n"
-    grafo += "<TABLE border=\"10\" cellspacing=\"10\" cellpadding=\"10\" style=\"rounded\" bgcolor=\"/rdylgn11/1:/rdylgn11/11\" gradientangle=\"315\">\n"
-    grafo += "<TR>\n"
-    grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">"+"TIPO DE OPTIMIZACION"+"</TD>\n"
-    grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">"+"REGLA APLICADA"+"</TD>\n"
-    grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">"+"EXP ORIGINAL"+"</TD>\n"
-    grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">"+"EXP OPTIMIZADA"+"</TD>\n"
-    grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">"+"FILA"+"</TD>\n"
-    grafo += "</TR>\n"
-    for i in simb:
-        grafo += "<TR>\n"
-        grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + i["Tipo"] + "</TD>\n"
-        grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + i["Regla"] + "</TD>\n"
-        grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + i["ExpOr"] + "</TD>\n"
-        grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + i["ExpOp"] + "</TD>\n"
-        grafo += "<TD border=\"3\"  bgcolor=\"/rdylgn11/1:/rdylgn11/2\">" + i["Fila"] + "</TD>\n"
-        grafo += "</TR>\n"
-    grafo += "</TABLE>>];\n"
-    grafo += "}\n"
-    return grafo

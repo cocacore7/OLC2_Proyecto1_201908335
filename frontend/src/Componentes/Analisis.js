@@ -34,7 +34,8 @@ function Analisis() {
         }
         //let contenido = await axios.post("https://backcompi.herokuapp.com/OptimizadorMirilla",Contenido)
         let contenido = await axios.post("http://localhost:4000/OptimizadorMirilla",Contenido)
-        localStorage.setItem('TO',contenido.data["TO"])
+        localStorage.setItem('TO', JSON.stringify(contenido.data["TO"]))
+        console.log(localStorage.getItem('TO'))
         setsalidam(contenido.data["Salida"])
     }
 

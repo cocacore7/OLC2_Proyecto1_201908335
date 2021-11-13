@@ -32,8 +32,10 @@ class Division(Expression):
 
                 self.generator.addIf(rightValue.getValue(), "0", "==", self.falseLabel)
                 # Division entre 0
+                tmpizq = self.generator.newTemp()
                 newLabel = self.generator.newLabel()
-                self.generator.addExpression(newTemp, "float64("+leftValue.getValue()+")", "float64("+rightValue.getValue()+")", "/")
+                self.generator.addExpression(tmpizq, "float64("+rightValue.getValue()+")", "", "")
+                self.generator.addExpression(newTemp, "float64("+leftValue.getValue()+")", tmpizq, "/")
                 self.generator.addGoto(newLabel)
                 self.generator.addLabel(self.falseLabel)
                 self.generator.addCallFunc("math_error_proc")

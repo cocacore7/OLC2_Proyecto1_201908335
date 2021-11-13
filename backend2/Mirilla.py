@@ -26,7 +26,7 @@ class Mirilla:
                                 Optimizacion.append({
                                     'Tipo': "Mirilla",
                                     'Regla': "1",
-                                    'ExpOr': assig.writeC3D() + "\n" + ins.writeC3D(),
+                                    'ExpOr': assig.writeC3D() + " - " + ins.writeC3D(),
                                     'ExpOp': assig.writeC3D(),
                                     'Fila': assig.line
                                 })
@@ -58,8 +58,8 @@ class Mirilla:
                     Optimizacion.append({
                         'Tipo': "Mirilla",
                         'Regla': "2",
-                        'ExpOr': self.saltoRule2.writeC3D() + "\n" + org + ins.writeC3D(),
-                        'ExpOp': self.saltoRule2.writeC3D() + "\n" + ins.writeC3D(),
+                        'ExpOr': self.saltoRule2.writeC3D() + " - " + org + ins.writeC3D(),
+                        'ExpOp': self.saltoRule2.writeC3D() + " - " + ins.writeC3D(),
                         'Fila': self.saltoRule2.line
                     })
                     self.instructionsRule2.clear()
@@ -87,7 +87,7 @@ class Mirilla:
                     if self.salto1Rule3.goto.value == ins.value and self.Label1Rule3 is None:
                         self.Label1Rule3 = ins
                     elif self.salto2Rule3.value == ins.value and self.Label1Rule3 is not None:
-                        exporg = self.salto1Rule3.writeC3D() + "\n" + self.salto2Rule3.writeC3D() + "\n" + self.Label1Rule3.writeC3D() + "\n" + ins.writeC3D()
+                        exporg = self.salto1Rule3.writeC3D() + " - " + self.salto2Rule3.writeC3D() + " - " + self.Label1Rule3.writeC3D() + " - " + ins.writeC3D()
                         # Aqui va el valor para Reporte
                         self.salto1Rule3.goto.value = ins.value
                         self.salto2Rule3.write = False
@@ -104,7 +104,7 @@ class Mirilla:
                         elif self.salto1Rule3.exp.operation == typeExpression.MAYORIGUAL:
                             self.salto1Rule3.exp.operation = typeExpression.MENORIGUAL
                         self.Label1Rule3.write = False
-                        expopt = self.salto1Rule3.writeC3D() + "\n" + ins.writeC3D()
+                        expopt = self.salto1Rule3.writeC3D() + " - " + ins.writeC3D()
                         Optimizacion.append({
                             'Tipo': "Mirilla",
                             'Regla': "3",

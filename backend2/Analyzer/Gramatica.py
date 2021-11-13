@@ -380,24 +380,24 @@ def p_declaration(t):
                     | LOCAL ID IGUAL CORIZQ exps CORDER PTCOMA
     '''
     if len(t) == 5:
-        t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "N", "N")
+        t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 8:
         if t[4] == "[":
-            t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "N", "N")
+            t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = Declaration(t[1], t[3], t[6], False, "N", "N")
+            t[0] = Declaration(t[1], t[3], t[6], False, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 9:
-        t[0] = Declaration(t[2], t[4], t[7], False, "N", "N")
+        t[0] = Declaration(t[2], t[4], t[7], False, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 6:
-        t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "N", "N")
+        t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 4:
-        t[0] = Declaration(t[2], None, typeExpression.NULO, False, "N", "N")
+        t[0] = Declaration(t[2], None, typeExpression.NULO, False, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 7:
-        t[0] = Declaration(t[1], Array(t[4], typeExpression.ANY), typeExpression.ANY, True, "N", "N")
+        t[0] = Declaration(t[1], Array(t[4], typeExpression.ANY), typeExpression.ANY, True, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 10:
-        t[0] = Declaration(t[1], Array(t[4], t[8]), t[8], True, "N", "N")
+        t[0] = Declaration(t[1], Array(t[4], t[8]), t[8], True, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 11:
-        t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "N", "N")
+        t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "N", "N", str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_declarationf(t):
@@ -417,39 +417,39 @@ def p_declarationf(t):
                     | LOCAL ID IGUAL CORIZQ exps CORDER PTCOMA
     '''
     if len(t) == 5:
-        t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "L", "F")
+        t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 8:
         if t[4] == "[":
             if t[1] == "local":
-                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "L", "F")
+                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
             elif t[1] == "global":
-                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "G", "F")
+                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "G", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = Declaration(t[1], t[3], t[6], False, "L", "F")
+            t[0] = Declaration(t[1], t[3], t[6], False, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 9:
         if t[1] == "local":
-            t[0] = Declaration(t[2], t[4], t[7], False, "L", "F")
+            t[0] = Declaration(t[2], t[4], t[7], False, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = Declaration(t[2], t[4], t[7], False, "G", "F")
+            t[0] = Declaration(t[2], t[4], t[7], False, "G", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 6:
         if t[1] == "local":
-            t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "L", "F")
+            t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "G", "F")
+            t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "G", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 4:
         if t[1] == "local":
-            t[0] = Declaration(t[2], None, typeExpression.NULO, False, "L", "F")
+            t[0] = Declaration(t[2], None, typeExpression.NULO, False, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = Declaration(t[2], None, typeExpression.NULO, False, "G", "F")
+            t[0] = Declaration(t[2], None, typeExpression.NULO, False, "G", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 7:
-        t[0] = Declaration(t[1], Array(t[4], typeExpression.ANY), typeExpression.ANY, True, "L", "F")
+        t[0] = Declaration(t[1], Array(t[4], typeExpression.ANY), typeExpression.ANY, True, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 10:
-        t[0] = Declaration(t[1], Array(t[4], t[8]), t[8], True, "L", "F")
+        t[0] = Declaration(t[1], Array(t[4], t[8]), t[8], True, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 11:
         if t[1] == "local":
-            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "L", "F")
+            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "L", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "G", "F")
+            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "G", "F", str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_declarationc(t):
@@ -469,39 +469,39 @@ def p_declarationc(t):
                     | LOCAL ID IGUAL CORIZQ exps CORDER PTCOMA
     '''
     if len(t) == 5:
-        t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "G", "C")
+        t[0] = Declaration(t[1], t[3], typeExpression.NULO, False, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 8:
         if t[4] == "[":
             if t[1] == "local":
-                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "L", "C")
+                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "L", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
             elif t[1] == "global":
-                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "G", "C")
+                t[0] = Declaration(t[2], Array(t[5], typeExpression.ANY), typeExpression.ANY, True, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
         else:
-            t[0] = Declaration(t[1], t[3], t[6], False, "G", "C")
+            t[0] = Declaration(t[1], t[3], t[6], False, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 9:
         if t[1] == "local":
-            t[0] = Declaration(t[2], t[4], t[7], False, "L", "C")
+            t[0] = Declaration(t[2], t[4], t[7], False, "L", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = Declaration(t[2], t[4], t[7], False, "G", "C")
+            t[0] = Declaration(t[2], t[4], t[7], False, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 6:
         if t[1] == "local":
-            t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "L", "C")
+            t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "L", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "G", "C")
+            t[0] = Declaration(t[2], t[4], typeExpression.NULO, False, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 4:
         if t[1] == "local":
-            t[0] = Declaration(t[2], None, typeExpression.NULO, False, "L", "C")
+            t[0] = Declaration(t[2], None, typeExpression.NULO, False, "L", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = Declaration(t[2], None, typeExpression.NULO, False, "G", "C")
+            t[0] = Declaration(t[2], None, typeExpression.NULO, False, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 7:
-        t[0] = Declaration(t[1], Array(t[4], typeExpression.ANY), typeExpression.ANY, True, "G", "C")
+        t[0] = Declaration(t[1], Array(t[4], typeExpression.ANY), typeExpression.ANY, True, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 10:
-        t[0] = Declaration(t[1], Array(t[4], t[8]), t[8], True, "G", "C")
+        t[0] = Declaration(t[1], Array(t[4], t[8]), t[8], True, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 11:
         if t[1] == "local":
-            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "L", "C")
+            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "L", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
         elif t[1] == "global":
-            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "G", "C")
+            t[0] = Declaration(t[2], Array(t[5], t[9]), t[9], True, "G", "C", str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_assignment(t):
@@ -636,9 +636,9 @@ def p_function(t):
                 | FUNCTION ID parametersFunc blockf
     '''
     if len(t) == 8:
-        t[0] = Function(t[2], t[3], t[6], t[7])
+        t[0] = Function(t[2], t[3], t[6], t[7], str(t.lexer.lineno), str(t.lexer.lexpos))
     else:
-        t[0] = Function(t[2], t[3], None, t[4])
+        t[0] = Function(t[2], t[3], None, t[4], str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 def p_parametersFunc(t):
@@ -667,9 +667,9 @@ def p_parameter(t):
                     | ID
     '''
     if len(t) == 5:
-        t[0] = Parameter(t[1], t[4])
+        t[0] = Parameter(t[1], t[4], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 2:
-        t[0] = Parameter(t[1], None)
+        t[0] = Parameter(t[1], None, str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 # ================================LLAMADA A FUNCIONES
@@ -838,9 +838,9 @@ def p_parameterFor(t):
                     | ID
     '''
     if len(t) == 5:
-        t[0] = ParameterFor(t[1], t[4])
+        t[0] = ParameterFor(t[1], t[4], str(t.lexer.lineno), str(t.lexer.lexpos))
     elif len(t) == 2:
-        t[0] = ParameterFor(t[1], None)
+        t[0] = ParameterFor(t[1], None, str(t.lexer.lineno), str(t.lexer.lexpos))
 
 
 # ================================BLOQUES DE CODIGO

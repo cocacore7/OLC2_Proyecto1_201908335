@@ -95,7 +95,9 @@ class For(Instruction):
             self.param.generator = self.generator
             self.param.compile(EnvParam)
 
-            self.generator.addIf("heap[int("+newTemp+")]", "-1", "!=", leftValue.trueLabel)
+            tmpizq = self.generator.newTemp()
+            self.generator.addExpression(tmpizq, "heap[int("+newTemp+")]", "", "")
+            self.generator.addIf(tmpizq, "-1", "!=", leftValue.trueLabel)
             self.generator.addGoto(leftValue.falseLabel)
 
             self.generator.addLabel(leftValue.trueLabel)

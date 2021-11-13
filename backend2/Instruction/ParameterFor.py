@@ -7,17 +7,21 @@ from Abstract.Instruction import Instruction
 
 class ParameterFor(Instruction):
 
-    def __init__(self, id: str, type: typeExpression) -> None:
+    def __init__(self, id: str, type: typeExpression, line: str, col: str) -> None:
         super().__init__()
         self.id = id
         self.type = type
         self.value = ""
         self.array = False
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
-        tempVar: Symbol = environment.saveParameter(self.id, self.type, self.array, "")
+        tempVar: Symbol = environment.saveParameter(self.id, self.type, self.array, "", self.line, self.col)
         if self.type == typeExpression.CHAR:
-            self.generator.addSetStack(str(tempVar.position), "heap[int("+self.value+")]")
+            tmp = self.generator.newTemp()
+            self.generator.addExpression(tmp, "heap[int("+self.value+")]", "", "")
+            self.generator.addSetStack(str(tempVar.position), tmp)
         else:
             self.generator.addSetStack(str(tempVar.position), self.value)
 

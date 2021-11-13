@@ -9,7 +9,7 @@ from Expression.Primitive.ArrayHeap import ArrayHeap
 
 class Declaration(Instruction):
 
-    def __init__(self, id: str, exp: Expression, type: typeExpression, isArray: bool, tipoD: str, entorno: str) -> None:
+    def __init__(self, id: str, exp: Expression, type: typeExpression, isArray: bool, tipoD: str, entorno: str, line: str, col: str) -> None:
         super().__init__()
         self.id = id
         self.exp = exp
@@ -17,13 +17,15 @@ class Declaration(Instruction):
         self.isArray = isArray
         self.tipoD = tipoD
         self.entorno = entorno
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
         self.exp.generator = self.generator
         newValue: Value = self.exp.compile(environment)
         if not self.isArray:
             tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
-                                                       self.entorno, "")
+                                                       self.entorno, "", self.line, self.col)
             if newValue.type != typeExpression.NULO:
                 self.generator.addSetStack(str(tempVar.position), newValue.getValue())
         else:
@@ -32,6 +34,6 @@ class Declaration(Instruction):
             nuevo = crear.compile(environment)
             newValue.value = nuevo.array[0]
             tempVar: Symbol = environment.saveVariable(self.id, newValue.type, self.isArray, self.tipoD,
-                                                       self.entorno, self.id, )
+                                                       self.entorno, self.id, self.line, self.col)
             if newValue.type != typeExpression.NULO:
                 self.generator.addSetStack(str(tempVar.position), newValue.getValue())

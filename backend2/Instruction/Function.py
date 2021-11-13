@@ -11,12 +11,14 @@ from Instruction.Return import Return
 
 class Function(Instruction):
 
-    def __init__(self, id: str, parameters, type: typeExpression, block) -> None:
+    def __init__(self, id: str, parameters, type: typeExpression, block, line: str, col: str) -> None:
         super().__init__()
         self.id = id
         self.parameters = parameters
         self.block = block
         self.type = type
+        self.line = line
+        self.col = col
 
     def compile(self, environment: Environment) -> Value:
         # Generador Nuevo Para La Funcion, Copiando Valores Del Global
@@ -30,12 +32,12 @@ class Function(Instruction):
         newEnv.size = newEnv.size + 1
         newEnv.localSize = newEnv.localSize + 1
         tmpReturn = generator.newTemp()
-        environment.saveFunction(self.id, tmpReturn, self.type)
+        environment.saveFunction(self.id, tmpReturn, self.type, self.line, self.col)
         LabelSalir = generator.newLabel()
 
         # Pasar Parametros
         for param in self.parameters:
-            newEnv.saveParameter(param.id, param.type, param.array, "")
+            newEnv.saveParameter(param.id, param.type, param.array, "", self.line, self.col)
 
         # Instrucciones De Funcion En  Nuevo Generador
         for ins in self.block:
