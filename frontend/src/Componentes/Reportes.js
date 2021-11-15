@@ -45,6 +45,19 @@ function Reportes() {
                             </Table>
                         </div>
                         <div className="ui inverted divider" />
+
+                        <div className="item">
+                            <div className="ui big segment rounded image">
+                                <Graphviz 
+                                    dot={localStorage.getItem('Dot')}
+                                    options={{zoom:true,height: 2000,width: 2000}} 
+                                />
+                            </div>
+                            <div className="content">
+                            <h1 style={{color: '#00FFFF'}}>Arbol Sintactico</h1>
+                            </div>
+                        </div>
+                        <div className="ui inverted divider" />
     
                         <div className="item">
                             <div className="ui big segment rounded image">

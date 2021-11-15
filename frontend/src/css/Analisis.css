@@ -10,7 +10,7 @@
     overflow: hidden;
     margin: 10px;
 }
-.Salida{
+.salidai{
     position: relative;
     display: inline-block;
     width: 45%;
@@ -18,14 +18,14 @@
     margin: 10px 15px;
 }
 
-.SalidaM{
+.salidac{
   position: relative;
   display: inline-block;
   width: 45%;
   overflow: hidden;
   margin: 10px;
 }
-.SalidaB{
+.SalidaM{
   position: relative;
   display: inline-block;
   width: 45%;

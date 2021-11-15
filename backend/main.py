@@ -37,13 +37,4 @@ def Analizar():
 
 
 if __name__ == '__main__':
-    app.run(threaded=True, debug=True, port=4000)
-    '''app.run(threaded=True, debug=True, port="https://backcompi.herokuapp.com")'''
-
-
-'''f = open("./entrada.txt", "r")
-input = f.read()
-parser2.parse(input)
-TS = GraficaTS(Simbolos)
-TE = GraficaError(Errores)
-salida = ""'''
+    app.run(threaded=True, debug=True, port=4200)

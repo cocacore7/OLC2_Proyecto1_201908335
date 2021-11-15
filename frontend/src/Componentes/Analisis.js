@@ -6,47 +6,44 @@ import Editor from "@monaco-editor/react";
 import { Button } from 'semantic-ui-react'
 
 function Analisis() {
-    const editorRef = useRef(null)
-    const [texto,settexto] = useState("")
-    const [salida,setsalida] = useState("// Salida")
+    const [salidai,setsalidai] = useState("// Salida Interpretada")
+    const [salidac,setsalidac] = useState("// Salida Compilada")
     const [salidam,setsalidam] = useState("// Optimizacion Mirilla")
-    const [salidab,setsalidab] = useState("// Optimizacion Bloques")
 
     function handleEditorChange(value, event) {
         localStorage.setItem('CA',value);
-      }
+    }
 
-    const EnviarCodigo = async()=> {
+    const EnviarCodigoI = async()=> {
         let Contenido = {
             Texto: localStorage.getItem('CA')
         }
-        //let contenido = await axios.post("https://backcompi.herokuapp.com/Compilador",Contenido)
+        let contenido = await axios.post("http://localhost:4200/Analizador",Contenido)
+        localStorage.setItem('Dot',contenido.data["Dot"])
+        localStorage.setItem('TS',contenido.data["TS"])
+        localStorage.setItem('TE',contenido.data["TE"])
+        setsalidai(contenido.data["Salida"])
+    }
+
+    const EnviarCodigoC = async()=> {
+        let Contenido = {
+            Texto: localStorage.getItem('CA')
+        }
         let contenido = await axios.post("http://localhost:4000/Compilador",Contenido)
         localStorage.setItem('TO',contenido.data["TO"])
         localStorage.setItem('TS',contenido.data["TS"])
         localStorage.setItem('TE',contenido.data["TE"])
-        setsalida(contenido.data["Salida"])
+        setsalidac(contenido.data["Salida"])
     }
 
     const EnviarCodigoM = async()=> {
         let Contenido = {
             Texto: localStorage.getItem('CA')
         }
-        //let contenido = await axios.post("https://backcompi.herokuapp.com/OptimizadorMirilla",Contenido)
         let contenido = await axios.post("http://localhost:4000/OptimizadorMirilla",Contenido)
         localStorage.setItem('TO', JSON.stringify(contenido.data["TO"]))
         console.log(localStorage.getItem('TO'))
         setsalidam(contenido.data["Salida"])
-    }
-
-    const EnviarCodigoB = async()=> {
-        let Contenido = {
-            Texto: localStorage.getItem('CA')
-        }
-        //let contenido = await axios.post("https://backcompi.herokuapp.com/OptimizadorBloques",Contenido)
-        let contenido = await axios.post("http://localhost:4000/OptimizadorBloques",Contenido)
-        localStorage.setItem('TE',contenido.data["TE"])
-        setsalidab(contenido.data["Salida"])
     }
 
     return (
@@ -59,7 +56,10 @@ function Analisis() {
         />
         <div className="Analisis">
             <div className="Entrada">
-                <h1>Entrada <Button floated='right' color='blue' onClick={EnviarCodigo}>Compilar</Button></h1>
+                <h1>Entrada Analizador
+                    <Button floated='right' color='green' onClick={EnviarCodigoI}>Interpretar</Button>
+                    <Button floated='right' color='blue' onClick={EnviarCodigoC}>Compilar</Button>
+                </h1>
                 <Editor
                     height="85vh"
                     defaultLanguage="julia"
@@ -68,23 +68,34 @@ function Analisis() {
                     theme="vs-dark"
                     onChange={handleEditorChange}
                 />
+            </div>            
+            
+            <div className="salidai">
+                <h1>Salida Interpretada</h1>
+                <Editor
+                    height="85vh"
+                    defaultLanguage="julia"
+                    defaultValue="// Optimizacion Bloques"
+                    path="Consola4"
+                    value={salidai}
+                    theme="vs-dark"
+                />
             </div>
 
-            <div className="Salida">
-                <h1>Salida 
+            <div className="salidac">
+                <h1>Salida Compilada
                     <Button floated='right' color='green' onClick={EnviarCodigoM}>Optimizar Mirilla</Button>
-                    <Button floated='right' color='red'   onClick={EnviarCodigoB}>Optimizar Bloques</Button>
                 </h1>
                 <Editor
                     height="85vh"
                     defaultLanguage="go"
                     path="Consola2"
                     theme="vs-dark"
-                    value={salida}
+                    value={salidac}
                     onChange={handleEditorChange}
                 />
             </div>
-            <br/>
+            
             <div className="SalidaM">
                 <h1>Optimizacion Mirilla</h1>
                 <Editor
@@ -93,18 +104,6 @@ function Analisis() {
                     defaultValue="// Optimizacion Mirilla"
                     path="Consola3"
                     value={salidam}
-                    theme="vs-dark"
-                />
-            </div>
-            
-            <div className="SalidaB">
-                <h1>Optimizacion Bloques</h1>
-                <Editor
-                    height="85vh"
-                    defaultLanguage="go"
-                    defaultValue="// Optimizacion Bloques"
-                    path="Consola4"
-                    value={salidab}
                     theme="vs-dark"
                 />
             </div>
